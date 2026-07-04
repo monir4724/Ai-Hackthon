@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>প্রতারণা প্রহরী | Fraud Guardian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy:#0F1B2D;
+    --navy-2:#152438;
+    --navy-3:#1C3049;
+    --cream:#F5F3EE;
+    --amber:#F0A830;
+    --teal:#2DD4A7;
+    --red:#E5484D;
+    --line:rgba(245,243,238,0.1);
+    --muted:rgba(245,243,238,0.6);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--navy);
+    color:var(--cream);
+    font-family:'Hind Siliguri',sans-serif;
+    overflow-x:hidden;
+  }
+  .num,.stat,.mono{font-family:'Space Grotesk',sans-serif;}
+  ::selection{background:var(--amber);color:var(--navy);}
+
+  /* ---- NAV ---- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 6vw;
+    background:rgba(15,27,45,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.1rem;}
+  .logo-mark{
+    width:32px;height:32px;border-radius:8px;
+    background:linear-gradient(135deg,var(--amber),var(--teal));
+    display:flex;align-items:center;justify-content:center;
+    font-size:1rem;color:var(--navy);
+  }
+  .nav-links{display:flex;gap:32px;list-style:none;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:0.95rem;transition:color .2s;}
+  .nav-links a:hover{color:var(--cream);}
+  #themeToggle{
+    background:var(--navy-3);border:1px solid var(--line);color:var(--cream);
+    padding:8px 14px;border-radius:20px;cursor:pointer;font-size:0.85rem;
+  }
+  .hamburger{display:none;background:none;border:none;color:var(--cream);font-size:1.5rem;cursor:pointer;}
+
+  /* ---- HERO ---- */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:120px 6vw 60px;
+    position:relative;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(240,168,48,0.10), transparent),
+      radial-gradient(ellipse 50% 40% at 80% 90%, rgba(45,212,167,0.08), transparent);
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--navy-3);border:1px solid var(--line);
+    padding:6px 16px;border-radius:20px;font-size:0.85rem;color:var(--amber);
+    margin-bottom:24px;
+  }
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  h1{
+    font-size:clamp(2.2rem,6vw,4.2rem);
+    font-weight:700;line-height:1.15;max-width:900px;
+  }
+  h1 .accent{color:var(--amber);}
+  .sub{
+    max-width:600px;margin:22px auto 0;color:var(--muted);
+    font-size:1.15rem;line-height:1.7;
+  }
+  .hero-cta{display:flex;gap:16px;margin-top:36px;flex-wrap:wrap;justify-content:center;}
+  .btn{
+    padding:14px 32px;border-radius:10px;font-size:1rem;font-weight:600;
+    border:none;cursor:pointer;text-decoration:none;transition:transform .15s, box-shadow .15s;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-primary{background:var(--amber);color:var(--navy);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(240,168,48,0.3);}
+  .btn-ghost{background:transparent;color:var(--cream);border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--cream);}
+
+  /* radar signature */
+  .radar-wrap{position:relative;width:180px;height:180px;margin:50px auto 0;}
+  .radar-ring{
+    position:absolute;inset:0;border-radius:50%;
+    border:1px solid var(--teal);opacity:0;
+    animation:radar 3s infinite;
+  }
+  .radar-ring:nth-child(2){animation-delay:1s;}
+  .radar-ring:nth-child(3){animation-delay:2s;}
+  @keyframes radar{
+    0%{transform:scale(0.3);opacity:0.8;}
+    100%{transform:scale(1.6);opacity:0;}
+  }
+  .radar-core{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:70px;height:70px;border-radius:50%;
+    background:var(--navy-3);border:1px solid var(--teal);
+    display:flex;align-items:center;justify-content:center;font-size:1.8rem;
+  }
+
+  /* stats bar */
+  .stats-bar{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    max-width:900px;margin:70px auto 0;gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  }
+  .stat-item{background:var(--navy);padding:28px 16px;text-align:center;}
+  .stat-num{font-size:2rem;font-weight:700;color:var(--teal);}
+  .stat-label{font-size:0.8rem;color:var(--muted);margin-top:4px;}
+
+  section{padding:100px 6vw;max-width:1200px;margin:0 auto;}
+  .section-head{max-width:600px;margin-bottom:50px;}
+  .eyebrow-sm{color:var(--amber);font-size:0.85rem;font-weight:600;letter-spacing:0.05em;}
+  .section-head h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-top:10px;font-weight:700;}
+  .section-head p{color:var(--muted);margin-top:14px;line-height:1.7;}
+
+  /* ---- CHECKER ---- */
+  .checker-card{
+    background:var(--navy-2);border:1px solid var(--line);border-radius:20px;
+    padding:40px;max-width:800px;margin:0 auto;
+  }
+  .tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+  .tab{
+    padding:10px 20px;border-radius:8px;background:var(--navy-3);border:1px solid var(--line);
+    color:var(--muted);cursor:pointer;font-size:0.9rem;transition:.2s;
+  }
+  .tab.active{background:var(--amber);color:var(--navy);font-weight:600;border-color:var(--amber);}
+  textarea,input[type=text]{
+    width:100%;background:var(--navy);border:1px solid var(--line);border-radius:12px;
+    padding:16px;color:var(--cream);font-family:inherit;font-size:1rem;resize:vertical;
+  }
+  textarea:focus,input:focus{outline:2px solid var(--amber);border-color:transparent;}
+  .checker-card textarea{min-height:110px;}
+  .check-btn{
+    margin-top:18px;width:100%;background:var(--teal);color:var(--navy);
+    padding:16px;border-radius:12px;border:none;font-size:1.05rem;font-weight:700;cursor:pointer;
+  }
+  .check-btn:hover{filter:brightness(1.08);}
+  .check-btn:disabled{opacity:0.6;cursor:wait;}
+
+  .result{
+    margin-top:28px;padding:24px;border-radius:14px;display:none;
+    border:1px solid;
+  }
+  .result.show{display:block;animation:fadeUp .4s ease;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  .result.high{background:rgba(229,72,77,0.08);border-color:var(--red);}
+  .result.medium{background:rgba(240,168,48,0.08);border-color:var(--amber);}
+  .result.low{background:rgba(45,212,167,0.08);border-color:var(--teal);}
+  .result-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+  .verdict{font-size:1.3rem;font-weight:700;}
+  .confidence{font-size:0.9rem;color:var(--muted);}
+  .result ul{margin:16px 0 0 20px;color:var(--muted);line-height:1.8;}
+
+  /* ---- REPORT ---- */
+  .report-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .report-grid .full{grid-column:1/-1;}
+  label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:6px;}
+  .field{margin-bottom:0;}
+  select{
+    width:100%;background:var(--navy);border:1px solid var(--line);border-radius:12px;
+    padding:16px;color:var(--cream);font-family:inherit;font-size:1rem;
+  }
+  .submit-msg{margin-top:16px;color:var(--teal);font-size:0.9rem;display:none;}
+  .submit-msg.show{display:block;}
+
+  /* ---- AWARENESS ---- */
+  .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+  .aware-card{
+    background:var(--navy-2);border:1px solid var(--line);border-radius:16px;padding:28px;
+    transition:transform .2s, border-color .2s;
+  }
+  .aware-card:hover{transform:translateY(-4px);border-color:var(--amber);}
+  .aware-icon{font-size:1.8rem;margin-bottom:14px;}
+  .aware-card h3{font-size:1.1rem;margin-bottom:8px;}
+  .aware-card p{color:var(--muted);font-size:0.9rem;line-height:1.6;}
+
+  /* ---- COMMUNITY + CHART ---- */
+  .community-layout{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:start;}
+  .feed{display:flex;flex-direction:column;gap:14px;max-height:480px;overflow-y:auto;padding-right:6px;}
+  .feed-item{
+    background:var(--navy-2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;justify-content:space-between;gap:12px;align-items:start;
+  }
+  .feed-badge{
+    font-size:0.7rem;padding:4px 10px;border-radius:20px;white-space:nowrap;font-weight:600;
+  }
+  .badge-high{background:rgba(229,72,77,0.15);color:var(--red);}
+  .badge-medium{background:rgba(240,168,48,0.15);color:var(--amber);}
+  .badge-low{background:rgba(45,212,167,0.15);color:var(--teal);}
+  .feed-title{font-weight:600;font-size:0.95rem;}
+  .feed-desc{color:var(--muted);font-size:0.85rem;margin-top:4px;}
+  .chart-card{background:var(--navy-2);border:1px solid var(--line);border-radius:16px;padding:24px;}
+
+  /* ---- FOOTER / TEAM ---- */
+  footer{
+    border-top:1px solid var(--line);padding:60px 6vw 30px;text-align:center;
+  }
+  .team-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin:30px 0;}
+  .team-member{color:var(--muted);font-size:0.9rem;}
+  .team-member b{color:var(--cream);display:block;font-size:1rem;}
+  .foot-note{color:var(--muted);font-size:0.85rem;margin-top:20px;}
+
+  /* light theme override */
+  body.light{
+    --navy:#F5F3EE; --navy-2:#FFFFFF; --navy-3:#EAE6DC;
+    --cream:#0F1B2D; --line:rgba(15,27,45,0.1); --muted:rgba(15,27,45,0.6);
+  }
+
+  @media(max-width:860px){
+    .nav-links{display:none;}
+    .hamburger{display:block;}
+    .stats-bar{grid-template-columns:repeat(2,1fr);}
+    .report-grid{grid-template-columns:1fr;}
+    .community-layout{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><div class="logo-mark">🛡️</div>প্রতারণা প্রহরী</div>
+  <ul class="nav-links">
+    <li><a href="#checker">চেকার</a></li>
+    <li><a href="#awareness">সচেতনতা</a></li>
+    <li><a href="#report">রিপোর্ট করুন</a></li>
+    <li><a href="#community">কমিউনিটি</a></li>
+  </ul>
+  <button id="themeToggle" onclick="toggleTheme()">🌙 ডার্ক</button>
+  <button class="hamburger">☰</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow"><span class="dot"></span> AI HACKATHON PROJECT</div>
+  <h1>মোবাইল ব্যাংকিং <span class="accent">স্ক্যাম</span> থেকে<br>নিরাপদ থাকুন, সচেতন হোন</h1>
+  <p class="sub">bKash, Nagad, Rocket-এ প্রতারণা বাড়ছে প্রতিদিন। প্রতারণা প্রহরী আপনাকে সন্দেহজনক মেসেজ, নাম্বার আর লিংক চিনতে সাহায্য করবে — সরাসরি আর্থিক ক্ষতি রোধ করবে।</p>
+  <div class="hero-cta">
+    <a href="#checker" class="btn btn-primary">এখনই চেক করুন →</a>
+    <a href="#awareness" class="btn btn-ghost">সচেতনতা দেখুন</a>
+  </div>
+
+  <div class="radar-wrap">
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-core">🛡️</div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-num">৫২,০০০+</div><div class="stat-label">মেসেজ চেক হয়েছে</div></div>
+    <div class="stat-item"><div class="stat-num">৮,৪০০+</div><div class="stat-label">স্ক্যাম শনাক্ত</div></div>
+    <div class="stat-item"><div class="stat-num">১,২০০+</div><div class="stat-label">রিপোর্ট জমা</div></div>
+    <div class="stat-item"><div class="stat-num">৯৭%</div><div class="stat-label">সনাক্তকরণ নির্ভুলতা</div></div>
+  </div>
+</section>
+
+<!-- CHECKER -->
+<section id="checker">
+  <div class="section-head">
+    <div class="eyebrow-sm">স্ক্যাম চেকার</div>
+    <h2>সন্দেহজনক মেসেজ বা নাম্বার পেস্ট করুন</h2>
+    <p>আমাদের প্যাটার্ন-ম্যাচিং সিস্টেম মেসেজ বিশ্লেষণ করে ঝুঁকির মাত্রা দেখাবে।</p>
+  </div>
+
+  <div class="checker-card">
+    <div class="tabs">
+      <div class="tab active" data-tab="message">📩 মেসেজ</div>
+      <div class="tab" data-tab="number">📞 নাম্বার</div>
+      <div class="tab" data-tab="link">🔗 লিংক</div>
+    </div>
+    <textarea id="checkerInput" placeholder="যেমন: আপনি ১০,০০০ টাকা লটারি জিতেছেন! এখনই OTP দিয়ে ক্লেইম করুন..."></textarea>
+    <button class="check-btn" id="checkBtn" onclick="runCheck()">🔍 বিশ্লেষণ করুন</button>
+
+    <div class="result" id="result">
+      <div class="result-top">
+        <div class="verdict" id="verdict">—</div>
+        <div class="confidence" id="confidence">—</div>
+      </div>
+      <ul id="reasons"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- AWARENESS -->
+<section id="awareness">
+  <div class="section-head">
+    <div class="eyebrow-sm">সচেতনতা</div>
+    <h2>সাধারণ স্ক্যামের ধরন চিনুন</h2>
+    <p>এই কৌশলগুলো জানা থাকলে প্রতারিত হওয়ার সম্ভাবনা অনেক কমে যায়।</p>
+  </div>
+  <div class="cards-grid">
+    <div class="aware-card"><div class="aware-icon">🎁</div><h3>লটারি / পুরস্কার স্ক্যাম</h3><p>"আপনি পুরস্কার জিতেছেন" বলে PIN বা OTP চাওয়া হয়। কোনো বৈধ প্রতিষ্ঠান কখনো PIN চায় না।</p></div>
+    <div class="aware-card"><div class="aware-icon">🔑</div><h3>OTP শেয়ারিং ফাঁদ</h3><p>এজেন্ট পরিচয়ে কল করে OTP চাওয়া হয় "ভেরিফিকেশনের" নাম করে — এটি সবসময় স্ক্যাম।</p></div>
+    <div class="aware-card"><div class="aware-icon">⚠️</div><h3>জরুরি ভয় দেখানো</h3><p>"অ্যাকাউন্ট বন্ধ হয়ে যাবে" জাতীয় urgency তৈরি করে দ্রুত সিদ্ধান্ত নিতে বাধ্য করা হয়।</p></div>
+    <div class="aware-card"><div class="aware-icon">👤</div><h3>ভুয়া এজেন্ট পরিচয়</h3><p>bKash/Nagad কাস্টমার কেয়ার সেজে ব্যক্তিগত তথ্য হাতিয়ে নেওয়া হয়।</p></div>
+    <div class="aware-card"><div class="aware-icon">🔗</div><h3>ফিশিং লিংক</h3><p>আসল ওয়েবসাইটের মতো দেখতে ভুয়া লিংকে লগইন তথ্য চুরি করা হয়।</p></div>
+    <div class="aware-card"><div class="aware-icon">💸</div><h3>ভুল নাম্বারে টাকা</h3><p>"ভুল করে টাকা পাঠিয়েছি, ফেরত দিন" বলে দ্বিতীয়বার প্রতারণা করা হয়।</p></div>
+  </div>
+</section>
+
+<!-- REPORT -->
+<section id="report">
+  <div class="section-head">
+    <div class="eyebrow-sm">রিপোর্ট করুন</div>
+    <h2>স্ক্যামের শিকার হয়েছেন? জানান আমাদের</h2>
+    <p>আপনার রিপোর্ট অন্যদের সতর্ক থাকতে সাহায্য করবে।</p>
+  </div>
+  <div class="checker-card">
+    <div class="report-grid">
+      <div class="field"><label>আপনার নাম</label><input type="text" id="rName" placeholder="নাম লিখুন"></div>
+      <div class="field"><label>যে নাম্বার থেকে স্ক্যাম হয়েছে</label><input type="text" id="rNumber" placeholder="01XXXXXXXXX"></div>
+      <div class="field full"><label>স্ক্যামের ধরন</label>
+        <select id="rType">
+          <option>লটারি / পুরস্কার</option>
+          <option>OTP প্রতারণা</option>
+          <option>ভুয়া এজেন্ট</option>
+          <option>ফিশিং লিংক</option>
+          <option>ভুল নাম্বারে টাকা</option>
+          <option>অন্যান্য</option>
+        </select>
+      </div>
+      <div class="field full"><label>বিস্তারিত ঘটনা</label><textarea id="rDesc" placeholder="কী ঘটেছিল সংক্ষেপে লিখুন..."></textarea></div>
+    </div>
+    <button class="check-btn" onclick="submitReport()">📤 রিপোর্ট জমা দিন</button>
+    <div class="submit-msg" id="submitMsg">✅ ধন্যবাদ! আপনার রিপোর্ট কমিউনিটি ফিডে যোগ হয়েছে।</div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section id="community">
+  <div class="section-head">
+    <div class="eyebrow-sm">কমিউনিটি রিপোর্ট</div>
+    <h2>সবাই মিলে সচেতন থাকি</h2>
+    <p>সাম্প্রতিক রিপোর্টগুলো দেখুন এবং সতর্ক থাকুন।</p>
+  </div>
+  <div class="community-layout">
+    <div class="feed" id="feed"></div>
+    <div class="chart-card">
+      <canvas id="scamChart" height="260"></canvas>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo" style="justify-content:center;">🛡️ প্রতারণা প্রহরী</div>
+  <p class="foot-note">AI Hackathon 2026 — Fraud Guardian Project</p>
+  <div class="team-row">
+    <div class="team-member"><b>Moniruzzaman</b>Team Lead / Developer</div>
+    <div class="team-member"><b>Teammate 2</b>UI/UX Designer</div>
+    <div class="team-member"><b>Teammate 3</b>Research & Content</div>
+  </div>
+  <p class="foot-note">© 2026 প্রতারণা প্রহরী · Made for Bangladesh 🇧🇩</p>
+</footer>
+
+<script>
+/* ---------- THEME ---------- */
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  const btn = document.getElementById('themeToggle');
+  btn.textContent = document.body.classList.contains('light') ? '☀️ লাইট' : '🌙 ডার্ক';
+}
+
+/* ---------- TABS ---------- */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const ph = {
+      message:"যেমন: আপনি ১০,০০০ টাকা লটারি জিতেছেন! এখনই OTP দিয়ে ক্লেইম করুন...",
+      number:"যেমন: 01812345678",
+      link:"যেমন: http://bkash-reward-claim.xyz/verify"
+    };
+    document.getElementById('checkerInput').placeholder = ph[t.dataset.tab];
+  });
+});
+
+/* ---------- FAKE SCAM CHECKER LOGIC ---------- */
+const riskKeywords = [
+  {word:"otp", weight:30}, {word:"পিন", weight:30}, {word:"pin", weight:30},
+  {word:"লটারি", weight:25}, {word:"পুরস্কার", weight:20}, {word:"জিতেছেন", weight:25},
+  {word:"urgent", weight:15}, {word:"জরুরি", weight:15}, {word:"এখনই", weight:10},
+  {word:"ক্লেইম", weight:20}, {word:"claim", weight:20}, {word:"verify", weight:15},
+  {word:"ব্লক", weight:15}, {word:"বন্ধ হয়ে যাবে", weight:20}, {word:"লিংক", weight:10},
+  {word:"gift", weight:15}, {word:"reward", weight:15}, {word:"agent", weight:10}
+];
+const knownScamNumbers = ["01711000000","01911222333","01611888999"];
+
+function runCheck(){
+  const input = document.getElementById('checkerInput').value.trim();
+  const btn = document.getElementById('checkBtn');
+  const resultBox = document.getElementById('result');
+  if(!input){ input_focus_alert(); return; }
+
+  btn.disabled = true;
+  btn.textContent = "⏳ বিশ্লেষণ চলছে...";
+
+  setTimeout(()=>{
+    const lower = input.toLowerCase();
+    let score = 0;
+    let matched = [];
+
+    riskKeywords.forEach(k=>{
+      if(lower.includes(k.word.toLowerCase())){
+        score += k.weight;
+        matched.push(k.word);
+      }
+    });
+
+    // number pattern check
+    const numMatch = input.replace(/\D/g,'');
+    if(knownScamNumbers.some(n=>numMatch.includes(n))){
+      score += 40;
+      matched.push("পরিচিত স্ক্যাম নাম্বার");
+    }
+
+    score = Math.min(score, 96);
+    let confidence = Math.min(96, Math.max(74, score + Math.floor(Math.random()*10)));
+
+    let level, verdictText, color;
+    if(score >= 45){ level="high"; verdictText="🔴 উচ্চ ঝুঁকি — সম্ভবত স্ক্যাম"; }
+    else if(score >= 20){ level="medium"; verdictText="🟡 মাঝারি ঝুঁকি — সতর্ক থাকুন"; }
+    else { level="low"; verdictText="🟢 নিরাপদ মনে হচ্ছে"; confidence = Math.max(70, 100-score-Math.floor(Math.random()*10)); }
+
+    resultBox.className = "result show " + level;
+    document.getElementById('verdict').textContent = verdictText;
+    document.getElementById('confidence').textContent = "কনফিডেন্স: " + confidence + "%";
+
+    const reasonsList = document.getElementById('reasons');
+    reasonsList.innerHTML = "";
+    if(matched.length){
+      matched.forEach(m=>{
+        const li = document.createElement('li');
+        li.textContent = `সন্দেহজনক শব্দ/প্যাটার্ন শনাক্ত: "${m}"`;
+        reasonsList.appendChild(li);
+      });
+    } else {
+      const li = document.createElement('li');
+      li.textContent = "কোনো পরিচিত স্ক্যাম প্যাটার্ন পাওয়া যায়নি, তবুও সতর্ক থাকুন।";
+      reasonsList.appendChild(li);
+    }
+
+    btn.disabled = false;
+    btn.textContent = "🔍 বিশ্লেষণ করুন";
+  }, 900);
+}
+
+function input_focus_alert(){
+  const el = document.getElementById('checkerInput');
+  el.style.borderColor = "var(--red)";
+  el.focus();
+  setTimeout(()=>{ el.style.borderColor=""; }, 1000);
+}
+
+/* ---------- REPORT + LOCALSTORAGE FEED ---------- */
+function getReports(){
+  const raw = localStorage.getItem('fraudGuardianReports');
+  if(raw) return JSON.parse(raw);
+  // seed initial demo data
+  return [
+    {name:"রাহিম", type:"লটারি / পুরস্কার", desc:"১৫,০০০ টাকা পুরস্কার জিতেছি বলে OTP চাওয়া হয়েছিল।", level:"high"},
+    {name:"সাবিনা", type:"ভুয়া এজেন্ট", desc:"bKash এজেন্ট পরিচয়ে PIN চেয়েছিল।", level:"high"},
+    {name:"করিম", type:"ভুল নাম্বারে টাকা", desc:"ভুল করে টাকা পাঠিয়েছি বলে ফেরত চেয়েছিল, আসলে স্ক্যাম ছিল।", level:"medium"},
+    {name:"নাজমা", type:"ফিশিং লিংক", desc:"bKash লোগো দেওয়া ভুয়া লিংকে লগইন করতে বলেছিল।", level:"high"},
+    {name:"জসিম", type:"OTP প্রতারণা", desc:"কাস্টমার কেয়ার সেজে OTP চাওয়া হয়েছিল, দিইনি।", level:"medium"}
+  ];
+}
+
+function saveReports(reports){
+  localStorage.setItem('fraudGuardianReports', JSON.stringify(reports));
+}
+
+function levelFromType(type){
+  if(type.includes("লটারি") || type.includes("OTP") || type.includes("ভুয়া") || type.includes("ফিশিং")) return "high";
+  return "medium";
+}
+
+function submitReport(){
+  const name = document.getElementById('rName').value.trim() || "নাম প্রকাশে অনিচ্ছুক";
+  const number = document.getElementById('rNumber').value.trim();
+  const type = document.getElementById('rType').value;
+  const desc = document.getElementById('rDesc').value.trim();
+
+  if(!desc){
+    document.getElementById('rDesc').style.borderColor = "var(--red)";
+    setTimeout(()=>{ document.getElementById('rDesc').style.borderColor=""; },1000);
+    return;
+  }
+
+  const reports = getReports();
+  reports.unshift({name, type, desc, level: levelFromType(type)});
+  saveReports(reports);
+  renderFeed();
+  renderChart();
+
+  document.getElementById('rName').value = "";
+  document.getElementById('rNumber').value = "";
+  document.getElementById('rDesc').value = "";
+  const msg = document.getElementById('submitMsg');
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'), 3500);
+}
+
+function renderFeed(){
+  const feed = document.getElementById('feed');
+  const reports = getReports();
+  feed.innerHTML = "";
+  reports.slice(0,20).forEach(r=>{
+    const item = document.createElement('div');
+    item.className = "feed-item";
+    item.innerHTML = `
+      <div>
+        <div class="feed-title">${r.name} — ${r.type}</div>
+        <div class="feed-desc">${r.desc}</div>
+      </div>
+      <div class="feed-badge badge-${r.level}">${r.level==='high'?'উচ্চ ঝুঁকি':'মাঝারি'}</div>
+    `;
+    feed.appendChild(item);
+  });
+}
+
+let chartInstance;
+function renderChart(){
+  const reports = getReports();
+  const counts = {};
+  reports.forEach(r=>{ counts[r.type] = (counts[r.type]||0)+1; });
+
+  const ctx = document.getElementById('scamChart');
+  const data = {
+    labels: Object.keys(counts),
+    datasets: [{
+      data: Object.values(counts),
+      backgroundColor: ['#E5484D','#F0A830','#2DD4A7','#5B8DEF','#B980F0','#F06AA0'],
+      borderWidth: 0
+    }]
+  };
+  if(chartInstance) chartInstance.destroy();
+  chartInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: data,
+    options: {
+      plugins:{
+        legend:{ position:'bottom', labels:{ color: getComputedStyle(document.body).getPropertyValue('--cream'), font:{family:'Hind Siliguri'}, boxWidth:12 } }
+      },
+      cutout:'62%'
+    }
+  });
+}
+
+/* init */
+renderFeed();
+renderChart();
+</script>
+
+</body>
+</html>
