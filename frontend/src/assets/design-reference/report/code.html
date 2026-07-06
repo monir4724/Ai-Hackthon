@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="light" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>রক্ষা কবচ - রিপোর্ট এ স্ক্যাম</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Source+Sans+3:wght@400;600&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb956",
+                        "primary-container": "#1b2a4a",
+                        "secondary": "#835400",
+                        "surface-container-high": "#e7e9e6",
+                        "tertiary": "#370001",
+                        "on-tertiary-fixed-variant": "#8a1b18",
+                        "tertiary-container": "#5e0004",
+                        "secondary-container": "#feb64e",
+                        "inverse-primary": "#b7c6ee",
+                        "surface": "#f8faf7",
+                        "on-primary-fixed": "#0a1a3a",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2e312f",
+                        "surface-container": "#eceeeb",
+                        "surface-bright": "#f8faf7",
+                        "on-tertiary-fixed": "#410002",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#f0665a",
+                        "background": "#f8faf7",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#714800",
+                        "on-secondary-fixed-variant": "#643f00",
+                        "surface-tint": "#4f5e81",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1b",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#ffddb5",
+                        "on-secondary-fixed": "#2a1800",
+                        "surface-container-low": "#f2f4f1",
+                        "tertiary-fixed": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "on-background": "#191c1b",
+                        "primary": "#041534",
+                        "primary-fixed-dim": "#b7c6ee",
+                        "inverse-on-surface": "#eff1ee",
+                        "on-primary-fixed-variant": "#384668",
+                        "on-surface-variant": "#45464e",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#8392b7",
+                        "surface-variant": "#e1e3e0",
+                        "outline-variant": "#c5c6cf",
+                        "on-error-container": "#93000a",
+                        "outline": "#75777f",
+                        "surface-container-highest": "#e1e3e0",
+                        "surface-dim": "#d8dbd8",
+                        "primary-fixed": "#d9e2ff",
+                        "safe-green": "#1b5e20",
+                        "warning-amber": "#ffab00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "stack-lg": "24px",
+                        "stack-md": "12px",
+                        "margin-mobile": "20px",
+                        "stack-sm": "4px",
+                        "base": "8px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["\"Source Sans 3\""],
+                        "body-md": ["\"Source Sans 3\""],
+                        "headline-lg": ["Playfair Display"],
+                        "label-mono": ["IBM Plex Mono"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "label-sm-mono": ["IBM Plex Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .verdict-seal {
+            transform: rotate(-6deg);
+            mix-blend-mode: multiply;
+            border: 3px solid currentColor;
+            display: inline-block;
+            padding: 8px 16px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        .verdict-seal::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("https://www.transparenttextures.com/patterns/pinstriped-suit.png");
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        .ink-stamp-green { color: #1b5e20; }
+        .form-input-focus:focus { border-color: #041534; ring: 0; outline: none; }
+        .ink-bleed { position: relative; }
+        .ink-bleed::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle, rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 4px 4px;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopAppBar Shell -->
+<header class="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-margin-mobile py-base sticky top-0 z-50">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary text-[32px]" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">রক্ষাকবচ</h1>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-on-surface-variant p-base hover:bg-surface-container-high rounded-full cursor-pointer">account_circle</span>
+</div>
+</header>
+<main class="flex-grow w-full max-w-2xl mx-auto px-margin-mobile py-stack-lg">
+<!-- Form Section -->
+<div class="space-y-stack-lg animate-in fade-in duration-500" id="report-form-container">
+<div class="space-y-stack-sm">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">রিপোর্ট করুন</h2>
+<p class="font-body-md text-on-surface-variant">সন্দেহজনক মেসেজ বা কল সম্পর্কে তথ্য দিয়ে অন্যদের সুরক্ষিত থাকতে সাহায্য করুন।</p>
+</div>
+<!-- Reassurance Strip -->
+<div class="bg-surface-container-low border border-outline-variant p-base flex items-center gap-base">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">privacy_tip</span>
+<span class="font-label-mono text-label-mono text-on-primary-fixed-variant">আপনার নাম প্রকাশ করা হবে না</span>
+</div>
+<form class="space-y-stack-lg bg-surface border border-outline-variant p-stack-lg rounded shadow-sm ink-bleed" id="scam-report-form">
+<!-- Scam Category -->
+<div class="space-y-stack-sm">
+<label class="font-label-mono text-label-mono text-on-surface-variant block uppercase" for="category">স্ক্যামের ধরন</label>
+<select class="w-full border-0 border-b-2 border-outline-variant bg-surface-container-lowest font-body-md py-base px-0 form-input-focus transition-colors" id="category">
+<option value="">নির্বাচন করুন</option>
+<option value="sms">এসএমএস (SMS) ফিশিং</option>
+<option value="call">ভয়েস কল জালিয়াতি</option>
+<option value="job">ভুয়া চাকরির অফার</option>
+<option value="bank">ব্যাংক/বিকাশ জালিয়াতি</option>
+<option value="other">অন্যান্য</option>
+</select>
+</div>
+<!-- Scam Text -->
+<div class="space-y-stack-sm">
+<label class="font-label-mono text-label-mono text-on-surface-variant block uppercase" for="scam-content">মেসেজ বা কল ডিটেইলস</label>
+<textarea class="w-full border-0 border-b-2 border-outline-variant bg-surface-container-lowest font-body-md py-base px-0 form-input-focus transition-colors resize-none" id="scam-content" placeholder="সন্দেহজনক মেসেজটি এখানে কপি করুন..." rows="4"></textarea>
+</div>
+<!-- Sender Number -->
+<div class="space-y-stack-sm">
+<label class="font-label-mono text-label-mono text-on-surface-variant block uppercase" for="sender">প্রেরকের নম্বর (ঐচ্ছিক)</label>
+<input class="w-full border-0 border-b-2 border-outline-variant bg-surface-container-lowest font-body-md py-base px-0 form-input-focus transition-colors" id="sender" placeholder="+8801XXXXXXXXX" type="text"/>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-secondary-container hover:bg-secondary text-on-secondary-container font-headline-md py-base rounded shadow-sm transition-all active:scale-95 flex justify-center items-center gap-base" type="submit">
+<span>রিপোর্ট জমা দিন</span>
+<span class="material-symbols-outlined">send</span>
+</button>
+</form>
+</div>
+<!-- Success/Confirmation State (Hidden Initially) -->
+<div class="hidden flex flex-col items-center justify-center text-center space-y-stack-lg py-stack-lg animate-in zoom-in duration-300" id="success-container">
+<div class="verdict-seal ink-stamp-green font-headline-lg-mobile text-headline-lg-mobile">
+                ধন্যবাদ
+            </div>
+<div class="flex flex-col items-center gap-stack-sm">
+<span class="material-symbols-outlined text-[64px] text-safe-green" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="font-headline-md text-headline-md text-primary mt-base">এটি অন্যদের সুরক্ষায় সাহায্য করবে।</p>
+</div>
+<div class="bg-surface-container-high p-stack-lg border border-outline w-full max-w-sm rounded">
+<p class="font-body-md text-on-surface">আপনার রিপোর্ট সফলভাবে আমাদের ফরেনসিক ডাটাবেসে জমা হয়েছে। আমাদের বিশেষজ্ঞরা এটি বিশ্লেষণ করবেন।</p>
+</div>
+<button class="border-2 border-primary text-primary font-label-mono px-stack-lg py-base hover:bg-primary hover:text-white transition-colors" onclick="location.reload()">
+                আরেকটি রিপোর্ট করুন
+            </button>
+</div>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe h-16 bg-surface border-t border-outline-variant md:hidden">
+<div class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm-mono text-label-sm-mono">হোম</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined">search_check</span>
+<span class="font-label-sm-mono text-label-sm-mono">স্ক্যান</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary font-bold scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">report_problem</span>
+<span class="font-label-sm-mono text-label-sm-mono">রিপোর্ট</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined">library_books</span>
+<span class="font-label-sm-mono text-label-sm-mono">লাইব্রেরি</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm-mono text-label-sm-mono">সেটিংস</span>
+</div>
+</nav>
+<script>
+        document.getElementById('scam-report-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic UI Transition
+            const formContainer = document.getElementById('report-form-container');
+            const successContainer = document.getElementById('success-container');
+            
+            formContainer.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                formContainer.classList.add('hidden');
+                successContainer.classList.remove('hidden');
+            }, 300);
+        });
+    </script>
+</body></html>

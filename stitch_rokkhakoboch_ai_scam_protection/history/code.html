@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>রক্ষা কবচ - স্ক্যান ইতিহাস</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Source+Sans+3:wght@400;600&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#ffb956",
+                    "primary-container": "#1b2a4a",
+                    "secondary": "#835400",
+                    "surface-container-high": "#e7e9e6",
+                    "tertiary": "#370001",
+                    "on-tertiary-fixed-variant": "#8a1b18",
+                    "tertiary-container": "#5e0004",
+                    "secondary-container": "#feb64e",
+                    "inverse-primary": "#b7c6ee",
+                    "surface": "#f8faf7",
+                    "on-primary-fixed": "#0a1a3a",
+                    "error-container": "#ffdad6",
+                    "inverse-surface": "#2e312f",
+                    "surface-container": "#eceeeb",
+                    "surface-bright": "#f8faf7",
+                    "on-tertiary-fixed": "#410002",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-container": "#f0665a",
+                    "background": "#f8faf7",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#714800",
+                    "on-secondary-fixed-variant": "#643f00",
+                    "surface-tint": "#4f5e81",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#191c1b",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#ffddb5",
+                    "on-secondary-fixed": "#2a1800",
+                    "surface-container-low": "#f2f4f1",
+                    "tertiary-fixed": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb4ab",
+                    "on-background": "#191c1b",
+                    "primary": "#041534",
+                    "primary-fixed-dim": "#b7c6ee",
+                    "inverse-on-surface": "#eff1ee",
+                    "on-primary-fixed-variant": "#384668",
+                    "on-surface-variant": "#45464e",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#8392b7",
+                    "surface-variant": "#e1e3e0",
+                    "outline-variant": "#c5c6cf",
+                    "on-error-container": "#93000a",
+                    "outline": "#75777f",
+                    "surface-container-highest": "#e1e3e0",
+                    "surface-dim": "#d8dbd8",
+                    "primary-fixed": "#d9e2ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "40px",
+                    "stack-lg": "24px",
+                    "stack-md": "12px",
+                    "margin-mobile": "20px",
+                    "stack-sm": "4px",
+                    "base": "8px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["\"Source Sans 3\""],
+                    "body-md": ["\"Source Sans 3\""],
+                    "headline-lg": ["Playfair Display"],
+                    "label-mono": ["IBM Plex Mono"],
+                    "headline-lg-mobile": ["Playfair Display"],
+                    "headline-md": ["Playfair Display"],
+                    "label-sm-mono": ["IBM Plex Mono"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .verdict-seal-ink {
+            mix-blend-mode: multiply;
+            opacity: 0.9;
+        }
+        .empty-state-illustration {
+            opacity: 0.15;
+            filter: grayscale(1);
+        }
+        /* Custom scrollbar to match formal aesthetic */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c5c6cf; border-radius: 3px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="bg-surface docked full-width top-0 border-b border-outline-variant flex justify-between items-center w-full px-margin-mobile py-base z-50 sticky">
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-primary text-headline-md" data-icon="shield_with_heart">shield_with_heart</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">রক্ষাকবচ</h1>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<main class="flex-grow w-full max-w-4xl mx-auto px-margin-mobile py-stack-lg pb-32">
+<!-- Header Section -->
+<div class="mb-stack-lg border-b border-outline-variant pb-base">
+<h2 class="text-headline-md font-headline-md text-primary">সাম্প্রতিক স্ক্যানসমূহ</h2>
+<p class="text-label-mono font-label-mono text-on-surface-variant uppercase tracking-wider">Scanned Evidence Log</p>
+</div>
+<!-- History Content -->
+<div class="space-y-stack-lg" id="history-container">
+<!-- Date Group: Today -->
+<section>
+<div class="flex items-center gap-base mb-stack-md">
+<span class="h-px flex-grow bg-outline-variant"></span>
+<h3 class="text-label-mono font-label-mono font-bold bg-surface-container px-base py-stack-sm rounded text-primary">আজ</h3>
+<span class="h-px flex-grow bg-outline-variant"></span>
+</div>
+<div class="space-y-stack-sm">
+<!-- History Row 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-base flex items-center justify-between hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="flex items-center gap-gutter flex-1 min-w-0">
+<!-- Mini Stamp Chip: Safe -->
+<div class="flex-shrink-0 w-16 h-8 border border-secondary text-secondary flex items-center justify-center text-[10px] font-bold tracking-tighter bg-secondary/5">
+                                নিরাপদ
+                            </div>
+<div class="flex-grow min-w-0">
+<p class="text-body-md text-on-surface truncate pr-base">আপনার ব্যাংক একাউন্টের তথ্য যাচাই করার জন্য আমাদের...</p>
+</div>
+</div>
+<div class="text-right flex-shrink-0">
+<span class="text-label-sm-mono font-label-sm-mono text-outline">14:32:05</span>
+</div>
+</div>
+<!-- History Row 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-base flex items-center justify-between hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex items-center gap-gutter flex-1 min-w-0">
+<!-- Mini Stamp Chip: Warning -->
+<div class="flex-shrink-0 w-16 h-8 border border-secondary-container text-secondary-container flex items-center justify-center text-[10px] font-bold tracking-tighter bg-secondary-container/5">
+                                সতর্ক
+                            </div>
+<div class="flex-grow min-w-0">
+<p class="text-body-md text-on-surface truncate pr-base">অভিনন্দন! আপনি জিতেছেন ৫০০০ টাকা ক্যাশব্যাক। লিংকে ক্লিক...</p>
+</div>
+</div>
+<div class="text-right flex-shrink-0">
+<span class="text-label-sm-mono font-label-sm-mono text-outline">10:15:44</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Date Group: Yesterday -->
+<section>
+<div class="flex items-center gap-base mb-stack-md">
+<span class="h-px flex-grow bg-outline-variant"></span>
+<h3 class="text-label-mono font-label-mono font-bold bg-surface-container px-base py-stack-sm rounded text-primary">গতকাল</h3>
+<span class="h-px flex-grow bg-outline-variant"></span>
+</div>
+<div class="space-y-stack-sm">
+<!-- History Row 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-base flex items-center justify-between hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex items-center gap-gutter flex-1 min-w-0">
+<!-- Mini Stamp Chip: Danger -->
+<div class="flex-shrink-0 w-16 h-8 border border-error text-error flex items-center justify-center text-[10px] font-bold tracking-tighter bg-error/5">
+                                উচ্চ ঝুঁকি
+                            </div>
+<div class="flex-grow min-w-0">
+<p class="text-body-md text-on-surface truncate pr-base">জরুরি সতর্কতা: আপনার ফেসবুক পাসওয়ার্ড রিসেট করা হয়েছে...</p>
+</div>
+</div>
+<div class="text-right flex-shrink-0">
+<span class="text-label-sm-mono font-label-sm-mono text-outline">22:05:11</span>
+</div>
+</div>
+<!-- History Row 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-base flex items-center justify-between hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex items-center gap-gutter flex-1 min-w-0">
+<!-- Mini Stamp Chip: Safe -->
+<div class="flex-shrink-0 w-16 h-8 border border-secondary text-secondary flex items-center justify-center text-[10px] font-bold tracking-tighter bg-secondary/5">
+                                নিরাপদ
+                            </div>
+<div class="flex-grow min-w-0">
+<p class="text-body-md text-on-surface truncate pr-base">বিকাশ পিন কখনো কাউকে শেয়ার করবেন না। এটি একটি ব্যক্তিগত...</p>
+</div>
+</div>
+<div class="text-right flex-shrink-0">
+<span class="text-label-sm-mono font-label-sm-mono text-outline">16:40:00</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Empty State (Hidden by default) -->
+<div class="hidden py-24 flex flex-col items-center justify-center text-center space-y-stack-lg" id="empty-state">
+<div class="relative w-40 h-40 flex items-center justify-center border-4 border-dashed border-outline-variant rounded-full empty-state-illustration">
+<span class="material-symbols-outlined text-[80px] text-outline-variant" data-icon="history_toggle_off">history_toggle_off</span>
+</div>
+<div class="space-y-stack-sm">
+<h3 class="text-headline-md font-headline-md text-on-surface-variant">এখনো কোনো মেসেজ যাচাই করা হয়নি</h3>
+<p class="text-body-md text-outline">আপনার ডিজিটাল নিরাপত্তা নিশ্চিত করতে প্রথম মেসেজটি স্ক্যান করুন।</p>
+</div>
+<button class="bg-primary text-on-primary px-stack-lg py-stack-md rounded flex items-center gap-base hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="font-bold">স্ক্যান শুরু করুন</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe h-16 bg-surface border-t border-outline-variant">
+<button class="flex flex-col items-center justify-center text-outline hover:text-primary transition-transform active:scale-95 duration-100">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-label-sm-mono font-label-sm-mono">হোম</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline hover:text-primary transition-transform active:scale-95 duration-100">
+<span class="material-symbols-outlined" data-icon="search_check">search_check</span>
+<span class="text-label-sm-mono font-label-sm-mono">স্ক্যান</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline hover:text-primary transition-transform active:scale-95 duration-100">
+<span class="material-symbols-outlined" data-icon="rss_feed">rss_feed</span>
+<span class="text-label-sm-mono font-label-sm-mono">ফিড</span>
+</button>
+<!-- ACTIVE TAB: Library/History -->
+<button class="flex flex-col items-center justify-center text-primary font-bold transition-transform active:scale-95 duration-100">
+<span class="material-symbols-outlined" data-icon="library_books" style="font-variation-settings: 'FILL' 1;">library_books</span>
+<span class="text-label-sm-mono font-label-sm-mono">লাইব্রেরি</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline hover:text-primary transition-transform active:scale-95 duration-100">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-sm-mono font-label-sm-mono">সেটিংস</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction: Toggle empty state demonstration (For designer preview)
+        function toggleHistoryState(isEmpty) {
+            const history = document.getElementById('history-container');
+            const empty = document.getElementById('empty-state');
+            if (isEmpty) {
+                history.classList.add('hidden');
+                empty.classList.remove('hidden');
+            } else {
+                history.classList.remove('hidden');
+                empty.classList.add('hidden');
+            }
+        }
+
+        // Simulating row click effect
+        document.querySelectorAll('#history-container > section > div > div').forEach(row => {
+            row.addEventListener('mousedown', () => row.classList.add('opacity-70'));
+            row.addEventListener('mouseup', () => row.classList.remove('opacity-70'));
+            row.addEventListener('mouseleave', () => row.classList.remove('opacity-70'));
+        });
+    </script>
+</body></html>

@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build
+frontend/dist/
+backend/public/build/
+
+# Environment
+.env
+.env.local
+backend/.env
+frontend/.env
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Thumbs.db
+
+# Laravel
+backend/storage/*.key
+backend/storage/logs/*
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/bootstrap/cache/*
+!backend/storage/**/.gitignore
+
+# SQLite (fallback)
+backend/database/*.sqlite
+
+# Logs
+*.log
+npm-debug.log*

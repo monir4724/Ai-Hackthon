@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="light" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>রক্ষা কবচ | থ্রেট ফিড</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Source+Sans+3:wght@400;600&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Shared Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "secondary-fixed-dim": "#ffb956",
+                "primary-container": "#1b2a4a",
+                "secondary": "#835400",
+                "surface-container-high": "#e7e9e6",
+                "tertiary": "#370001",
+                "on-tertiary-fixed-variant": "#8a1b18",
+                "tertiary-container": "#5e0004",
+                "secondary-container": "#feb64e",
+                "inverse-primary": "#b7c6ee",
+                "surface": "#f8faf7",
+                "on-primary-fixed": "#0a1a3a",
+                "error-container": "#ffdad6",
+                "inverse-surface": "#2e312f",
+                "surface-container": "#eceeeb",
+                "surface-bright": "#f8faf7",
+                "on-tertiary-fixed": "#410002",
+                "on-tertiary": "#ffffff",
+                "on-tertiary-container": "#f0665a",
+                "background": "#f8faf7",
+                "on-primary": "#ffffff",
+                "on-secondary-container": "#714800",
+                "on-secondary-fixed-variant": "#643f00",
+                "surface-tint": "#4f5e81",
+                "surface-container-lowest": "#ffffff",
+                "on-surface": "#191c1b",
+                "on-error": "#ffffff",
+                "error": "#ba1a1a",
+                "secondary-fixed": "#ffddb5",
+                "on-secondary-fixed": "#2a1800",
+                "surface-container-low": "#f2f4f1",
+                "tertiary-fixed": "#ffdad6",
+                "tertiary-fixed-dim": "#ffb4ab",
+                "on-background": "#191c1b",
+                "primary": "#041534",
+                "primary-fixed-dim": "#b7c6ee",
+                "inverse-on-surface": "#eff1ee",
+                "on-primary-fixed-variant": "#384668",
+                "on-surface-variant": "#45464e",
+                "on-secondary": "#ffffff",
+                "on-primary-container": "#8392b7",
+                "surface-variant": "#e1e3e0",
+                "outline-variant": "#c5c6cf",
+                "on-error-container": "#93000a",
+                "outline": "#75777f",
+                "surface-container-highest": "#e1e3e0",
+                "surface-dim": "#d8dbd8",
+                "primary-fixed": "#d9e2ff",
+                "safe-green": "#1b5e20",
+                "warning-amber": "#ff8f00"
+            },
+            "borderRadius": {
+                "DEFAULT": "2px",
+                "lg": "4px",
+                "xl": "8px",
+                "full": "12px"
+            },
+            "spacing": {
+                "margin-desktop": "40px",
+                "stack-lg": "24px",
+                "stack-md": "12px",
+                "margin-mobile": "20px",
+                "stack-sm": "4px",
+                "base": "8px",
+                "gutter": "16px"
+            },
+            "fontFamily": {
+                "body-lg": ["Source Sans 3"],
+                "body-md": ["Source Sans 3"],
+                "headline-lg": ["Playfair Display"],
+                "label-mono": ["IBM Plex Mono"],
+                "headline-lg-mobile": ["Playfair Display"],
+                "headline-md": ["Playfair Display"],
+                "label-sm-mono": ["IBM Plex Mono"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .verdict-seal {
+            transform: rotate(-6deg);
+            background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 4px 4px;
+        }
+        .wire-card {
+            border-left-width: 4px;
+            transition: all 0.2s ease;
+        }
+        .wire-card:active {
+            transform: scale(0.98);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="bg-surface sticky top-0 z-50 flex justify-between items-center w-full px-margin-mobile py-base border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-headline-md" data-icon="shield_with_heart">shield_with_heart</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">রক্ষাকবচ</h1>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Live Ticker Indicator -->
+<div class="bg-primary text-on-primary py-2 px-margin-mobile flex items-center gap-3 overflow-hidden whitespace-nowrap">
+<span class="w-2 h-2 bg-error animate-pulse shrink-0"></span>
+<span class="font-label-sm-mono text-label-sm-mono uppercase tracking-widest">লাইভ থ্রেট রিপোর্ট — ঢাকা মেট্রো</span>
+</div>
+<!-- Filter Bar -->
+<section class="px-margin-mobile py-stack-md bg-surface-container-low border-b border-outline-variant sticky top-[57px] z-40">
+<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-4 py-1.5 bg-primary text-on-primary text-label-sm-mono font-label-sm-mono rounded-lg shrink-0">সব রিপোর্ট</button>
+<button class="px-4 py-1.5 bg-surface-container-highest text-primary text-label-sm-mono font-label-sm-mono rounded-lg border border-outline-variant shrink-0">OTP স্ক্যাম</button>
+<button class="px-4 py-1.5 bg-surface-container-highest text-primary text-label-sm-mono font-label-sm-mono rounded-lg border border-outline-variant shrink-0">লটারি</button>
+<button class="px-4 py-1.5 bg-surface-container-highest text-primary text-label-sm-mono font-label-sm-mono rounded-lg border border-outline-variant shrink-0">ভুয়া লিংক</button>
+<button class="px-4 py-1.5 bg-surface-container-highest text-primary text-label-sm-mono font-label-sm-mono rounded-lg border border-outline-variant shrink-0">চাকরি স্ক্যাম</button>
+</div>
+</section>
+<!-- Feed List -->
+<section class="px-margin-mobile py-stack-lg max-w-2xl mx-auto space-y-stack-md">
+<!-- Alert Card 1: High Danger -->
+<article class="wire-card bg-surface-container-lowest border-error border p-4 flex flex-col gap-2 relative overflow-hidden">
+<div class="flex justify-between items-start">
+<span class="font-label-sm-mono text-label-sm-mono text-error font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="warning">warning</span> উচ্চ ঝুঁকি
+                    </span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">৪ মিনিট আগে</span>
+</div>
+<h2 class="font-body-lg text-body-lg text-primary font-semibold">Nagad নামে ভুয়া লটারি মেসেজ — ঢাকা</h2>
+<div class="flex justify-between items-center mt-2 border-t border-outline-variant pt-2">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm-mono text-label-sm-mono">
+<span class="material-symbols-outlined text-[18px]" data-icon="group">group</span>
+                        ১২ জন রিপোর্ট করেছেন
+                    </div>
+<button class="text-primary font-label-sm-mono text-label-sm-mono flex items-center gap-1 hover:underline">
+                        বিস্তারিত <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Subtle Stamp Texture for the High Risk -->
+<div class="absolute -right-4 -top-2 opacity-10 pointer-events-none transform rotate-12">
+<span class="material-symbols-outlined text-[80px]" data-icon="report_problem">report_problem</span>
+</div>
+</article>
+<!-- Alert Card 2: Warning -->
+<article class="wire-card bg-surface-container-lowest border-warning-amber border p-4 flex flex-col gap-2 relative">
+<div class="flex justify-between items-start">
+<span class="font-label-sm-mono text-label-sm-mono text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="info">info</span> সতর্কবার্তা
+                    </span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">১২ মিনিট আগে</span>
+</div>
+<h2 class="font-body-lg text-body-lg text-primary font-semibold">অনলাইনে পার্ট টাইম চাকরির প্রলোভন — চট্রগ্রাম</h2>
+<div class="flex justify-between items-center mt-2 border-t border-outline-variant pt-2">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm-mono text-label-sm-mono">
+<span class="material-symbols-outlined text-[18px]" data-icon="group">group</span>
+                        ৪৫ জন রিপোর্ট করেছেন
+                    </div>
+<button class="text-primary font-label-sm-mono text-label-sm-mono flex items-center gap-1 hover:underline">
+                        বিস্তারিত <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</article>
+<!-- Alert Card 3: New Entry (Low/Warning) -->
+<article class="wire-card bg-surface-container-lowest border-outline border p-4 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="font-label-sm-mono text-label-sm-mono text-outline font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="visibility">visibility</span> পর্যবেক্ষণ
+                    </span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">১ ঘণ্টা আগে</span>
+</div>
+<h2 class="font-body-lg text-body-lg text-primary font-semibold">ব্যাংক একাউন্ট ভেরিফিকেশন কল — খুলনা</h2>
+<div class="flex justify-between items-center mt-2 border-t border-outline-variant pt-2">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm-mono text-label-sm-mono">
+<span class="material-symbols-outlined text-[18px]" data-icon="group">group</span>
+                        ০৮ জন রিপোর্ট করেছেন
+                    </div>
+<button class="text-primary font-label-sm-mono text-label-sm-mono flex items-center gap-1 hover:underline">
+                        বিস্তারিত <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</article>
+<!-- Visual Break: Case Evidence -->
+<div class="py-stack-lg">
+<div class="bg-surface-container p-6 border-dashed border-2 border-outline-variant flex flex-col items-center text-center gap-stack-md">
+<span class="material-symbols-outlined text-primary text-[48px]" data-icon="upload_file">upload_file</span>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">আপনার কোনো সন্দেহ আছে?</h3>
+<p class="text-on-surface-variant text-body-md mt-1">সন্দেহজনক কোনো মেসেজ বা কল রিপোর্ট করে অন্যদের সাহায্য করুন।</p>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 font-label-mono text-label-mono rounded-lg shadow-sm active:scale-95 transition-transform">
+                        রিপোর্ট জমা দিন
+                    </button>
+</div>
+</div>
+<!-- More Cards -->
+<article class="wire-card bg-surface-container-lowest border-error border p-4 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="font-label-sm-mono text-label-sm-mono text-error font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="warning">warning</span> উচ্চ ঝুঁকি
+                    </span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">৩ ঘণ্টা আগে</span>
+</div>
+<h2 class="font-body-lg text-body-lg text-primary font-semibold">ফেসবুক আইডি হ্যাকিং লিংক — বরিশাল</h2>
+<div class="flex justify-between items-center mt-2 border-t border-outline-variant pt-2">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm-mono text-label-sm-mono">
+<span class="material-symbols-outlined text-[18px]" data-icon="group">group</span>
+                        ১০২ জন রিপোর্ট করেছেন
+                    </div>
+<button class="text-primary font-label-sm-mono text-label-sm-mono flex items-center gap-1 hover:underline">
+                        বিস্তারিত <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</article>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe h-16 bg-surface border-t border-outline-variant">
+<a class="flex flex-col items-center justify-center text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-label-sm-mono font-label-sm-mono">হোম</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="search_check">search_check</span>
+<span class="text-label-sm-mono font-label-sm-mono">স্ক্যান</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="rss_feed">rss_feed</span>
+<span class="text-label-sm-mono font-label-sm-mono">ফিড</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span class="text-label-sm-mono font-label-sm-mono">লাইব্রেরি</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-sm-mono font-label-sm-mono">সেটিংস</span>
+</a>
+</nav>
+<!-- Floating Action Button (Only on main dashboard/feed as per rules) -->
+<button class="fixed right-6 bottom-20 w-14 h-14 bg-secondary-container text-on-secondary-container rounded-lg shadow-lg flex items-center justify-center z-40 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="add_alert">add_alert</span>
+</button>
+<script>
+        // Micro-interaction for filter chips
+        const filterChips = document.querySelectorAll('button.bg-surface-container-highest');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                // Clear previous active state
+                document.querySelector('button.bg-primary.text-on-primary.shrink-0').classList.replace('bg-primary', 'bg-surface-container-highest');
+                document.querySelector('button.bg-primary.text-on-primary.shrink-0').classList.replace('text-on-primary', 'text-primary');
+                
+                // Add active state to clicked
+                chip.classList.replace('bg-surface-container-highest', 'bg-primary');
+                chip.classList.replace('text-primary', 'text-on-primary');
+            });
+        });
+
+        // Simulating the "Live" feel with random pulses
+        setInterval(() => {
+            const cards = document.querySelectorAll('.wire-card');
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            randomCard.classList.add('opacity-80');
+            setTimeout(() => randomCard.classList.remove('opacity-80'), 300);
+        }, 5000);
+    </script>
+</body></html>

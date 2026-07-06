@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="light" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>সচেতনতা হাব | রক্ষাকবচ</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Playfair+Display:wght@600;700&amp;family=Source+Sans+3:wght@400;600&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .tiro-bangla { font-family: 'Tiro Bangla', serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .verdict-seal {
+            transform: rotate(-6deg);
+            mix-blend-mode: multiply;
+            position: relative;
+        }
+        .verdict-seal::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        body {
+            background-color: #f8faf7;
+            color: #191c1b;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb956",
+                        "primary-container": "#1b2a4a",
+                        "secondary": "#835400",
+                        "surface-container-high": "#e7e9e6",
+                        "tertiary": "#370001",
+                        "on-tertiary-fixed-variant": "#8a1b18",
+                        "tertiary-container": "#5e0004",
+                        "secondary-container": "#feb64e",
+                        "inverse-primary": "#b7c6ee",
+                        "surface": "#f8faf7",
+                        "on-primary-fixed": "#0a1a3a",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2e312f",
+                        "surface-container": "#eceeeb",
+                        "surface-bright": "#f8faf7",
+                        "on-tertiary-fixed": "#410002",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#f0665a",
+                        "background": "#f8faf7",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#714800",
+                        "on-secondary-fixed-variant": "#643f00",
+                        "surface-tint": "#4f5e81",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1b",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#ffddb5",
+                        "on-secondary-fixed": "#2a1800",
+                        "surface-container-low": "#f2f4f1",
+                        "tertiary-fixed": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "on-background": "#191c1b",
+                        "primary": "#041534",
+                        "primary-fixed-dim": "#b7c6ee",
+                        "inverse-on-surface": "#eff1ee",
+                        "on-primary-fixed-variant": "#384668",
+                        "on-surface-variant": "#45464e",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#8392b7",
+                        "surface-variant": "#e1e3e0",
+                        "outline-variant": "#c5c6cf",
+                        "on-error-container": "#93000a",
+                        "outline": "#75777f",
+                        "surface-container-highest": "#e1e3e0",
+                        "surface-dim": "#d8dbd8",
+                        "primary-fixed": "#d9e2ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "stack-lg": "24px",
+                        "stack-md": "12px",
+                        "margin-mobile": "20px",
+                        "stack-sm": "4px",
+                        "base": "8px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Source Sans 3"],
+                        "body-md": ["Source Sans 3"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-mono": ["IBM Plex Mono"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "label-sm-mono": ["IBM Plex Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-background bg-background min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<nav class="bg-surface border-b border-outline-variant sticky top-0 z-50 flex justify-between items-center w-full px-margin-mobile py-base">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="shield_with_heart" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<span class="text-headline-md font-headline-md font-bold text-primary">রক্ষাকবচ</span>
+</div>
+<div class="flex items-center gap-gutter">
+<span class="material-symbols-outlined text-on-surface-variant text-2xl cursor-pointer" data-icon="account_circle">account_circle</span>
+</div>
+</nav>
+<main class="flex-grow w-full max-w-screen-md mx-auto px-margin-mobile py-stack-lg">
+<!-- Header Section -->
+<header class="mb-stack-lg">
+<span class="font-label-mono text-label-mono text-secondary uppercase tracking-widest mb-stack-sm block">শিক্ষা কেন্দ্র</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary mb-stack-sm">নিজেকে সুরক্ষিত রাখুন</h1>
+<p class="font-body-md text-on-surface-variant">সহজ কিছু নিয়ম মেনে আপনি ডিজিটাল জালিয়াতি থেকে বাঁচতে পারেন।</p>
+</header>
+<!-- Rule Cards Section -->
+<div class="flex flex-col gap-gutter">
+<!-- Card 1: bKash Security -->
+<div class="bg-surface-container-lowest border border-outline-variant p-gutter rounded-lg shadow-sm relative overflow-hidden group">
+<div class="flex justify-between items-start mb-stack-md">
+<div class="p-base bg-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container text-4xl" data-icon="lock_person">lock_person</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-base">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+</div>
+<h2 class="tiro-bangla text-3xl font-bold text-primary leading-tight mb-stack-md">
+                    bKash কর্মী কখনো আপনার পিন জিজ্ঞাসা করবে না।
+                </h2>
+<div class="border-t border-outline-variant pt-stack-md flex items-center gap-base">
+<span class="font-label-mono text-label-sm-mono text-error uppercase">বিপদ সংকেত:</span>
+<span class="font-body-md text-on-surface-variant">কেউ পিন চাইলে সাথে সাথে সংযোগ বিচ্ছিন্ন করুন।</span>
+</div>
+<!-- Verdict Stamp -->
+<div class="absolute -right-4 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity">
+<div class="verdict-seal border-4 border-error text-error font-bold tiro-bangla text-xl px-4 py-1">সতর্ক</div>
+</div>
+</div>
+<!-- Card 2: Unknown Links -->
+<div class="bg-surface-container-lowest border border-outline-variant p-gutter rounded-lg shadow-sm relative overflow-hidden group">
+<div class="flex justify-between items-start mb-stack-md">
+<div class="p-base bg-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container text-4xl" data-icon="link_off">link_off</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-base">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+</div>
+<h2 class="tiro-bangla text-3xl font-bold text-primary leading-tight mb-stack-md">
+                    অপরিচিত নম্বর থেকে আসা লিংকে ক্লিক করবেন না।
+                </h2>
+<div class="border-t border-outline-variant pt-stack-md flex items-center gap-base">
+<span class="font-label-mono text-label-sm-mono text-error uppercase">পরামর্শ:</span>
+<span class="font-body-md text-on-surface-variant">লোভনীয় অফার বা লটারি জেতার এসএমএস এড়িয়ে চলুন।</span>
+</div>
+<div class="absolute -right-4 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity">
+<div class="verdict-seal border-4 border-error text-error font-bold tiro-bangla text-xl px-4 py-1">উচ্চ ঝুঁকি</div>
+</div>
+</div>
+<!-- Card 3: OTP Protection -->
+<div class="bg-surface-container-lowest border border-outline-variant p-gutter rounded-lg shadow-sm relative overflow-hidden group">
+<div class="flex justify-between items-start mb-stack-md">
+<div class="p-base bg-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container text-4xl" data-icon="shield_person">shield_person</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-base">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+</div>
+<h2 class="tiro-bangla text-3xl font-bold text-primary leading-tight mb-stack-md">
+                    আপনার ফোনের ওটিপি (OTP) কোড কাউকে দেবেন না।
+                </h2>
+<div class="border-t border-outline-variant pt-stack-md flex items-center gap-base">
+<span class="font-label-mono text-label-sm-mono text-on-secondary-container uppercase">তথ্য:</span>
+<span class="font-body-md text-on-surface-variant">এই কোডটি আপনার অ্যাকাউন্টের ডিজিটাল চাবি।</span>
+</div>
+</div>
+<!-- Visual Break / Illustration Block -->
+<div class="my-stack-lg rounded-xl overflow-hidden border border-outline-variant relative h-64 flex items-center justify-center">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center" data-alt="A clean, minimalist digital safety illustration using the Rokkhakoboch brand colors. A large, stylized shield made of white paper textures stands in the center of a deep indigo space, illuminated by soft golden lighting. Small glowing digital symbols like padlocks and keys float around the shield. The atmosphere is official, protective, and corporate yet tactile, resembling a high-quality government document graphic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCInK1KzvQ0LdQPLygsrh2Yo_AniIZKZc9cnBsVwT4WwRMw5NrfRLb18FesDUTspIpQr51tESQJ8uaCzRyQmF4Bu_gkwi7LGLRz8ZRx7lsKMEqDA7ZXSiYQZYgeWVygF3GEzVvq_vCVYLE1RXufPxmLTmWqybVgDTX9bQMS1kGvJGaBSrytpdMMbqUo3MOxaZYkHuJxJTHJGgO3oLCh8W1v4GVLVRKL2mDmnU08qBSZc0OGfj5SVobhePDPcHl7v2XCxcxVBYYYsewy')"></div>
+</div>
+<div class="relative z-10 text-center bg-surface/90 p-gutter rounded-lg backdrop-blur-sm mx-gutter">
+<h3 class="font-headline-md text-primary mb-base">সতর্কতাই আপনার শক্তি</h3>
+<p class="font-body-md text-on-surface-variant">আপনার নিরাপত্তা আপনার হাতেই শুরু হয়।</p>
+</div>
+</div>
+<!-- Card 4: Social Media Accounts -->
+<div class="bg-surface-container-lowest border border-outline-variant p-gutter rounded-lg shadow-sm relative overflow-hidden group">
+<div class="flex justify-between items-start mb-stack-md">
+<div class="p-base bg-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container text-4xl" data-icon="passkey">passkey</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-base">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+</div>
+<h2 class="tiro-bangla text-3xl font-bold text-primary leading-tight mb-stack-md">
+                    ফেসবুকের পাসওয়ার্ড লিখে রাখবেন না।
+                </h2>
+<div class="border-t border-outline-variant pt-stack-md flex items-center gap-base">
+<span class="font-label-mono text-label-sm-mono text-on-secondary-container uppercase">টিপস:</span>
+<span class="font-body-md text-on-surface-variant">পাসওয়ার্ড সবসময় মনে রাখার চেষ্টা করুন বা নিরাপদ অ্যাপ ব্যবহার করুন।</span>
+</div>
+</div>
+</div>
+<!-- Footer Help Section -->
+<section class="mt-stack-lg pt-stack-lg border-t border-outline-variant">
+<h4 class="font-headline-md text-primary mb-stack-md">আরো জানতে চান?</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-base">
+<button class="flex items-center gap-base p-gutter bg-primary text-on-primary rounded-lg hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+<span class="tiro-bangla text-xl">হেল্পলাইনে ফোন করুন</span>
+</button>
+<button class="flex items-center gap-base p-gutter border border-primary text-primary rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="tiro-bangla text-xl">বিস্তারিত গাইড পড়ুন</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (Mobile Focus) -->
+<div class="h-20 md:hidden"></div> <!-- Spacer -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe h-16 bg-surface border-t border-outline-variant">
+<div class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary transition-transform duration-100 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm-mono text-label-sm-mono">হোম</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary transition-transform duration-100 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="search_check">search_check</span>
+<span class="font-label-sm-mono text-label-sm-mono">স্ক্যান</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary transition-transform duration-100 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="rss_feed">rss_feed</span>
+<span class="font-label-sm-mono text-label-sm-mono">ফিড</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim font-bold transition-transform duration-100 scale-95 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="library_books" style="font-variation-settings: 'FILL' 1;">library_books</span>
+<span class="font-label-sm-mono text-label-sm-mono">লাইব্রেরি</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary transition-transform duration-100 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-sm-mono text-label-sm-mono">সেটিংস</span>
+</div>
+</nav>
+<script>
+        // Micro-interactions for sharing
+        document.querySelectorAll('button[data-icon="share"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('এই তথ্যটি শেয়ার করার জন্য কপি করা হয়েছে।');
+                btn.classList.add('text-primary');
+                setTimeout(() => btn.classList.remove('text-primary'), 2000);
+            });
+        });
+
+        // Simple entrance animation for cards
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('translate-y-0', 'opacity-100');
+                    entry.target.classList.remove('translate-y-4', 'opacity-0');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.bg-surface-container-lowest').forEach(card => {
+            card.classList.add('transition-all', 'duration-500', 'translate-y-4', 'opacity-0');
+            observer.observe(card);
+        });
+    </script>
+</body></html>

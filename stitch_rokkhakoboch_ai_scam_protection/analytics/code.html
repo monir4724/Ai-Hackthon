@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="light" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>রক্ষা কবচ - অ্যানালিটিক্স ড্যাশবোর্ড</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Source+Sans+3:wght@400;600&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .verdict-seal {
+            transform: rotate(-6deg);
+            mix-blend-mode: multiply;
+            position: relative;
+        }
+        .verdict-seal::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            align-items: end;
+            gap: 12px;
+            height: 160px;
+        }
+        .heat-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #ba1a1a;
+            border-radius: 0;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.6; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .paper-texture {
+            background-color: #f8faf7;
+            background-image: radial-gradient(#d8dbd8 0.5px, transparent 0.5px);
+            background-size: 16px 16px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb956",
+                        "primary-container": "#1b2a4a",
+                        "secondary": "#835400",
+                        "surface-container-high": "#e7e9e6",
+                        "tertiary": "#370001",
+                        "on-tertiary-fixed-variant": "#8a1b18",
+                        "tertiary-container": "#5e0004",
+                        "secondary-container": "#feb64e",
+                        "inverse-primary": "#b7c6ee",
+                        "surface": "#f8faf7",
+                        "on-primary-fixed": "#0a1a3a",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2e312f",
+                        "surface-container": "#eceeeb",
+                        "surface-bright": "#f8faf7",
+                        "on-tertiary-fixed": "#410002",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#f0665a",
+                        "background": "#f8faf7",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#714800",
+                        "on-secondary-fixed-variant": "#643f00",
+                        "surface-tint": "#4f5e81",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1b",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#ffddb5",
+                        "on-secondary-fixed": "#2a1800",
+                        "surface-container-low": "#f2f4f1",
+                        "tertiary-fixed": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "on-background": "#191c1b",
+                        "primary": "#041534",
+                        "primary-fixed-dim": "#b7c6ee",
+                        "inverse-on-surface": "#eff1ee",
+                        "on-primary-fixed-variant": "#384668",
+                        "on-surface-variant": "#45464e",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#8392b7",
+                        "surface-variant": "#e1e3e0",
+                        "outline-variant": "#c5c6cf",
+                        "on-error-container": "#93000a",
+                        "outline": "#75777f",
+                        "surface-container-highest": "#e1e3e0",
+                        "surface-dim": "#d8dbd8",
+                        "primary-fixed": "#d9e2ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "stack-lg": "24px",
+                        "stack-md": "12px",
+                        "margin-mobile": "20px",
+                        "stack-sm": "4px",
+                        "base": "8px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Source Sans 3"],
+                        "body-md": ["Source Sans 3"],
+                        "headline-lg": ["Playfair Display"],
+                        "label-mono": ["IBM Plex Mono"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "label-sm-mono": ["IBM Plex Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface paper-texture min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="bg-surface sticky top-0 z-40 border-b border-outline-variant flex justify-between items-center w-full px-margin-mobile py-base">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary text-headline-md">shield_with_heart</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">রক্ষাকবচ</h1>
+</div>
+<div class="flex items-center gap-stack-lg">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+</div>
+</header>
+<main class="flex-grow p-margin-mobile space-y-stack-lg max-w-4xl mx-auto w-full">
+<!-- Header Title -->
+<section class="space-y-stack-sm">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">সাপ্তাহিক প্রতিবেদন</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">Analytics Dashboard // Case File #482</p>
+</section>
+<!-- Top Section: Bar Chart -->
+<section class="bg-surface-container-lowest border border-outline-variant p-stack-md">
+<div class="flex justify-between items-baseline mb-stack-lg">
+<h3 class="font-label-mono text-label-mono text-primary font-bold">স্ক্যাম রিপোর্টের ধরন</h3>
+<span class="font-label-sm-mono text-label-sm-mono text-on-surface-variant">Last 7 Days</span>
+</div>
+<div class="chart-container">
+<!-- Bar 1 -->
+<div class="flex flex-col items-center gap-stack-sm h-full justify-end">
+<div class="w-full bg-primary h-[85%]" title="Phishing"></div>
+<span class="font-label-sm-mono text-label-sm-mono transform -rotate-45 mt-base">ফিশিং</span>
+</div>
+<!-- Bar 2 -->
+<div class="flex flex-col items-center gap-stack-sm h-full justify-end">
+<div class="w-full bg-primary h-[45%]" title="Lottery"></div>
+<span class="font-label-sm-mono text-label-sm-mono transform -rotate-45 mt-base">লটারি</span>
+</div>
+<!-- Bar 3 -->
+<div class="flex flex-col items-center gap-stack-sm h-full justify-end">
+<div class="w-full bg-primary h-[65%]" title="Banking"></div>
+<span class="font-label-sm-mono text-label-sm-mono transform -rotate-45 mt-base">ব্যাংকিং</span>
+</div>
+<!-- Bar 4 -->
+<div class="flex flex-col items-center gap-stack-sm h-full justify-end">
+<div class="w-full bg-primary h-[30%]" title="Social"></div>
+<span class="font-label-sm-mono text-label-sm-mono transform -rotate-45 mt-base">সামাজিক</span>
+</div>
+<!-- Bar 5 -->
+<div class="flex flex-col items-center gap-stack-sm h-full justify-end">
+<div class="w-full bg-primary h-[55%]" title="Other"></div>
+<span class="font-label-sm-mono text-label-sm-mono transform -rotate-45 mt-base">অন্যান্য</span>
+</div>
+</div>
+<div class="mt-stack-lg pt-stack-md border-t border-outline-variant/30">
+<p class="font-body-md text-body-md text-on-surface-variant italic">Data certified by Digital Forensics Unit.</p>
+</div>
+</section>
+<!-- Middle Section: Heat Map -->
+<section class="bg-surface-container-lowest border border-outline-variant overflow-hidden relative min-h-[320px] flex flex-col">
+<div class="p-stack-md z-10">
+<h3 class="font-label-mono text-label-mono text-primary font-bold">আঞ্চলিক ঝুঁকি ম্যাপ</h3>
+<p class="font-label-sm-mono text-label-sm-mono text-error">Density: High Risk Zone</p>
+</div>
+<div class="flex-grow flex justify-center items-center relative p-stack-lg">
+<!-- Abstract Bangladesh Map Silhouette -->
+<div class="relative w-full max-w-[280px] aspect-[1/1.2]">
+<div class="absolute inset-0 bg-surface-variant opacity-40 mix-blend-multiply" style="clip-path: polygon(40% 0%, 70% 5%, 90% 20%, 95% 45%, 85% 65%, 90% 90%, 65% 98%, 45% 95%, 25% 98%, 5% 85%, 15% 60%, 10% 40%, 20% 15%, 40% 0%);"></div>
+<!-- Heat Dots (Static simulation of data points) -->
+<div class="heat-dot" style="top: 25%; left: 45%;"></div>
+<div class="heat-dot" style="top: 30%; left: 55%;"></div>
+<div class="heat-dot" style="top: 45%; left: 40%;"></div>
+<div class="heat-dot" style="top: 65%; left: 60%; animation-delay: 0.5s;"></div>
+<div class="heat-dot" style="top: 75%; left: 35%; animation-delay: 1.2s;"></div>
+<div class="heat-dot" style="top: 20%; left: 70%; animation-delay: 0.8s;"></div>
+<div class="heat-dot" style="top: 55%; left: 50%; width: 12px; height: 12px;"></div>
+</div>
+</div>
+<!-- Map Metadata -->
+<div class="p-stack-md border-t border-outline-variant/30 flex justify-between bg-surface/50 backdrop-blur-sm z-10">
+<div class="flex items-center gap-stack-sm">
+<div class="w-2 h-2 bg-error"></div>
+<span class="font-label-sm-mono text-label-sm-mono">উচ্চ ঘনত্ব</span>
+</div>
+<div class="flex items-center gap-stack-sm">
+<div class="w-2 h-2 bg-outline"></div>
+<span class="font-label-sm-mono text-label-sm-mono">নিয়মিত পর্যবেক্ষণ</span>
+</div>
+</div>
+</section>
+<!-- Bottom Section: Common Scam Highlight -->
+<section class="bg-surface-container-lowest border border-outline-variant p-stack-md flex gap-gutter items-start">
+<div class="flex-grow space-y-stack-sm">
+<h3 class="font-label-mono text-label-mono text-primary font-bold">সপ্তাহের সবচেয়ে সাধারণ স্ক্যাম</h3>
+<h4 class="font-headline-md text-headline-md text-error">বিকাশ ক্যাশব্যাক জালিয়াতি</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">জাল কল এবং এসএমএস-এর মাধ্যমে ক্যাশব্যাক বা রিওয়ার্ড অফার করে ওটিপি (OTP) হাতিয়ে নেওয়ার চেষ্টা বাড়ছে।</p>
+<div class="pt-stack-md">
+<button class="bg-primary text-on-primary px-stack-lg py-base font-label-mono text-label-mono flex items-center gap-base">
+                        বিস্তারিত জানুন
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Mini Verdict Seal -->
+<div class="flex-shrink-0 w-24 h-24 flex items-center justify-center border-2 border-error border-dashed verdict-seal">
+<div class="text-center">
+<p class="text-error font-bold font-headline-md leading-tight">উচ্চ ঝুঁকি</p>
+<p class="text-error text-[10px] font-label-mono uppercase">Verified Danger</p>
+</div>
+</div>
+</section>
+<div class="h-20"></div> <!-- Spacer for fixed nav -->
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe h-16 bg-surface border-t border-outline-variant">
+<button class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm-mono text-label-sm-mono mt-1">হোম</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined">search_check</span>
+<span class="font-label-sm-mono text-label-sm-mono mt-1">স্ক্যান</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary font-bold scale-95 transition-transform duration-100">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">rss_feed</span>
+<span class="font-label-sm-mono text-label-sm-mono mt-1">ফিড</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined">library_books</span>
+<span class="font-label-sm-mono text-label-sm-mono mt-1">লাইব্রেরি</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm-mono text-label-sm-mono mt-1">সেটিংস</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction for bar chart hover
+        const bars = document.querySelectorAll('.chart-container > div > div');
+        bars.forEach(bar => {
+            bar.addEventListener('mouseenter', () => {
+                bar.classList.add('opacity-80');
+            });
+            bar.addEventListener('mouseleave', () => {
+                bar.classList.remove('opacity-80');
+            });
+        });
+    </script>
+</body></html>

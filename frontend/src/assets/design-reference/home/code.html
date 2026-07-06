@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>রক্ষা কবচ - নিরাপদ এমএফএস লেনদেন</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Playfair+Display:wght@600;700&amp;family=Source+Sans+3:wght@400;600&amp;family=Hind+Siliguri:wght@400;600;700&amp;family=Tiro+Bangla&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Load Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#ffb956",
+                    "primary-container": "#1b2a4a",
+                    "secondary": "#835400",
+                    "surface-container-high": "#e7e9e6",
+                    "tertiary": "#370001",
+                    "on-tertiary-fixed-variant": "#8a1b18",
+                    "tertiary-container": "#5e0004",
+                    "secondary-container": "#feb64e",
+                    "inverse-primary": "#b7c6ee",
+                    "surface": "#f8faf7",
+                    "on-primary-fixed": "#0a1a3a",
+                    "error-container": "#ffdad6",
+                    "inverse-surface": "#2e312f",
+                    "surface-container": "#eceeeb",
+                    "surface-bright": "#f8faf7",
+                    "on-tertiary-fixed": "#410002",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-container": "#f0665a",
+                    "background": "#f8faf7",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#714800",
+                    "on-secondary-fixed-variant": "#643f00",
+                    "surface-tint": "#4f5e81",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#191c1b",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#ffddb5",
+                    "on-secondary-fixed": "#2a1800",
+                    "surface-container-low": "#f2f4f1",
+                    "tertiary-fixed": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb4ab",
+                    "on-background": "#191c1b",
+                    "primary": "#041534",
+                    "primary-fixed-dim": "#b7c6ee",
+                    "inverse-on-surface": "#eff1ee",
+                    "on-primary-fixed-variant": "#384668",
+                    "on-surface-variant": "#45464e",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#8392b7",
+                    "surface-variant": "#e1e3e0",
+                    "outline-variant": "#c5c6cf",
+                    "on-error-container": "#93000a",
+                    "outline": "#75777f",
+                    "surface-container-highest": "#e1e3e0",
+                    "surface-dim": "#d8dbd8",
+                    "primary-fixed": "#d9e2ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "40px",
+                    "stack-lg": "24px",
+                    "stack-md": "12px",
+                    "margin-mobile": "20px",
+                    "stack-sm": "4px",
+                    "base": "8px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["\"Source Sans 3\""],
+                    "body-md": ["\"Source Sans 3\""],
+                    "headline-lg": ["Playfair Display"],
+                    "label-mono": ["IBM Plex Mono"],
+                    "headline-lg-mobile": ["Playfair Display"],
+                    "headline-md": ["Playfair Display"],
+                    "label-sm-mono": ["IBM Plex Mono"],
+                    "tiro": ["Tiro Bangla", "serif"],
+                    "siliguri": ["Hind Siliguri", "sans-serif"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .verdict-seal {
+            transform: rotate(-6deg);
+            position: relative;
+            mix-blend-mode: multiply;
+            background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png"); /* Subtle ink bleed texture simulation */
+        }
+
+        .paper-grain {
+            background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+        }
+
+        .ink-stamp-texture {
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.8));
+            opacity: 0.95;
+        }
+
+        .shadow-none {
+            box-shadow: none !important;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-secondary-container">
+<!-- Top Navigation Anchor -->
+<nav class="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-base sticky top-0 z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="shield_with_heart">shield_with_heart</span>
+<span class="text-headline-md font-headline-md font-bold text-primary">রক্ষা কবচ</span>
+</div>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-primary font-bold font-label-mono text-label-mono" href="#">হোম</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high px-2 py-1 transition-colors font-label-mono text-label-mono" href="#">ফিড</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high px-2 py-1 transition-colors font-label-mono text-label-mono" href="#">লাইব্রেরি</a>
+<span class="material-symbols-outlined text-primary ml-4 cursor-pointer" data-icon="account_circle">account_circle</span>
+</div>
+<div class="md:hidden">
+<span class="material-symbols-outlined text-primary" data-icon="account_circle">account_circle</span>
+</div>
+</nav>
+<main class="min-h-screen">
+<!-- Hero Section -->
+<section class="relative px-margin-mobile md:px-margin-desktop py-16 md:py-24 flex flex-col items-center text-center max-w-5xl mx-auto overflow-hidden">
+<!-- Background Decoration (Subtle Guardian Aura) -->
+<div class="absolute inset-0 -z-10 opacity-10 pointer-events-none">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary rounded-full blur-[120px]"></div>
+</div>
+<h1 class="font-tiro text-4xl md:text-6xl text-primary mb-stack-lg leading-tight">
+                টাকা হারানোর আগেই ধরা পড়বে
+            </h1>
+<p class="font-siliguri text-lg md:text-xl text-on-surface-variant max-w-2xl mb-12">
+                আমাদের উন্নত AI সিস্টেম আপনার মোবাইলে আসা সন্দেহজনক bKash, Nagad এবং Rocket মেসেজগুলো বিশ্লেষণ করে আপনাকে প্রতারণা থেকে সুরক্ষা দেয়।
+            </p>
+<button class="bg-secondary-container text-on-secondary-container font-siliguri font-bold px-10 py-5 rounded-[4px] border border-secondary text-xl hover:scale-105 transition-transform duration-200 flex items-center gap-3">
+<span class="material-symbols-outlined" data-icon="search_check">search_check</span>
+                মেসেজ যাচাই করুন
+            </button>
+<!-- Small Live Example (Verdict Stamp) -->
+<div class="mt-20 w-full max-w-md mx-auto">
+<div class="bg-surface-container-lowest border border-outline-variant p-margin-mobile flex items-center justify-between gap-6 paper-grain">
+<div class="flex-1 text-left">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 bg-error"></span>
+<span class="font-label-sm-mono text-label-sm-mono text-outline uppercase">Incoming SMS</span>
+</div>
+<p class="font-siliguri text-body-md text-on-surface-variant leading-relaxed italic opacity-80">
+                            "আপনার bKash একাউন্ট ব্লক হয়েছে, পুনরায় সচল করতে এই লিংকে ক্লিক করুন..."
+                        </p>
+</div>
+<div class="verdict-seal border-[3px] border-error text-error font-tiro text-xl px-4 py-2 font-bold uppercase tracking-wider ink-stamp-texture bg-error/5">
+                        উচ্চ ঝুঁকি
+                    </div>
+</div>
+<p class="font-label-sm-mono text-label-sm-mono text-outline mt-stack-md text-center">লাইভ সিকিউরিটি প্যারামিটার সিমুলেশন</p>
+</div>
+</section>
+<!-- Stats Section (Bentoish) -->
+<section class="bg-surface-container-low border-y border-outline-variant py-16 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Stat 1 -->
+<div class="bg-surface border border-outline-variant p-8 flex flex-col gap-stack-md">
+<span class="font-label-mono text-headline-md text-primary font-bold">১০ জনে ১ জন</span>
+<hr class="border-outline-variant w-12"/>
+<p class="font-siliguri text-on-surface-variant">বাংলাদেশে প্রতি ১০ জনে ১ জন মোবাইল ব্যাংকিং প্রতারণার শিকার হন।</p>
+</div>
+<!-- Stat 2 -->
+<div class="bg-surface border border-outline-variant p-8 flex flex-col gap-stack-md">
+<span class="font-label-mono text-headline-md text-primary font-bold">২৩৭ মিলিয়ন</span>
+<hr class="border-outline-variant w-12"/>
+<p class="font-siliguri text-on-surface-variant">সারা দেশে বর্তমানে সক্রিয় এমএফএস একাউন্টের সংখ্যা।</p>
+</div>
+<!-- Stat 3 -->
+<div class="bg-surface border border-outline-variant p-8 flex flex-col gap-stack-md">
+<span class="font-label-mono text-headline-md text-primary font-bold">৯৮%+</span>
+<hr class="border-outline-variant w-12"/>
+<p class="font-siliguri text-on-surface-variant">আমাদের কৃত্রিম বুদ্ধিমত্তা চালিত স্ক্যানিং সিস্টেমের সঠিকতা।</p>
+</div>
+</div>
+</section>
+<!-- Visual Anchor: Forensic Image -->
+<section class="py-20 px-margin-mobile md:px-margin-desktop overflow-hidden">
+<div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+<div class="order-2 md:order-1">
+<div class="relative w-full aspect-square bg-surface-container-high border border-outline-variant overflow-hidden p-stack-md">
+<img class="w-full h-full object-cover" data-alt="A professional close-up of a digital smartphone screen showing a secure Bengali mobile banking interface. The background is a clean, corporate laboratory or security office with soft, clinical blue and white lighting. The overall aesthetic is serious, technical, and high-contrast, conveying a sense of rigorous forensic analysis and digital protection. Minimalist and authoritative." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqfGAWMS5MYSruDkBbmqsPuYxQXNmyflf9NTnLuBEno0IM1FySKQinK1QsjpYs_xYv6AOj5z6AfROuBx0W1DdMlunn7sTG_NRqud2RBcBPRWlP-jGb71HuM6bMCLP9W70N7gptpr65r0uD5HyD2wfSazTCafhCG6d3JQBrE6DDHkOxUqWDK0-phwc3rsyjl0NDRySj6QlKaZK8GV820_rC-4ySp-b3KmPmQiKYyWjbBqtkNGDqgzYLp_-XQHCdOJHhxc4MOxkbxSxD"/>
+<div class="absolute top-8 right-8 w-24 h-24 border-2 border-primary/20 pointer-events-none"></div>
+<div class="absolute bottom-8 left-8 w-24 h-24 border-2 border-primary/20 pointer-events-none"></div>
+</div>
+</div>
+<div class="order-1 md:order-2">
+<span class="font-label-sm-mono text-label-sm-mono text-secondary font-bold uppercase tracking-widest mb-stack-md block">তদারকি ও সুরক্ষা</span>
+<h2 class="font-tiro text-3xl md:text-4xl text-primary mb-stack-lg">কিভাবে কাজ করে রক্ষা কবচ?</h2>
+<ul class="space-y-6">
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="history">history</span>
+<div>
+<h4 class="font-siliguri font-bold text-lg">মেসেজ বিশ্লেষণ</h4>
+<p class="font-siliguri text-on-surface-variant">লিংক, ভাষার গঠন এবং প্রেরকের তথ্য মিলিয়ে দেখা হয়।</p>
+</div>
+</li>
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="report_problem">report_problem</span>
+<div>
+<h4 class="font-siliguri font-bold text-lg">ঝুঁকি নির্ণয়</h4>
+<p class="font-siliguri text-on-surface-variant">আমাদের বিশাল ডেটাবেস থেকে প্রতারক চক্রের প্যাটার্ন খুঁজে বের করা হয়।</p>
+</div>
+</li>
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="verified_user">verified_user</span>
+<div>
+<h4 class="font-siliguri font-bold text-lg">তাৎক্ষণিক সতর্কতা</h4>
+<p class="font-siliguri text-on-surface-variant">ঝুঁকি থাকলে সরাসরি স্ক্রিনে সতর্ক বার্তা বা 'সিল' প্রদান করা হয়।</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe h-16 bg-surface border-t border-outline-variant shadow-none">
+<div class="flex flex-col items-center justify-center text-primary font-bold scale-95 transition-transform duration-100">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm-mono text-label-sm-mono">হোম</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined" data-icon="search_check">search_check</span>
+<span class="font-label-sm-mono text-label-sm-mono">স্ক্যান</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined" data-icon="rss_feed">rss_feed</span>
+<span class="font-label-sm-mono text-label-sm-mono">ফিড</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span class="font-label-sm-mono text-label-sm-mono">লাইব্রেরি</span>
+</div>
+<div class="flex flex-col items-center justify-center text-outline">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-sm-mono text-label-sm-mono">সেটিংস</span>
+</div>
+</nav>
+<!-- Footer -->
+<footer class="bg-primary text-on-primary py-12 px-margin-mobile md:px-margin-desktop mb-16 md:mb-0">
+<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="max-w-sm">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="shield_with_heart">shield_with_heart</span>
+<span class="text-headline-md font-headline-md font-bold text-primary-fixed-dim">রক্ষা কবচ</span>
+</div>
+<p class="font-siliguri text-on-primary-container">আপনার ডিজিটাল লেনদেনের অতন্দ্র প্রহরী। প্রতারণামুক্ত বাংলাদেশ গড়ার লক্ষ্যে আমরা প্রতিজ্ঞাবদ্ধ।</p>
+</div>
+<div class="grid grid-cols-2 gap-16">
+<div>
+<h5 class="font-label-mono text-label-mono text-on-primary-container mb-4">রিসোর্স</h5>
+<ul class="font-siliguri space-y-2 opacity-80">
+<li><a class="hover:underline" href="#">রিপোর্ট করুন</a></li>
+<li><a class="hover:underline" href="#">নিরাপত্তা টিপস</a></li>
+<li><a class="hover:underline" href="#">সাধারণ জিজ্ঞাসা</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-mono text-label-mono text-on-primary-container mb-4">আইনি</h5>
+<ul class="font-siliguri space-y-2 opacity-80">
+<li><a class="hover:underline" href="#">গোপনীয়তা নীতি</a></li>
+<li><a class="hover:underline" href="#">ব্যবহারের শর্তাবলী</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="max-w-6xl mx-auto mt-12 pt-8 border-t border-on-primary-fixed-variant flex flex-col md:flex-row justify-between items-center gap-4 text-sm opacity-60 font-label-mono">
+<p>© ২০২৪ রক্ষা কবচ - সর্বস্বত্ব সংরক্ষিত।</p>
+<div class="flex gap-4">
+<span>সার্ভার স্ট্যাটাস: সচল</span>
+<span class="w-2 h-2 bg-secondary-fixed-dim rounded-full animate-pulse mt-1"></span>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for the CTA button
+        const cta = document.querySelector('button');
+        cta.addEventListener('mousedown', () => {
+            cta.style.transform = 'scale(0.95)';
+        });
+        cta.addEventListener('mouseup', () => {
+            cta.style.transform = 'scale(1.05)';
+        });
+        cta.addEventListener('mouseleave', () => {
+            cta.style.transform = 'scale(1)';
+        });
+
+        // Simple visibility observer for stats
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section > div > div').forEach(el => {
+            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-8');
+            observer.observe(el);
+        });
+    </script>
+</body></html>

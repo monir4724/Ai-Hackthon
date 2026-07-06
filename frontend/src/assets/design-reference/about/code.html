@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="light" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>রক্ষাকবচ - কিভাবে কাজ করে</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Source+Sans+3:wght@400;600&amp;family=IBM+Plex+Mono:wght@500;600&amp;family=Hind+Siliguri:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Source Sans 3', 'Hind Siliguri', sans-serif;
+        }
+        .hind-siliguri {
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        .verdict-seal {
+            transform: rotate(-6deg);
+            mix-blend-mode: multiply;
+            position: relative;
+        }
+        .verdict-seal::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-line {
+            background: repeating-linear-gradient(
+                to bottom,
+                #041534,
+                #041534 4px,
+                transparent 4px,
+                transparent 8px
+            );
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb956",
+                        "primary-container": "#1b2a4a",
+                        "secondary": "#835400",
+                        "surface-container-high": "#e7e9e6",
+                        "tertiary": "#370001",
+                        "on-tertiary-fixed-variant": "#8a1b18",
+                        "tertiary-container": "#5e0004",
+                        "secondary-container": "#feb64e",
+                        "inverse-primary": "#b7c6ee",
+                        "surface": "#f8faf7",
+                        "on-primary-fixed": "#0a1a3a",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2e312f",
+                        "surface-container": "#eceeeb",
+                        "surface-bright": "#f8faf7",
+                        "on-tertiary-fixed": "#410002",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#f0665a",
+                        "background": "#f8faf7",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#714800",
+                        "on-secondary-fixed-variant": "#643f00",
+                        "surface-tint": "#4f5e81",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1b",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#ffddb5",
+                        "on-secondary-fixed": "#2a1800",
+                        "surface-container-low": "#f2f4f1",
+                        "tertiary-fixed": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "on-background": "#191c1b",
+                        "primary": "#041534",
+                        "primary-fixed-dim": "#b7c6ee",
+                        "inverse-on-surface": "#eff1ee",
+                        "on-primary-fixed-variant": "#384668",
+                        "on-surface-variant": "#45464e",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#8392b7",
+                        "surface-variant": "#e1e3e0",
+                        "outline-variant": "#c5c6cf",
+                        "on-error-container": "#93000a",
+                        "outline": "#75777f",
+                        "surface-container-highest": "#e1e3e0",
+                        "surface-dim": "#d8dbd8",
+                        "primary-fixed": "#d9e2ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "stack-lg": "24px",
+                        "stack-md": "12px",
+                        "margin-mobile": "20px",
+                        "stack-sm": "4px",
+                        "base": "8px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["\"Source Sans 3\""],
+                        "body-md": ["\"Source Sans 3\""],
+                        "headline-lg": ["Playfair Display"],
+                        "label-mono": ["IBM Plex Mono"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "label-sm-mono": ["IBM Plex Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-margin-mobile py-base sticky top-0 z-50">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="shield_with_heart">shield_with_heart</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">রক্ষাকবচ</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-outline" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-2xl mx-auto px-margin-mobile py-stack-lg">
+<!-- Section Header -->
+<div class="mb-stack-lg">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">কিভাবে কাজ করে</h2>
+<div class="h-1 w-12 bg-secondary mb-4"></div>
+<p class="font-body-md text-on-surface-variant hind-siliguri">রক্ষাকবচ একটি ডিজিটাল ফরেনসিক টুল যা আপনার কাছে আসা সন্দেহজনক বার্তাগুলো বিশ্লেষণ করে স্ক্যাম এবং ফিশিং থেকে সুরক্ষা দেয়।</p>
+</div>
+<!-- Sequential Flow (3-Step) -->
+<div class="relative space-y-12">
+<!-- Vertical Line -->
+<div class="absolute left-6 top-8 bottom-8 w-px step-line opacity-20"></div>
+<!-- Step 1 -->
+<div class="relative flex gap-gutter items-start">
+<div class="z-10 flex-shrink-0 w-12 h-12 rounded-none bg-primary text-white flex items-center justify-center font-label-mono text-lg border border-primary">
+                    ১
+                </div>
+<div class="pt-2">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary" data-icon="content_paste">content_paste</span>
+<h3 class="font-headline-md text-primary hind-siliguri">মেসেজ পেস্ট করুন</h3>
+</div>
+<p class="font-body-md text-on-surface-variant hind-siliguri">আপনার মেসেঞ্জার, হোয়াটসঅ্যাপ বা এসএমএস-এ আসা সন্দেহজনক লেখাটি কপি করে ইনপুট বক্সে পেস্ট করুন।</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex gap-gutter items-start">
+<div class="z-10 flex-shrink-0 w-12 h-12 rounded-none bg-primary text-white flex items-center justify-center font-label-mono text-lg border border-primary">
+                    ২
+                </div>
+<div class="pt-2">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary" data-icon="psychology">psychology</span>
+<h3 class="font-headline-md text-primary hind-siliguri">AI বিশ্লেষণ করে</h3>
+</div>
+<p class="font-body-md text-on-surface-variant hind-siliguri">আমাদের কৃত্রিম বুদ্ধিমত্তা ভাষার ধরন, লিঙ্কের গঠন এবং পূর্ববর্তী স্ক্যাম ডেটাবেসের সাথে মিলিয়ে মেসেজটি পরীক্ষা করে।</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex gap-gutter items-start">
+<div class="z-10 flex-shrink-0 w-12 h-12 rounded-none bg-primary text-white flex items-center justify-center font-label-mono text-lg border border-primary">
+                    ৩
+                </div>
+<div class="pt-2">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary" data-icon="fact_check">fact_check</span>
+<h3 class="font-headline-md text-primary hind-siliguri">ফলাফল ও ব্যাখ্যা পান</h3>
+</div>
+<p class="font-body-md text-on-surface-variant hind-siliguri">মুহূর্তের মধ্যেই আপনি একটি অফিসিয়াল 'ভার্ডিক্ট সিল' এবং কেন এটি বিপজ্জনক বা নিরাপদ তার বিস্তারিত যুক্তি পাবেন।</p>
+</div>
+</div>
+</div>
+<!-- Visual Anchor: The Seal Demonstration -->
+<div class="mt-16 mb-12 p-8 border border-outline-variant bg-surface-container-lowest flex flex-col items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(circle, #041534 1px, transparent 1px); background-size: 20px 20px;"></div>
+<p class="font-label-sm-mono text-outline mb-6 uppercase tracking-widest">নমুনা যাচাইকরণ সিল</p>
+<div class="verdict-seal border-4 border-error px-6 py-2 text-error font-bold text-3xl uppercase tracking-tighter hind-siliguri">
+                উচ্চ ঝুঁকি
+            </div>
+<p class="mt-8 text-center text-label-mono text-primary italic opacity-70">"এটি একটি স্বয়ংক্রিয় ফরেনসিক রিপোর্ট"</p>
+</div>
+<!-- Limitations Section (Muted Card) -->
+<section class="mt-8 p-6 bg-surface-container-low border border-outline-variant rounded-none">
+<div class="flex items-center gap-2 mb-stack-md text-on-surface-variant">
+<span class="material-symbols-outlined text-base" data-icon="info">info</span>
+<h4 class="font-label-mono uppercase tracking-wider">সীমাবদ্ধতা / Limitations</h4>
+</div>
+<p class="font-body-md text-on-surface-variant leading-relaxed hind-siliguri italic">
+                এই AI ১০০% নির্ভুল নয়। নতুন ধরনের স্ক্যাম মিস হতে পারে। এটি একটি সহায়ক টুল, একমাত্র নিরাপত্তা ব্যবস্থা নয়। সর্বদা নিজের বিচারবুদ্ধি ব্যবহার করুন।
+            </p>
+</section>
+<div class="mt-12 text-center">
+<button class="bg-primary text-white px-8 py-3 rounded-none font-label-mono uppercase tracking-widest hover:opacity-90 transition-opacity hind-siliguri">
+                সুরক্ষা শুরু করুন
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe h-16 bg-surface dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-label-sm-mono font-label-sm-mono">হোম</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined" data-icon="search_check">search_check</span>
+<span class="text-label-sm-mono font-label-sm-mono">স্ক্যান</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined" data-icon="rss_feed">rss_feed</span>
+<span class="text-label-sm-mono font-label-sm-mono">ফিড</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim font-bold scale-95 transition-transform duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="info" style="font-variation-settings: 'FILL' 1;">info</span>
+<span class="text-label-sm-mono font-label-sm-mono">সম্পর্কে</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-sm-mono font-label-sm-mono">সেটিংস</span>
+</a>
+</nav>
+<!-- Spacer for Bottom Nav -->
+<div class="h-20"></div>
+<script>
+        // Micro-interaction for the seal animation on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const seal = document.querySelector('.verdict-seal');
+            seal.style.opacity = '0';
+            seal.style.transform = 'rotate(-15deg) scale(1.5)';
+            
+            setTimeout(() => {
+                seal.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                seal.style.opacity = '1';
+                seal.style.transform = 'rotate(-6deg) scale(1)';
+            }, 500);
+        });
+    </script>
+</body></html>

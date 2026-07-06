@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>রক্ষা কবচ - অনবোর্ডিং</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Source+Sans+3:wght@400;600&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .verdict-seal {
+            transform: rotate(-6deg);
+            mix-blend-mode: multiply;
+            position: relative;
+        }
+        .verdict-seal::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        .onboarding-slider {
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .onboarding-slider::-webkit-scrollbar {
+            display: none;
+        }
+        .onboarding-screen {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+            width: 100%;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#ffb956",
+                        "primary-container": "#1b2a4a",
+                        "secondary": "#835400",
+                        "surface-container-high": "#e7e9e6",
+                        "tertiary": "#370001",
+                        "on-tertiary-fixed-variant": "#8a1b18",
+                        "tertiary-container": "#5e0004",
+                        "secondary-container": "#feb64e",
+                        "inverse-primary": "#b7c6ee",
+                        "surface": "#f8faf7",
+                        "on-primary-fixed": "#0a1a3a",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2e312f",
+                        "surface-container": "#eceeeb",
+                        "surface-bright": "#f8faf7",
+                        "on-tertiary-fixed": "#410002",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#f0665a",
+                        "background": "#f8faf7",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#714800",
+                        "on-secondary-fixed-variant": "#643f00",
+                        "surface-tint": "#4f5e81",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1b",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#ffddb5",
+                        "on-secondary-fixed": "#2a1800",
+                        "surface-container-low": "#f2f4f1",
+                        "tertiary-fixed": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "on-background": "#191c1b",
+                        "primary": "#041534",
+                        "primary-fixed-dim": "#b7c6ee",
+                        "inverse-on-surface": "#eff1ee",
+                        "on-primary-fixed-variant": "#384668",
+                        "on-surface-variant": "#45464e",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#8392b7",
+                        "surface-variant": "#e1e3e0",
+                        "outline-variant": "#c5c6cf",
+                        "on-error-container": "#93000a",
+                        "outline": "#75777f",
+                        "surface-container-highest": "#e1e3e0",
+                        "surface-dim": "#d8dbd8",
+                        "primary-fixed": "#d9e2ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "stack-lg": "24px",
+                        "stack-md": "12px",
+                        "margin-mobile": "20px",
+                        "stack-sm": "4px",
+                        "base": "8px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["\"Source Sans 3\""],
+                        "body-md": ["\"Source Sans 3\""],
+                        "headline-lg": ["Playfair Display"],
+                        "label-mono": ["IBM Plex Mono"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "label-sm-mono": ["IBM Plex Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md overflow-hidden">
+<!-- Top App Bar (Suppressed on Onboarding per Shell Visibility Rules, but Identity Anchor kept minimal) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile py-base bg-surface">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-headline-md">shield_with_heart</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">রক্ষা কবচ</h1>
+</div>
+<button class="text-label-mono font-label-mono text-outline hover:text-primary transition-colors" id="skip-btn">এড়িয়ে যান</button>
+</header>
+<main class="h-screen w-full relative flex flex-col pt-16">
+<!-- Walkthrough Slider -->
+<div class="onboarding-slider flex h-full overflow-x-auto" id="slider">
+<!-- Screen 1: Fraud Threat -->
+<section class="onboarding-screen flex flex-col justify-center items-center px-margin-mobile text-center gap-stack-lg">
+<div class="relative w-full max-w-xs aspect-square flex items-center justify-center bg-surface-container-low rounded-lg border border-outline-variant/30">
+<img class="w-48 h-auto" data-alt="A minimalist digital illustration for a security app featuring a modern smartphone screen displaying a suspicious red phishing message. The artwork uses a strict two-color corporate palette of Deep Indigo and Safe White. The style is flat and tactile, resembling official document ink. Sharp, precise lines emphasize a vigilant guardian persona." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMkFGqSPT-qv_GVQNvgyA7dqaDKx5EaH6l2QlgPh5N1Xe1YK_tbmkWLrI2HHT4s52IHQWj4RwENpfAuFs3oX1zshK8h205domeibOQPk5tcziJLkpEKrJ82OvAKyw4ALbpkBrERufZm09vYvDjokTxEeVOOyMqCpgCc0xlCnks2qFYSGJJcDeT0VTRUB0rlx2MlhiUgb8JluxCdYhQnN2_CxbI1n1sL3EM5QE7jM0RAgGBAHp8SSyV4BcgUX1ybK_HPGwfkhf3_1QO"/>
+<div class="absolute -bottom-4 right-4 verdict-seal bg-tertiary-container px-4 py-1 border-2 border-on-tertiary-container">
+<span class="text-on-tertiary-container font-label-mono text-label-sm-mono uppercase tracking-widest">সতর্ক বার্তা</span>
+</div>
+</div>
+<div class="flex flex-col gap-stack-md">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-primary">প্রতারণা এখন সবচেয়ে বড় হুমকি</h2>
+<p class="text-body-md text-on-surface-variant max-w-sm">প্রতিদিন হাজার হাজার মানুষ মোবাইল বার্তার মাধ্যমে প্রতারণার শিকার হচ্ছেন। আপনার তথ্য রক্ষা করাই আমাদের মূল লক্ষ্য।</p>
+</div>
+</section>
+<!-- Screen 2: AI Stamp -->
+<section class="onboarding-screen flex flex-col justify-center items-center px-margin-mobile text-center gap-stack-lg">
+<div class="relative w-full max-w-xs aspect-square flex items-center justify-center bg-surface-container-low rounded-lg border border-outline-variant/30">
+<img class="w-48 h-auto" data-alt="A high-contrast flat illustration showing a physical ink stamp being pressed onto a digital message stream on a phone. The stamp leaves a bold 'Safe' mark in Deep Indigo ink. The background is a crisp paper-white, with secondary elements in a subtle indigo-grey. The mood is authoritative and judicial, conveying an immediate verdict of safety." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoyyTN0T4UO6VsQtysjlUgT2ny8wHZnD_iB-xUSRDajj6gVYRa31YtCyC1ecGkhXyuN3duD0naMqqtpyvkNrW0kK7OuKhnMl0SLile_B8INVMMBEgmUNFRYaxcOSZgsqjy483ZqULNG82nG8dCnwuHrHsuH4eWhW048n7icwwxRLc8SZTEZ3pp1DBSeao0GFStpfxTTPr-R9zdqcXcGPIFG3tcnzUYsVtLNJieaio-eaFBGZCAWBS9mKaI6i_EKmbfScd-PNvYWXjo"/>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 verdict-seal bg-secondary-container px-6 py-2 border-4 border-on-secondary-container shadow-sm">
+<span class="text-on-secondary-container font-headline-md font-bold">নিরীক্ষিত</span>
+</div>
+</div>
+<div class="flex flex-col gap-stack-md">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-primary">AI সাথে সাথে ধরে ফেলবে</h2>
+<p class="text-body-md text-on-surface-variant max-w-sm">আমাদের শক্তিশালী কৃত্রিম বুদ্ধিমত্তা প্রতিটি সন্দেহজনক লিঙ্ক এবং বার্তা তাৎক্ষণিকভাবে যাচাই করে আপনাকে সুরক্ষিত রাখে।</p>
+</div>
+</section>
+<!-- Screen 3: Confidence -->
+<section class="onboarding-screen flex flex-col justify-center items-center px-margin-mobile text-center gap-stack-lg">
+<div class="relative w-full max-w-xs aspect-square flex items-center justify-center bg-surface-container-low rounded-lg border border-outline-variant/30">
+<img class="w-48 h-auto" data-alt="A minimalist flat illustration depicting a confident human hand holding a smartphone which displays a large green checkmark. The color scheme is Deep Indigo and safe green. The visual style is inspired by modern banking documents, clean and informative. Soft overhead lighting creates a light-mode aesthetic with high legibility and a protective tone." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIypezwMoIFLvKlT3-hQ0tS5nn5diLvA3JCS1mg0lQ5tWULo4fjDmvHJJ8dlbDZJOjNN00WT4GHVxdsTBDYlUwkHE6f5VwVldcbnpg8jDK6lytFLPNx7yF0zz1ubOjVTG4bjwnxZb3js6Wl1-6vK3MXCVVlUbWKpI_EcrP7l46jiImr77MiVP8vzS1VN2QA8rbRq96sLVc67p3PEYqUwIlaffxdPFuVdzybyQg_HShLb9rQOsO4xcO23KLbD6d4dLL6DxKGO50Daat"/>
+</div>
+<div class="flex flex-col gap-stack-md">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-primary">এখনই শুরু করুন, নিরাপদ থাকুন</h2>
+<p class="text-body-md text-on-surface-variant max-w-sm">আপনার ডিজিটাল জীবনের অতন্দ্র প্রহরী হতে রক্ষা কবচ প্রস্তুত। এক ক্লিকেই নিশ্চিত করুন পূর্ণ নিরাপত্তা।</p>
+</div>
+<button class="mt-stack-lg w-full max-w-xs bg-secondary-container text-on-secondary-container py-4 rounded font-bold text-body-lg active:scale-95 transition-transform border-b-4 border-on-secondary-container/20">
+                    শুরু করুন
+                </button>
+</section>
+</div>
+<!-- Footer Control Area -->
+<footer class="fixed bottom-0 w-full p-margin-mobile flex justify-between items-center bg-surface/80 backdrop-blur-sm">
+<div class="flex gap-2" id="pagination-dots">
+<div class="h-2 w-8 rounded-full bg-primary transition-all duration-300" data-index="0"></div>
+<div class="h-2 w-2 rounded-full bg-outline-variant transition-all duration-300" data-index="1"></div>
+<div class="h-2 w-2 rounded-full bg-outline-variant transition-all duration-300" data-index="2"></div>
+</div>
+<button class="flex items-center justify-center bg-primary text-on-primary w-12 h-12 rounded-full shadow-lg active:scale-90 transition-transform" id="next-btn">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</footer>
+</main>
+<script>
+        const slider = document.getElementById('slider');
+        const dots = document.querySelectorAll('#pagination-dots div');
+        const nextBtn = document.getElementById('next-btn');
+        const skipBtn = document.getElementById('skip-btn');
+
+        let currentIndex = 0;
+
+        const updateUI = (index) => {
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('w-8', 'bg-primary');
+                    dot.classList.remove('w-2', 'bg-outline-variant');
+                } else {
+                    dot.classList.remove('w-8', 'bg-primary');
+                    dot.classList.add('w-2', 'bg-outline-variant');
+                }
+            });
+
+            // Hide next button on last screen, or change icon
+            if (index === 2) {
+                nextBtn.style.opacity = '0';
+                nextBtn.style.pointerEvents = 'none';
+                skipBtn.style.opacity = '0';
+            } else {
+                nextBtn.style.opacity = '1';
+                nextBtn.style.pointerEvents = 'auto';
+                skipBtn.style.opacity = '1';
+            }
+        };
+
+        slider.addEventListener('scroll', () => {
+            const index = Math.round(slider.scrollLeft / window.innerWidth);
+            if (index !== currentIndex) {
+                currentIndex = index;
+                updateUI(currentIndex);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < 2) {
+                slider.scrollTo({
+                    left: (currentIndex + 1) * window.innerWidth,
+                    behavior: 'smooth'
+                });
+            }
+        });
+
+        skipBtn.addEventListener('click', () => {
+            slider.scrollTo({
+                left: 2 * window.innerWidth,
+                behavior: 'smooth'
+            });
+        });
+
+        // Initialize UI
+        updateUI(0);
+    </script>
+</body></html>
