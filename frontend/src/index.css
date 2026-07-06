@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #041534;
+  --color-primary-container: #1b2a4a;
+  --color-secondary-container: #feb64e;
+  --color-on-secondary-container: #714800;
+  --color-danger: #c1443b;
+  --color-safe: #2f8f5b;
+  --color-paper: #eff1ee;
+  --color-ink: #1a1a1a;
+  --color-surface: #f8faf7;
+  --color-on-surface: #191c1b;
+  --color-on-surface-variant: #45464e;
+  --color-outline-variant: #c5c6cf;
+  --color-surface-container: #eceeeb;
+  --color-surface-container-lowest: #ffffff;
+  --font-tiro: "Tiro Bangla", serif;
+  --font-siliguri: "Hind Siliguri", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-siliguri);
+}
+
+.verdict-seal {
+  transform: rotate(-6deg);
+  mix-blend-mode: multiply;
+  position: relative;
+}
+
+.verdict-seal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 2px,
+    currentColor 2px,
+    currentColor 3px
+  );
+}
+
+.paper-card {
+  border: 1px solid rgba(4, 21, 52, 0.12);
+  background-color: #ffffff;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+}
