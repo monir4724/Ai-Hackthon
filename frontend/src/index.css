@@ -5,6 +5,7 @@
   --color-primary: #041534;
   --color-primary-container: #1b2a4a;
   --color-secondary-container: #feb64e;
+  --color-secondary: #835400;
   --color-on-secondary-container: #714800;
   --color-danger: #c1443b;
   --color-safe: #2f8f5b;
@@ -14,8 +15,16 @@
   --color-on-surface: #191c1b;
   --color-on-surface-variant: #45464e;
   --color-outline-variant: #c5c6cf;
+  --color-outline: #75777f;
   --color-surface-container: #eceeeb;
   --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f4f1;
+  --color-surface-container-high: #e7e9e6;
+  --color-background: #f8faf7;
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-surface-container-highest: #e1e3e0;
+  --color-on-primary-fixed-variant: #384668;
   --font-tiro: "Tiro Bangla", serif;
   --font-siliguri: "Hind Siliguri", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
@@ -37,6 +46,7 @@ body {
   transform: rotate(-6deg);
   mix-blend-mode: multiply;
   position: relative;
+  background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
 }
 
 .verdict-seal::after {
@@ -63,4 +73,41 @@ body {
   width: 8px;
   height: 8px;
   display: inline-block;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.paper-grain {
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+}
+
+.ink-stamp-texture {
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8));
+  opacity: 0.95;
+}
+
+.ink-bleed {
+  position: relative;
+}
+
+.ink-bleed::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 4px 4px;
+  pointer-events: none;
+}
+
+.wire-card {
+  border-left-width: 4px;
+  transition: transform 0.2s ease;
+}
+
+.wire-card:active {
+  transform: scale(0.98);
 }

@@ -9,7 +9,7 @@ class ScamAnalysisService
 {
     public function __construct(
         private readonly RuleBasedPrefilterService $prefilter,
-        private readonly OpenAiScamAnalyzer $openAiAnalyzer
+        private readonly GeminiScamAnalyzer $geminiAnalyzer
     ) {}
 
     public function analyze(string $text, string $module = 'sms'): array
@@ -17,17 +17,17 @@ class ScamAnalysisService
         $prefilterResult = $this->prefilter->scan($text);
 
         try {
-            if (config('services.openai.api_key')) {
-                $aiResult = $this->openAiAnalyzer->analyze($text, $prefilterResult, $module);
+            if (config('services.gemini.api_key')) {
+                $aiResult = $this->geminiAnalyzer->analyze($text, $prefilterResult, $module);
             } else {
                 $aiResult = $this->mockAnalyze($text, $prefilterResult);
             }
         } catch (\Throwable $e) {
-            Log::error('OpenAI analysis failed, using rule-based fallback', [
+            Log::error('Gemini analysis failed, using rule-based fallback', [
                 'error' => $e->getMessage(),
             ]);
             $aiResult = $this->ruleBasedFallback($text, $prefilterResult);
-            $aiResult['ai_source'] = 'openai_fallback';
+            $aiResult['ai_source'] = 'gemini_fallback';
         }
 
         return array_merge($aiResult, [
@@ -35,7 +35,7 @@ class ScamAnalysisService
             'module' => $module,
             'disclaimer' => 'এটি ১০০% নিশ্চিত নয় — এটি একটি ঝুঁকি নির্দেশক টুল',
             'analyzed_at' => now()->toIso8601String(),
-            'ai_source' => $aiResult['ai_source'] ?? ($aiResult['confidence'] === 'mock' ? 'rule_mock' : 'openai'),
+            'ai_source' => $aiResult['ai_source'] ?? ($aiResult['confidence'] === 'mock' ? 'rule_mock' : 'gemini'),
         ]);
     }
 

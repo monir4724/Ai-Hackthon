@@ -1,11 +1,12 @@
 import { Link, useLocation } from 'react-router-dom'
+import Icon from './Icon'
 
 const mobileNav = [
-  { to: '/', label: 'হোম', icon: '🏠' },
-  { to: '/scan', label: 'স্ক্যান', icon: '🔍' },
-  { to: '/feed', label: 'ফিড', icon: '📡' },
-  { to: '/modules', label: 'মডিউল', icon: '🛡' },
-  { to: '/history', label: 'ইতিহাস', icon: '📋' },
+  { to: '/', label: 'হোম', icon: 'home' },
+  { to: '/scan', label: 'স্ক্যান', icon: 'search_check' },
+  { to: '/feed', label: 'ফিড', icon: 'rss_feed' },
+  { to: '/modules', label: 'মডিউল', icon: 'shield' },
+  { to: '/history', label: 'ইতিহাস', icon: 'history' },
 ]
 
 export default function MobileNav() {
@@ -22,11 +23,11 @@ export default function MobileNav() {
             key={item.to}
             to={item.to}
             className={`flex flex-col items-center text-xs ${
-              active ? 'font-bold text-primary-container' : 'text-on-surface-variant'
+              active ? 'font-bold text-primary' : 'text-outline'
             }`}
           >
-            <span className="text-lg">{item.icon}</span>
-            <span className="font-mono">{item.label}</span>
+            <Icon name={item.icon} filled={active} className="text-xl" />
+            <span className="font-mono text-[10px]">{item.label}</span>
           </Link>
         )
       })}

@@ -1,6 +1,16 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Icon from '../components/Icon'
 import { submitReport } from '../lib/api'
+
+const CATEGORIES = [
+  { value: '', label: 'নির্বাচন করুন' },
+  { value: 'sms', label: 'এসএমএস (SMS) ফিশিং' },
+  { value: 'call', label: 'ভয়েস কল জালিয়াতি' },
+  { value: 'job', label: 'ভুয়া চাকরির অফার' },
+  { value: 'bank', label: 'ব্যাংক/বিকাশ জালিয়াতি' },
+  { value: 'other', label: 'অন্যান্য' },
+]
 
 export default function ReportPage() {
   const [text, setText] = useState('')
@@ -15,13 +25,14 @@ export default function ReportPage() {
     setLoading(true)
     setError('')
     try {
+      const selected = CATEGORIES.find((c) => c.value === category)
       await submitReport({
         text_bn: text.trim(),
-        category: category.trim() || undefined,
+        category: selected?.label || category.trim() || undefined,
         risk_level: 'high',
       })
       setSuccess(true)
-      setTimeout(() => navigate('/feed'), 1500)
+      setTimeout(() => navigate('/feed'), 2000)
     } catch {
       setError('রিপোর্ট জমা দিতে ব্যর্থ।')
     } finally {
@@ -31,54 +42,105 @@ export default function ReportPage() {
 
   if (success) {
     return (
-      <div className="mx-auto max-w-lg text-center">
-        <h1 className="font-tiro text-2xl text-safe">রিপোর্ট সংরক্ষিত!</h1>
-        <p className="mt-2 text-on-surface-variant">ফিডে রিডাইরেক্ট হচ্ছে...</p>
+      <div className="mx-auto flex max-w-lg flex-col items-center py-12 text-center">
+        <div className="verdict-seal ink-stamp-texture inline-block border-4 border-safe bg-safe/5 px-8 py-4 font-tiro text-3xl font-bold text-safe">
+          ধন্যবাদ
+        </div>
+        <Icon name="check_circle" filled className="mt-8 text-6xl text-safe" />
+        <h1 className="mt-4 font-tiro text-2xl text-primary">এটি অন্যদের সুরক্ষায় সাহায্য করবে।</h1>
+        <div className="mt-8 w-full max-w-sm border border-outline-variant bg-surface-container-high p-6 text-left">
+          <p className="text-on-surface-variant">
+            আপনার রিপোর্ট সফলভাবে আমাদের ফরেনসিক ডাটাবেসে জমা হয়েছে। আমাদের বিশেষজ্ঞরা এটি
+            বিশ্লেষণ করবেন।
+          </p>
+        </div>
+        <p className="mt-6 text-sm text-on-surface-variant">ফিডে রিডাইরেক্ট হচ্ছে...</p>
       </div>
     )
   }
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h1 className="font-tiro text-3xl text-primary-container">
-        স্ক্যাম রিপোর্ট করুন
-      </h1>
-      <p className="mt-2 text-on-surface-variant">
-        আপনি যে মেসেজ/প্যাটার্ন দেখেছেন তা সম্প্রদায়ের সাথে শেয়ার করুন।
-      </p>
+      <div className="mb-6">
+        <h1 className="font-tiro text-3xl text-primary md:text-4xl">রিপোর্ট করুন</h1>
+        <p className="mt-2 text-on-surface-variant">
+          সন্দেহজনক মেসেজ বা কল সম্পর্কে তথ্য দিয়ে অন্যদের সুরক্ষিত থাকতে সাহায্য করুন।
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+      <div className="mb-6 flex items-center gap-3 border border-outline-variant bg-surface-container-low p-4">
+        <Icon name="privacy_tip" filled className="shrink-0 text-primary" />
+        <span className="font-mono text-sm text-on-primary-fixed-variant">
+          আপনার নাম প্রকাশ করা হবে না
+        </span>
+      </div>
+
+      <form
+        onSubmit={handleSubmit}
+        className="ink-bleed space-y-6 border border-outline-variant bg-surface p-6"
+      >
         <div>
-          <label className="mb-2 block font-mono text-xs uppercase">মেসেজ টেক্সট *</label>
+          <label
+            htmlFor="category"
+            className="mb-2 block font-mono text-xs uppercase tracking-widest text-on-surface-variant"
+          >
+            স্ক্যামের ধরন
+          </label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full border-0 border-b-2 border-outline-variant bg-surface-container-lowest py-3 focus:border-primary focus:outline-none"
+          >
+            {CATEGORIES.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label
+            htmlFor="scam-content"
+            className="mb-2 block font-mono text-xs uppercase tracking-widest text-on-surface-variant"
+          >
+            মেসেজ বা কল ডিটেইলস *
+          </label>
           <textarea
+            id="scam-content"
             value={text}
             onChange={(e) => setText(e.target.value)}
             required
             minLength={10}
-            rows={6}
-            className="w-full rounded border border-outline-variant bg-white p-4 focus:border-primary-container focus:outline-none"
+            rows={5}
+            placeholder="সন্দেহজনক মেসেজটি এখানে কপি করুন..."
+            className="w-full resize-none border-0 border-b-2 border-outline-variant bg-surface-container-lowest py-3 focus:border-primary focus:outline-none"
           />
         </div>
-        <div>
-          <label className="mb-2 block font-mono text-xs uppercase">ক্যাটাগরি (ঐচ্ছিক)</label>
-          <input
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            placeholder="যেমন: OTP phishing, lottery scam"
-            className="w-full rounded border border-outline-variant bg-white p-3 focus:border-primary-container focus:outline-none"
-          />
-        </div>
-        {error && <p className="text-danger">{error}</p>}
+
+        {error && (
+          <p className="flex items-center gap-2 text-danger">
+            <Icon name="error" />
+            {error}
+          </p>
+        )}
+
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded bg-danger py-4 font-bold text-white disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-3 rounded bg-secondary-container py-4 font-bold text-on-secondary-container transition active:scale-95 disabled:opacity-50"
         >
-          {loading ? 'জমা দিচ্ছে...' : 'রিপোর্ট জমা দিন'}
+          <span>{loading ? 'জমা দিচ্ছে...' : 'রিপোর্ট জমা দিন'}</span>
+          <Icon name="send" />
         </button>
       </form>
 
-      <Link to="/feed" className="mt-4 inline-block text-primary-container underline">
+      <Link
+        to="/feed"
+        className="mt-6 inline-flex items-center gap-2 font-semibold text-primary underline underline-offset-4"
+      >
+        <Icon name="arrow_back" className="text-base" />
         ফিডে ফিরে যান
       </Link>
     </div>

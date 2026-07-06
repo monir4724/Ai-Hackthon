@@ -1,5 +1,7 @@
 import { Link, useLocation, Navigate } from 'react-router-dom'
+import Icon from '../components/Icon'
 import VerdictStamp from '../components/VerdictStamp'
+import { DISCLAIMER } from '../config/modules'
 import type { AnalysisResult } from '../lib/api'
 
 export default function ResultPage() {
@@ -11,66 +13,88 @@ export default function ResultPage() {
   }
 
   const { result, text } = state
+  const flags = result.prefilter?.flags ?? []
+  const isHighRisk = result.risk_level === 'high'
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <p className="font-mono text-xs uppercase tracking-widest text-on-surface-variant">
-        ফরেনসিক রিপোর্ট — {result.analyzed_at ? new Date(result.analyzed_at).toLocaleString('bn-BD') : 'এখন'}
-      </p>
-      <h1 className="mt-2 font-tiro text-3xl text-primary-container">
-        বিশ্লেষণ ফলাফল
-      </h1>
-
-      <div className="mt-10 flex justify-center">
-        <VerdictStamp riskLevel={result.risk_level} verdictBn={result.verdict_bn} />
+    <div className="mx-auto max-w-md">
+      <div className="flex justify-center">
+        <VerdictStamp
+          riskLevel={result.risk_level}
+          verdictBn={result.verdict_bn}
+          showDisclaimer={false}
+        />
       </div>
 
-      <div className="mt-10 space-y-4">
-        <div className="paper-card p-5">
-          <p className="font-mono text-xs uppercase text-on-surface-variant">মূল বার্তা</p>
-          <p className="mt-2 text-on-surface-variant italic">"{text}"</p>
-        </div>
-
-        <div className="paper-card p-5">
-          <p className="font-mono text-xs uppercase text-on-surface-variant">ব্যাখ্যা</p>
-          <p className="mt-2 leading-relaxed">{result.explanation}</p>
-        </div>
-
-        <div className="paper-card p-5">
-          <p className="font-mono text-xs uppercase text-on-surface-variant">মিলে যাওয়া প্যাটার্ন</p>
-          <p className="mt-2 font-mono text-primary-container">{result.matched_pattern}</p>
-        </div>
-
-        {result.prefilter && (
-          <div className="paper-card p-5">
-            <p className="font-mono text-xs uppercase text-on-surface-variant">
-              প্রি-ফিল্টার স্কোর: {result.prefilter.risk_score}/100
-            </p>
-            {result.prefilter.flags.length > 0 && (
-              <ul className="mt-3 space-y-1 font-mono text-xs text-on-surface-variant">
-                {result.prefilter.flags.map((f) => (
-                  <li key={f}>• {f}</li>
-                ))}
-              </ul>
+      {result.matched_pattern && (
+        <div className="mt-2 mb-8">
+          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-outline">
+            মিলে যাওয়া প্যাটার্ন
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <span className="inline-flex items-center rounded-full bg-primary px-4 py-1 font-mono text-xs text-white">
+              {result.matched_pattern}
+            </span>
+            {result.prefilter && result.prefilter.risk_score >= 50 && (
+              <span className="inline-flex items-center rounded-full bg-surface-container-highest px-4 py-1 font-mono text-xs text-on-surface-variant">
+                স্কোর {result.prefilter.risk_score}/100
+              </span>
             )}
           </div>
+        </div>
+      )}
+
+      <div className="paper-card mb-6 p-6">
+        <div
+          className={`mb-4 flex items-center gap-2 ${isHighRisk ? 'text-danger' : 'text-secondary'}`}
+        >
+          <Icon name="warning" filled />
+          <h2 className="text-lg font-bold">ঝুঁকির কারণসমূহ</h2>
+        </div>
+        <p className="mb-6 leading-relaxed text-on-surface-variant">{result.explanation}</p>
+
+        {flags.length > 0 && (
+          <ul className="space-y-3">
+            {flags.map((flag) => (
+              <li
+                key={flag}
+                className="flex items-start gap-3 rounded border border-error-container bg-error-container/20 p-3"
+              >
+                <Icon name="report_problem" className="mt-0.5 shrink-0 text-danger" />
+                <span className="text-sm text-on-surface-variant">{flag}</span>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-3">
-        <Link
-          to="/scan"
-          className="rounded bg-primary-container px-6 py-3 font-bold text-white"
-        >
-          আরেকটি স্ক্যান
-        </Link>
+      {text && (
+        <div className="paper-card mb-6 p-5">
+          <p className="font-mono text-xs uppercase tracking-widest text-outline">মূল বার্তা</p>
+          <p className="mt-2 text-sm leading-relaxed italic text-on-surface-variant">"{text}"</p>
+        </div>
+      )}
+
+      <div className="flex flex-col gap-3 border-t border-outline-variant pt-6">
         <Link
           to="/report"
-          className="rounded border border-primary-container px-6 py-3 font-bold text-primary-container"
+          className="flex items-center justify-between rounded px-4 py-4 font-semibold text-primary transition hover:bg-surface-container-high"
         >
-          স্ক্যাম রিপোর্ট করুন
+          <span>এই ফলাফল রিপোর্ট করুন</span>
+          <Icon name="flag" />
+        </Link>
+        <Link
+          to="/scan"
+          className="flex items-center justify-between rounded px-4 py-4 font-semibold text-primary transition hover:bg-surface-container-high"
+        >
+          <span>আরেকটা মেসেজ যাচাই করুন</span>
+          <Icon name="refresh" />
         </Link>
       </div>
+
+      <footer className="mt-10 border-t border-outline-variant bg-surface-container-low py-6 text-center">
+        <p className="font-mono text-xs text-on-surface-variant/70 italic">"{DISCLAIMER}"</p>
+      </footer>
     </div>
   )
 }

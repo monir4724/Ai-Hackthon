@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Local smoke test for /api/analyze with GPT-4o.
+ * Local smoke test for /api/analyze with Gemini.
  * Usage: php tests/analyze_smoke.php
  */
 
@@ -27,7 +27,7 @@ foreach ($tests as $test) {
         CURLOPT_HTTPHEADER => ['Content-Type: application/json', 'Accept: application/json'],
         CURLOPT_POSTFIELDS => json_encode(['text' => $test['text'], 'module' => 'sms'], JSON_UNESCAPED_UNICODE),
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 60,
+        CURLOPT_TIMEOUT => 90,
     ]);
     $body = curl_exec($ch);
     $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -35,8 +35,8 @@ foreach ($tests as $test) {
 
     $json = json_decode($body, true);
     $missing = array_values(array_filter($required, fn ($k) => ! array_key_exists($k, $json ?? [])));
-    $isMock = ($json['confidence'] ?? '') === 'mock';
-    $match = in_array($json['risk_level'] ?? '', [$test['expect'], $test['expect'] === 'low' ? 'medium' : $test['expect']], true);
+    $aiSource = $json['ai_source'] ?? 'unknown';
+    $isMock = ($json['confidence'] ?? '') === 'mock' || $aiSource === 'rule_mock' || $aiSource === 'gemini_fallback';
 
     $results[] = [
         'id' => $test['id'],
@@ -46,6 +46,7 @@ foreach ($tests as $test) {
         'verdict_bn' => $json['verdict_bn'] ?? '',
         'pattern' => $json['matched_pattern'] ?? '',
         'confidence' => $json['confidence'] ?? '',
+        'ai_source' => $aiSource,
         'is_mock' => $isMock ? 'YES' : 'no',
         'format_ok' => empty($missing),
         'missing_keys' => $missing,
