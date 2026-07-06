@@ -32,6 +32,7 @@ export interface ScamPattern {
   label: string
   risk_level: string
   text_bn: string
+  location_label?: string | null
   red_flags_bn?: string
   is_community_report: boolean
   created_at: string
@@ -97,6 +98,7 @@ export async function fetchReports(communityOnly = false): Promise<ScamPattern[]
 export async function submitReport(data: {
   text_bn: string
   category?: string
+  location_label?: string
   risk_level?: string
 }): Promise<ScamPattern> {
   const res = await apiFetch<{ data: ScamPattern }>('/reports', {

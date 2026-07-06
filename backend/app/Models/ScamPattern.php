@@ -12,6 +12,7 @@ class ScamPattern extends Model
         'label',
         'risk_level',
         'text_bn',
+        'location_label',
         'red_flags_bn',
         'pattern_basis',
         'is_synthetic',

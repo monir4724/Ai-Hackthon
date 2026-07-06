@@ -12,9 +12,22 @@ const CATEGORIES = [
   { value: 'other', label: 'অন্যান্য' },
 ]
 
+const DIVISIONS = [
+  { value: '', label: 'বিভাগ নির্বাচন করুন (ঐচ্ছিক)' },
+  { value: 'ঢাকা', label: 'ঢাকা' },
+  { value: 'চট্টগ্রাম', label: 'চট্টগ্রাম' },
+  { value: 'রাজশাহী', label: 'রাজশাহী' },
+  { value: 'খুলনা', label: 'খুলনা' },
+  { value: 'বরিশাল', label: 'বরিশাল' },
+  { value: 'সিলেট', label: 'সিলেট' },
+  { value: 'রংপুর', label: 'রংপুর' },
+  { value: 'ময়মনসিংহ', label: 'ময়মনসিংহ' },
+]
+
 export default function ReportPage() {
   const [text, setText] = useState('')
   const [category, setCategory] = useState('')
+  const [locationLabel, setLocationLabel] = useState('')
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
@@ -29,6 +42,7 @@ export default function ReportPage() {
       await submitReport({
         text_bn: text.trim(),
         category: selected?.label || category.trim() || undefined,
+        location_label: locationLabel || undefined,
         risk_level: 'high',
       })
       setSuccess(true)
@@ -95,6 +109,27 @@ export default function ReportPage() {
             {CATEGORIES.map((c) => (
               <option key={c.value} value={c.value}>
                 {c.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label
+            htmlFor="division"
+            className="mb-2 block font-mono text-xs uppercase tracking-widest text-on-surface-variant"
+          >
+            বিভাগ (ঐচ্ছিক)
+          </label>
+          <select
+            id="division"
+            value={locationLabel}
+            onChange={(e) => setLocationLabel(e.target.value)}
+            className="w-full border-0 border-b-2 border-outline-variant bg-surface-container-lowest py-3 focus:border-primary focus:outline-none"
+          >
+            {DIVISIONS.map((d) => (
+              <option key={d.value} value={d.value}>
+                {d.label}
               </option>
             ))}
           </select>

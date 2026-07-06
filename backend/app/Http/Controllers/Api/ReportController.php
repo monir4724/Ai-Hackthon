@@ -19,7 +19,7 @@ class ReportController extends Controller
         }
 
         $patterns = $query->limit(50)->get([
-            'id', 'category', 'label', 'risk_level', 'text_bn',
+            'id', 'category', 'label', 'risk_level', 'text_bn', 'location_label',
             'red_flags_bn', 'is_community_report', 'created_at',
         ]);
 
@@ -31,6 +31,7 @@ class ReportController extends Controller
         $validated = $request->validate([
             'text_bn' => 'required|string|min:10|max:2000',
             'category' => 'nullable|string|max:120',
+            'location_label' => 'nullable|string|max:120',
             'risk_level' => 'nullable|string|in:high,medium,low,safe',
         ]);
 
@@ -39,6 +40,7 @@ class ReportController extends Controller
             'label' => 'scam',
             'risk_level' => $validated['risk_level'] ?? 'high',
             'text_bn' => $validated['text_bn'],
+            'location_label' => $validated['location_label'] ?? null,
             'red_flags_bn' => 'সম্প্রদায় রিপোর্ট',
             'pattern_basis' => 'User-submitted community report',
             'is_synthetic' => false,
