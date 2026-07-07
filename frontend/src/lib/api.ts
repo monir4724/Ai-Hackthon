@@ -19,6 +19,7 @@ export interface AnalysisResult {
   verdict_bn: string
   explanation: string
   matched_pattern: string
+  scam_category?: string
   confidence?: string
   disclaimer: string
   module?: string
@@ -28,7 +29,31 @@ export interface AnalysisResult {
     flags: string[]
     matched_patterns: string[]
     flag_count: number
+    scam_category?: string
   }
+}
+
+export interface FlagBn {
+  key: string
+  label_bn: string
+  explanation_bn: string
+}
+
+export interface UrlCheckResult {
+  risk_level: string
+  verdict_bn: string
+  flags: string[]
+  flags_bn?: FlagBn[]
+  risk_score?: number
+  explanation: string
+  disclaimer: string
+  scam_category?: string
+}
+
+export interface QrCheckResult extends UrlCheckResult {
+  url_check?: UrlCheckResult | null
+  text_analysis?: AnalysisResult | null
+  module?: string
 }
 
 export interface ScamPattern {
@@ -54,13 +79,11 @@ export interface ScanHistoryItem {
   created_at: string
 }
 
-export interface UrlCheckResult {
-  risk_level: string
-  verdict_bn: string
-  flags: string[]
-  risk_score?: number
-  explanation: string
-  disclaimer: string
+export async function checkQr(payload: string): Promise<QrCheckResult> {
+  return apiFetch<QrCheckResult>('/qr-check', {
+    method: 'POST',
+    body: JSON.stringify({ payload, session_id: getSessionId() }),
+  })
 }
 
 function parseApiError(payload: unknown, status: number): string {

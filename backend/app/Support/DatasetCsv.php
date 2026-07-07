@@ -14,6 +14,7 @@ class DatasetCsv
             base_path('../rokkhakoboch_synthetic_dataset_bn.csv'),
             base_path('../data/rokkhakoboch_synthetic_dataset_bn.csv'),
             database_path('data/rokkhakoboch_synthetic_dataset_bn.csv'),
+            base_path('../datasets/rokkhakoboch_synthetic_dataset_bn.csv'),
         ];
 
         foreach ($candidates as $path) {

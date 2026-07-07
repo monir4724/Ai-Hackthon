@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ScanHistory;
+use App\Support\ScamCategoryDetector;
 use Illuminate\Support\Facades\Log;
 
 class ScamAnalysisService
@@ -33,6 +34,7 @@ class ScamAnalysisService
         return array_merge($aiResult, [
             'prefilter' => $prefilterResult,
             'module' => $module,
+            'scam_category' => $prefilterResult['scam_category'] ?? ScamCategoryDetector::detect($text),
             'disclaimer' => 'এটি ১০০% নিশ্চিত নয় — এটি একটি ঝুঁকি নির্দেশক টুল',
             'analyzed_at' => now()->toIso8601String(),
             'ai_source' => $aiResult['ai_source'] ?? ($aiResult['confidence'] === 'mock' ? 'rule_mock' : 'gemini'),

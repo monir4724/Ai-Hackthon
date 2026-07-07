@@ -38,6 +38,14 @@ export default function ResultPage() {
         />
       </div>
 
+      {(result.scam_category || result.prefilter?.scam_category) && (
+        <p className="mt-2 text-center">
+          <span className="inline-flex rounded-full bg-primary/10 px-4 py-1 font-mono text-xs text-primary">
+            {result.scam_category || result.prefilter?.scam_category}
+          </span>
+        </p>
+      )}
+
       {result.matched_pattern && (
         <div className="mt-2 mb-8">
           <p className="mb-3 font-mono text-xs uppercase tracking-widest text-outline">

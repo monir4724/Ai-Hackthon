@@ -5,6 +5,7 @@ import '../core/api/app_services.dart';
 import '../core/api/api_models.dart';
 import '../core/theme/app_colors.dart';
 import '../core/theme/app_text_styles.dart';
+import '../core/util/time_ago.dart';
 import '../widgets/async_state.dart';
 import '../widgets/forensic_label.dart';
 import '../widgets/paper_card.dart';
@@ -147,12 +148,26 @@ class _FeedScreenState extends State<FeedScreen> {
       itemCount: patterns.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
+          final total = _patterns?.length ?? patterns.length;
           return Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: ForensicLabel(
-              widget.divisionFilter == null
-                  ? 'মডিউল ১০ — জাতীয় হুমকি বুদ্ধিমত্তা'
-                  : 'বিভাগ: ${widget.divisionFilter}',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ForensicLabel(
+                  widget.divisionFilter == null
+                      ? 'মডিউল ১০ — জাতীয় হুমকি বুদ্ধিমত্তা'
+                      : 'বিভাগ: ${widget.divisionFilter}',
+                ),
+                if (total > 0)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      'এখন পর্যন্ত $total টি স্ক্যাম রিপোর্ট',
+                      style: AppTextStyles.monoLabel(12, color: AppColors.primary),
+                    ),
+                  ),
+              ],
             ),
           );
         }
@@ -166,6 +181,15 @@ class _FeedScreenState extends State<FeedScreen> {
                 Row(
                   children: [
                     RiskChip(riskLevel: p.riskLevel),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(p.category, style: AppTextStyles.monoLabel(10, color: AppColors.primary)),
+                    ),
                     const Spacer(),
                     if (p.locationLabel != null && p.locationLabel!.isNotEmpty)
                       Text(
@@ -181,8 +205,12 @@ class _FeedScreenState extends State<FeedScreen> {
                     ],
                   ],
                 ),
+                if (p.createdAt.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Text(timeAgoBn(p.createdAt), style: AppTextStyles.monoLabel(10, color: AppColors.outline)),
+                ],
                 const SizedBox(height: 8),
-                Text(p.category, style: AppTextStyles.tiroHeadline(16)),
+                Text(p.label.isNotEmpty ? p.label : p.category, style: AppTextStyles.tiroHeadline(16)),
                 const SizedBox(height: 6),
                 Text(
                   p.textBn,

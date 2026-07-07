@@ -44,19 +44,37 @@ class ApiClient {
     }
   }
 
-  Future<UrlCheckResult> checkUrl(String url) async {
+  Future<UrlCheckResult> checkUrl(String url, {String? sessionId}) async {
     try {
       final res = await _client
           .post(
             _uri('/url-check'),
             headers: _headers,
-            body: jsonEncode({'url': url}),
+            body: jsonEncode({'url': url, if (sessionId != null) 'session_id': sessionId}),
           )
           .timeout(ApiConfig.timeout);
       _ensureOk(res);
       return UrlCheckResult.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
     } on SocketException {
       throw const ApiException(0, 'নেটওয়ার্ক সংযোগ ব্যর্থ — ব্যাকএন্ড চালু আছে কিনা দেখুন।');
+    } on http.ClientException {
+      throw const ApiException(0, 'সার্ভারে সংযোগ করা যায়নি।');
+    }
+  }
+
+  Future<QrCheckResult> checkQr(String payload, {String? sessionId}) async {
+    try {
+      final res = await _client
+          .post(
+            _uri('/qr-check'),
+            headers: _headers,
+            body: jsonEncode({'payload': payload, if (sessionId != null) 'session_id': sessionId}),
+          )
+          .timeout(ApiConfig.timeout);
+      _ensureOk(res);
+      return QrCheckResult.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
+    } on SocketException {
+      throw const ApiException(0, 'নেটওয়ার্ক সংযোগ ব্যর্থ।');
     } on http.ClientException {
       throw const ApiException(0, 'সার্ভারে সংযোগ করা যায়নি।');
     }

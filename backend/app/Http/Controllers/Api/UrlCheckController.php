@@ -26,6 +26,7 @@ class UrlCheckController extends Controller
         $result = $this->urlSafety->check($validated['url']);
         $result['module'] = 'url';
         $result['matched_pattern'] = 'URL safety check';
+        $result['scam_category'] = 'ফিশিং লিংক';
 
         if (! empty($validated['session_id'])) {
             try {

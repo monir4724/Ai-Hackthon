@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'core/api/api_models.dart';
@@ -16,7 +15,6 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   await AppServices.init();
   NotificationService.setVerdictNavigationHandler(_openVerdictFromNotification);
   runApp(const RokkhakobochApp());

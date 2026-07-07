@@ -1,3 +1,23 @@
+class FlagBn {
+  const FlagBn({
+    required this.key,
+    required this.labelBn,
+    required this.explanationBn,
+  });
+
+  final String key;
+  final String labelBn;
+  final String explanationBn;
+
+  factory FlagBn.fromJson(Map<String, dynamic> json) {
+    return FlagBn(
+      key: json['key'] as String? ?? '',
+      labelBn: json['label_bn'] as String? ?? '',
+      explanationBn: json['explanation_bn'] as String? ?? '',
+    );
+  }
+}
+
 class PrefilterResult {
   const PrefilterResult({
     required this.riskScore,
@@ -35,6 +55,7 @@ class AnalysisResult {
     this.disclaimer,
     this.module,
     this.analyzedAt,
+    this.scamCategory,
     this.aiSource,
     this.prefilter,
   });
@@ -43,6 +64,7 @@ class AnalysisResult {
   final String verdictBn;
   final String explanation;
   final String matchedPattern;
+  final String? scamCategory;
   final String? confidence;
   final String? disclaimer;
   final String? module;
@@ -61,6 +83,8 @@ class AnalysisResult {
       module: json['module'] as String?,
       analyzedAt: json['analyzed_at'] as String?,
       aiSource: json['ai_source'] as String?,
+      scamCategory: json['scam_category'] as String? ??
+          (json['prefilter'] as Map<String, dynamic>?)?['scam_category'] as String?,
       prefilter: PrefilterResult.fromJson(json['prefilter'] as Map<String, dynamic>?),
     );
   }
@@ -147,11 +171,13 @@ class UrlCheckResult {
     required this.explanation,
     required this.disclaimer,
     this.riskScore,
+    this.flagsBn = const [],
   });
 
   final String riskLevel;
   final String verdictBn;
   final List<String> flags;
+  final List<FlagBn> flagsBn;
   final String explanation;
   final String disclaimer;
   final int? riskScore;
@@ -161,9 +187,42 @@ class UrlCheckResult {
       riskLevel: json['risk_level'] as String? ?? 'medium',
       verdictBn: json['verdict_bn'] as String? ?? '',
       flags: (json['flags'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
+      flagsBn: (json['flags_bn'] as List<dynamic>? ?? [])
+          .map((e) => FlagBn.fromJson(e as Map<String, dynamic>))
+          .toList(),
       explanation: json['explanation'] as String? ?? '',
       disclaimer: json['disclaimer'] as String? ?? '',
       riskScore: json['risk_score'] as int?,
+    );
+  }
+}
+
+class QrCheckResult extends UrlCheckResult {
+  const QrCheckResult({
+    required super.riskLevel,
+    required super.verdictBn,
+    required super.flags,
+    required super.explanation,
+    required super.disclaimer,
+    super.riskScore,
+    super.flagsBn,
+    this.scamCategory,
+  });
+
+  final String? scamCategory;
+
+  factory QrCheckResult.fromJson(Map<String, dynamic> json) {
+    return QrCheckResult(
+      riskLevel: json['risk_level'] as String? ?? 'medium',
+      verdictBn: json['verdict_bn'] as String? ?? '',
+      flags: (json['flags'] as List<dynamic>? ?? []).map((e) => e.toString()).toList(),
+      flagsBn: (json['flags_bn'] as List<dynamic>? ?? [])
+          .map((e) => FlagBn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      explanation: json['explanation'] as String? ?? '',
+      disclaimer: json['disclaimer'] as String? ?? '',
+      riskScore: json['risk_score'] as int?,
+      scamCategory: json['scam_category'] as String?,
     );
   }
 }
@@ -181,6 +240,9 @@ class VerdictPayload {
     this.prefilter,
     this.aiSource,
     this.sourceLabel,
+    this.scamCategory,
+    this.riskScore,
+    this.flagsBn = const [],
   });
 
   final String riskLevel;
@@ -190,9 +252,12 @@ class VerdictPayload {
   final String? matchedPattern;
   final String? inputPreview;
   final List<String> flags;
+  final List<FlagBn> flagsBn;
   final PrefilterResult? prefilter;
   final String? aiSource;
   final String? sourceLabel;
+  final String? scamCategory;
+  final int? riskScore;
 
   factory VerdictPayload.fromAnalysis(AnalysisResult result, {String? inputText, String? sourceLabel}) {
     return VerdictPayload(
@@ -205,6 +270,7 @@ class VerdictPayload {
       prefilter: result.prefilter,
       aiSource: result.aiSource,
       sourceLabel: sourceLabel ?? 'মেসেজ বিশ্লেষণ',
+      scamCategory: result.scamCategory,
     );
   }
 
@@ -217,7 +283,24 @@ class VerdictPayload {
       matchedPattern: result.flags.isNotEmpty ? result.flags.join(', ') : 'URL স্ক্যান',
       inputPreview: url,
       flags: result.flags,
+      flagsBn: result.flagsBn,
+      riskScore: result.riskScore,
       sourceLabel: 'লিংক নিরাপত্তা যাচাই',
+    );
+  }
+
+  factory VerdictPayload.fromQrCheck(QrCheckResult result, {required String payload}) {
+    return VerdictPayload(
+      riskLevel: result.riskLevel,
+      verdictBn: result.verdictBn,
+      explanation: result.explanation,
+      disclaimer: result.disclaimer,
+      inputPreview: payload,
+      flags: result.flags,
+      flagsBn: result.flagsBn,
+      riskScore: result.riskScore,
+      scamCategory: result.scamCategory ?? 'আর্থিক/QR প্রতারণা',
+      sourceLabel: 'QR / পেমেন্ট যাচাই',
     );
   }
 

@@ -56,11 +56,6 @@ class _QrScanScreenState extends State<QrScanScreen> {
     });
   }
 
-  bool _looksLikeUrl(String value) {
-    final v = value.trim();
-    return v.startsWith('http://') || v.startsWith('https://');
-  }
-
   Future<void> _onDetect(BarcodeCapture capture) async {
     if (_processing || _handled) return;
     final raw = capture.barcodes.firstOrNull?.rawValue?.trim();
@@ -73,32 +68,16 @@ class _QrScanScreenState extends State<QrScanScreen> {
     });
 
     try {
-      if (_looksLikeUrl(raw)) {
-        final result = await AppServices.api.checkUrl(raw);
-        if (!mounted) return;
-        await Navigator.of(context).pushReplacement(
-          MaterialPageRoute<void>(
-            builder: (_) => ResultScreen(
-              payload: VerdictPayload.fromUrlCheck(result, url: raw),
-            ),
+      final sessionId = AppServices.session.getSessionId();
+      final result = await AppServices.api.checkQr(raw, sessionId: sessionId);
+      if (!mounted) return;
+      await Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (_) => ResultScreen(
+            payload: VerdictPayload.fromQrCheck(result, payload: raw),
           ),
-        );
-      } else {
-        final sessionId = AppServices.session.getSessionId();
-        final result = await AppServices.api.analyzeText(
-          text: raw,
-          module: 'sms',
-          sessionId: sessionId,
-        );
-        if (!mounted) return;
-        await Navigator.of(context).pushReplacement(
-          MaterialPageRoute<void>(
-            builder: (_) => ResultScreen(
-              payload: VerdictPayload.fromAnalysis(result, inputText: raw),
-            ),
-          ),
-        );
-      }
+        ),
+      );
     } on ApiException catch (e) {
       if (!mounted) return;
       setState(() {

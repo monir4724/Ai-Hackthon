@@ -33,3 +33,9 @@ backend/database/*.sqlite
 # Logs
 *.log
 npm-debug.log*
+
+# Large training datasets (keep locally; insights baked into backend/database/data/)
+datasets/dataset_with_all_features*.csv
+datasets/final_dataset_with_all_features*.csv
+datasets/PS_20174392719*.csv
+datasets/module*.xml

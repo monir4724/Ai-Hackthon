@@ -41,7 +41,7 @@ class _UrlCheckScreenState extends State<UrlCheckScreen> {
     });
 
     try {
-      final result = await AppServices.api.checkUrl(url);
+      final result = await AppServices.api.checkUrl(url, sessionId: AppServices.session.getSessionId());
       if (!mounted) return;
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
@@ -64,7 +64,7 @@ class _UrlCheckScreenState extends State<UrlCheckScreen> {
     return Scaffold(
       appBar: rokkhakobochAppBar('লিংক নিরাপত্তা যাচাই'),
       body: _loading
-          ? const LoadingView(message: 'যাচাই হচ্ছে...')
+          ? const LoadingView(message: 'বিশ্লেষণ করা হচ্ছে...')
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -82,7 +82,7 @@ class _UrlCheckScreenState extends State<UrlCheckScreen> {
                           controller: _controller,
                           keyboardType: TextInputType.url,
                           decoration: const InputDecoration(
-                            hintText: 'https://...',
+                            hintText: 'সন্দেহজনক লিংক এখানে পেস্ট করুন — https://...',
                             border: UnderlineInputBorder(),
                           ),
                         ),

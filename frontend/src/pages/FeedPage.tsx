@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { fetchReports, type ScamPattern } from '../lib/api'
-import { riskLabelBn } from '../lib/labels'
+import { riskLabelBn, timeAgoBn } from '../lib/labels'
 
 export default function FeedPage() {
   const [patterns, setPatterns] = useState<ScamPattern[]>([])
@@ -44,6 +44,11 @@ export default function FeedPage() {
           মডিউল ১০ — জাতীয় হুমকি বুদ্ধিমত্তা
         </p>
         <h1 className="mt-2 font-tiro text-3xl text-primary">থ্রেট ফিড</h1>
+        {!loading && !error && patterns.length > 0 && (
+          <p className="mt-1 font-mono text-sm text-primary">
+            এখন পর্যন্ত {patterns.length} টি স্ক্যাম রিপোর্ট
+          </p>
+        )}
         <p className="mt-2 text-on-surface-variant">
           পরিচিত ও সম্প্রদায়-রিপোর্ট করা স্ক্যাম প্যাটার্ন।
         </p>
@@ -183,6 +188,11 @@ function PatternCard({ pattern }: { pattern: ScamPattern }) {
           {labelText}
         </span>
         <span className="font-mono text-xs text-on-surface-variant">{pattern.category}</span>
+        {pattern.location_label && (
+          <span className="rounded bg-surface-container px-2 py-0.5 font-mono text-[10px] text-primary">
+            {pattern.location_label}
+          </span>
+        )}
       </div>
 
       <h2 className="mt-2 text-lg font-semibold text-primary">{preview}</h2>
@@ -209,6 +219,7 @@ function PatternCard({ pattern }: { pattern: ScamPattern }) {
           <span className="font-mono text-xs text-outline">ডাটাসেট প্যাটার্ন</span>
         )}
         <span className="font-mono text-xs uppercase text-primary">{labelText}</span>
+        <span className="font-mono text-xs text-outline">{timeAgoBn(pattern.created_at)}</span>
       </div>
 
       {isHigh && (

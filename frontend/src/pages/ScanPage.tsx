@@ -3,11 +3,15 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { analyzeText } from '../lib/api'
 
-const EXAMPLE_TEXT =
-  'জরুরি সতর্কতা: আপনার bKash হিসাবে অস্বাভাবিক লগইন সনাক্ত হয়েছে। আজই ০১XXXXXXXXX নম্বরে কল করে আপনার ৪ ডিজিট কোড জানিয়ে হিসাব সচল রাখুন।'
+const EXAMPLE_SMS = [
+  'জরুরি: আপনার bKash হিসাব বন্ধ হবে। OTP/পিন SMS করে ০১7XXXXXXXX-এ পাঠান।',
+  'অভিনন্দন! আপনি ৭ ভরি সোনা জিতেছেন। বিস্তারিত জানতে কল করুন: ০১9XXXXXXXX',
+  'বাড়িতে বসে ইনকাম — ফর্ম ফিলাপ করুন। WhatsApp: ০১8XXXXXXXX',
+]
 
 export default function ScanPage() {
   const [text, setText] = useState('')
+  const [exampleIdx, setExampleIdx] = useState(0)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
@@ -84,10 +88,10 @@ export default function ScanPage() {
             id="scan-input"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            rows={8}
+            rows={isCall ? 10 : 8}
             placeholder={
               isCall
-                ? 'কলার কী বলেছিল তা এখানে লিখুন...'
+                ? 'কলের কথোপকথন এখানে পেস্ট করুন — কলার কী বলেছিল তা লিখুন'
                 : 'সন্দেহজনক মেসেজটি এখানে কপি করুন...'
             }
             className="w-full resize-none border-0 border-b-2 border-outline-variant bg-surface-container-low py-4 text-base leading-relaxed placeholder:text-outline-variant focus:border-primary focus:outline-none"
@@ -107,7 +111,7 @@ export default function ScanPage() {
           className="flex w-full items-center justify-center gap-3 rounded border border-secondary bg-secondary-container px-10 py-5 text-xl font-bold text-on-secondary-container transition-transform duration-200 hover:scale-[1.02] disabled:opacity-50"
         >
           <Icon name="search_check" />
-          {loading ? 'বিশ্লেষণ চলছে...' : 'ঝুঁকি যাচাই করুন'}
+          {loading ? 'বিশ্লেষণ করা হচ্ছে...' : 'ঝুঁকি যাচাই করুন'}
         </button>
       </form>
 
@@ -117,15 +121,18 @@ export default function ScanPage() {
           <span className="font-mono text-xs uppercase text-outline">জনপ্রিয়:</span>
           <button
             type="button"
-            onClick={() => setText(EXAMPLE_TEXT)}
+            onClick={() => {
+              setText(EXAMPLE_SMS[exampleIdx])
+              setExampleIdx((exampleIdx + 1) % EXAMPLE_SMS.length)
+            }}
             className="rounded bg-secondary-container px-3 py-1 font-mono text-xs text-on-secondary-container"
           >
-            OTP
+            উদাহরণ {exampleIdx + 1}
           </button>
         </div>
         <button
           type="button"
-          onClick={() => setText(EXAMPLE_TEXT)}
+          onClick={() => setText(EXAMPLE_SMS[exampleIdx])}
           className="mt-3 flex items-center gap-2 text-left text-sm text-primary hover:underline"
         >
           <Icon name="content_paste" className="text-base" />

@@ -73,7 +73,7 @@ class _ScanScreenState extends State<ScanScreen> {
     return Scaffold(
       appBar: rokkhakobochAppBar('সন্দেহজন্য মেসেজ স্ক্যান'),
       body: _loading
-          ? const LoadingView(message: 'বিশ্লেষণ চলছে...')
+          ? const LoadingView(message: 'বিশ্লেষণ করা হচ্ছে...')
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -110,10 +110,10 @@ class _ScanScreenState extends State<ScanScreen> {
                         const SizedBox(height: 8),
                         TextField(
                           controller: _controller,
-                          maxLines: 8,
+                          maxLines: isCall ? 10 : 8,
                           decoration: InputDecoration(
                             hintText: isCall
-                                ? 'কলার কী বলেছিল তা এখানে লিখুন...'
+                                ? 'কলের কথোপকথন এখানে পেস্ট করুন — স্ক্যাম কলের উদাহরণ: OTP চাওয়া, জরুরি টাকা'
                                 : 'সন্দেহজনক মেসেজটি এখানে কপি করুন...',
                             border: const UnderlineInputBorder(),
                           ),

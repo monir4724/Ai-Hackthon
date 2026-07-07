@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ScamPatternSeeder::class,
+            BangalaBartaSeeder::class,
+            ThreatFeedSeeder::class,
         ]);
     }
 }

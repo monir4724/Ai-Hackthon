@@ -83,6 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         style: AppTextStyles.monoLabel(11, color: AppColors.outline),
                       ),
                       value: _smsAutoScan,
+                      activeTrackColor: AppColors.accent.withValues(alpha: 0.45),
                       activeThumbColor: AppColors.accent,
                       onChanged: _onSmsToggle,
                     ),

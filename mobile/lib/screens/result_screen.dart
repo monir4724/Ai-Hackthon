@@ -33,6 +33,32 @@ class ResultScreen extends StatelessWidget {
                 showDisclaimer: false,
               ),
             ),
+            if (payload.scamCategory != null) ...[
+              const SizedBox(height: 8),
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Text(payload.scamCategory!, style: AppTextStyles.monoLabel(11, color: AppColors.primary)),
+                ),
+              ),
+            ],
+            if (payload.riskScore != null) ...[
+              const SizedBox(height: 12),
+              Text('ঝুঁকি স্কোর: ${payload.riskScore}/100', style: AppTextStyles.monoLabel(11)),
+              LinearProgressIndicator(
+                value: (payload.riskScore! / 100).clamp(0.0, 1.0),
+                color: payload.riskScore! >= 55
+                    ? AppColors.danger
+                    : payload.riskScore! >= 28
+                        ? AppColors.accent
+                        : AppColors.safe,
+                backgroundColor: AppColors.surfaceContainer,
+              ),
+            ],
             const SizedBox(height: 8),
             if (payload.matchedPattern != null && payload.matchedPattern!.isNotEmpty) ...[
               Center(
@@ -60,7 +86,30 @@ class ResultScreen extends StatelessWidget {
                     payload.explanation,
                     style: AppTextStyles.siliguriBody(16, color: AppColors.onSurfaceVariant),
                   ),
-                  if (payload.flags.isNotEmpty) ...[
+                  if (payload.flagsBn.isNotEmpty) ...[
+                    const SizedBox(height: 16),
+                    const ForensicLabel('লাল পতাকা'),
+                    const SizedBox(height: 8),
+                    ...payload.flagsBn.map(
+                      (f) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('• ${f.labelBn}', style: AppTextStyles.monoLabel(12)),
+                            if (f.explanationBn.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 12, top: 2),
+                                child: Text(
+                                  f.explanationBn,
+                                  style: AppTextStyles.siliguriBody(12, color: AppColors.onSurfaceVariant),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ] else if (payload.flags.isNotEmpty) ...[
                     const SizedBox(height: 16),
                     const ForensicLabel('লাল পতাকা'),
                     const SizedBox(height: 8),

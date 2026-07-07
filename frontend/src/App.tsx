@@ -7,6 +7,8 @@ import HistoryPage from './pages/HistoryPage'
 import FeedPage from './pages/FeedPage'
 import ReportPage from './pages/ReportPage'
 import UrlCheckPage from './pages/UrlCheckPage'
+import QrCheckPage from './pages/QrCheckPage'
+import DeviceProtectionPage from './pages/DeviceProtectionPage'
 import ModulesPage from './pages/ModulesPage'
 import ModulePlaceholderPage from './pages/ModulePlaceholderPage'
 
@@ -22,6 +24,8 @@ export default function App() {
           <Route path="/feed" element={<FeedPage />} />
           <Route path="/report" element={<ReportPage />} />
           <Route path="/url-check" element={<UrlCheckPage />} />
+          <Route path="/qr-check" element={<QrCheckPage />} />
+          <Route path="/device-protection" element={<DeviceProtectionPage />} />
           <Route path="/modules" element={<ModulesPage />} />
           <Route path="/modules/:moduleId" element={<ModulePlaceholderPage />} />
         </Route>

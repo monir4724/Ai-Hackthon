@@ -128,6 +128,20 @@ class _DeviceProtectionScreenState extends State<DeviceProtectionScreen> {
                 const SizedBox(height: 16),
                 const ForensicLabel('মডিউল ০৭ — ডিভাইস সুরক্ষা চেকলিস্ট'),
                 const SizedBox(height: 12),
+                ...[
+                  'অজানা উৎস থেকে APK ইনস্টল করবেন না (নকল bKash/Nagad অ্যাপ)',
+                  'কাউকে SMS পড়ার অনুমতি দেবেন না',
+                  'স্ক্রিন শেয়ার করবেন না (ফোন স্ক্যাম)',
+                  'Accessibility-তে অজানা অ্যাপ যোগ করবেন না',
+                  'অজানা নম্বর থেকে OTP কখনো দেবেন না',
+                  'bKash/Nagad/Rocket কখনো PIN ফোনে চায় না',
+                ].map(
+                  (tip) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text('• $tip', style: AppTextStyles.siliguriBody(14, color: AppColors.onSurfaceVariant)),
+                  ),
+                ),
+                const SizedBox(height: 8),
                 ..._items.map((item) {
                   final result = _results[item.title]!;
                   return Padding(
