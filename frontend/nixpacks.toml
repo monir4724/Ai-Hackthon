@@ -5,7 +5,4 @@ nixPkgs = ["nodejs_18", "npm-9_x"]
 NPM_CONFIG_PRODUCTION = "false"
 
 [phases.install]
-cmds = [
-  "npm install --include=dev --include=optional",
-  "npm install @tailwindcss/oxide-linux-x64-gnu@4.3.2 lightningcss-linux-x64-gnu@1.32.0 --no-save --no-audit --no-fund",
-]
+cmds = ["npm install --include=dev"]

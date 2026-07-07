@@ -1,0 +1,40 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#041534',
+        'primary-container': '#1b2a4a',
+        'secondary-container': '#feb64e',
+        secondary: '#835400',
+        'on-secondary-container': '#714800',
+        danger: '#c1443b',
+        safe: '#2f8f5b',
+        paper: '#eff1ee',
+        ink: '#1a1a1a',
+        surface: '#f8faf7',
+        'on-surface': '#191c1b',
+        'on-surface-variant': '#45464e',
+        'outline-variant': '#c5c6cf',
+        outline: '#75777f',
+        'surface-container': '#eceeeb',
+        'surface-container-lowest': '#ffffff',
+        'surface-container-low': '#f2f4f1',
+        'surface-container-high': '#e7e9e6',
+        background: '#f8faf7',
+        error: '#ba1a1a',
+        'error-container': '#ffdad6',
+        'surface-container-highest': '#e1e3e0',
+        'on-primary-fixed-variant': '#384668',
+        'on-primary': '#ffffff',
+      },
+      fontFamily: {
+        tiro: ['"Tiro Bangla"', 'serif'],
+        siliguri: ['"Hind Siliguri"', 'sans-serif'],
+        mono: ['"IBM Plex Mono"', 'monospace'],
+      },
+    },
+  },
+  plugins: [],
+}
