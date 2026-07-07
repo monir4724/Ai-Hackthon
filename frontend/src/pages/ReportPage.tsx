@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { submitReport } from '../lib/api'
 
@@ -25,7 +25,9 @@ const DIVISIONS = [
 ]
 
 export default function ReportPage() {
-  const [text, setText] = useState('')
+  const location = useLocation()
+  const prefilledText = (location.state as { text?: string } | null)?.text ?? ''
+  const [text, setText] = useState(prefilledText)
   const [category, setCategory] = useState('')
   const [locationLabel, setLocationLabel] = useState('')
   const [loading, setLoading] = useState(false)
@@ -35,20 +37,24 @@ export default function ReportPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (!category) {
+      setError('অনুগ্রহ করে স্ক্যামের ধরন নির্বাচন করুন।')
+      return
+    }
     setLoading(true)
     setError('')
     try {
       const selected = CATEGORIES.find((c) => c.value === category)
       await submitReport({
         text_bn: text.trim(),
-        category: selected?.label || category.trim() || undefined,
+        category: selected?.label || category,
         location_label: locationLabel || undefined,
         risk_level: 'high',
       })
       setSuccess(true)
       setTimeout(() => navigate('/feed'), 2000)
-    } catch {
-      setError('রিপোর্ট জমা দিতে ব্যর্থ।')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'রিপোর্ট জমা দিতে ব্যর্থ।')
     } finally {
       setLoading(false)
     }
@@ -98,12 +104,13 @@ export default function ReportPage() {
             htmlFor="category"
             className="mb-2 block font-mono text-xs uppercase tracking-widest text-on-surface-variant"
           >
-            স্ক্যামের ধরন
+            স্ক্যামের ধরন *
           </label>
           <select
             id="category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
+            required
             className="w-full border-0 border-b-2 border-outline-variant bg-surface-container-lowest py-3 focus:border-primary focus:outline-none"
           >
             {CATEGORIES.map((c) => (
@@ -164,7 +171,7 @@ export default function ReportPage() {
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full items-center justify-center gap-3 rounded bg-secondary-container py-4 font-bold text-on-secondary-container transition active:scale-95 disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-3 rounded bg-secondary-container py-4 font-bold text-on-secondary-container transition hover:opacity-90 active:scale-95 disabled:opacity-50"
         >
           <span>{loading ? 'জমা দিচ্ছে...' : 'রিপোর্ট জমা দিন'}</span>
           <Icon name="send" />

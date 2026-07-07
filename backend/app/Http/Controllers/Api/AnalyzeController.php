@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\ScamAnalysisService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AnalyzeController extends Controller
 {
@@ -17,7 +18,7 @@ class AnalyzeController extends Controller
     {
         $validated = $request->validate([
             'text' => 'required|string|min:5|max:5000',
-            'module' => 'nullable|string|in:sms,call_transcript',
+            'module' => 'nullable|string|in:sms,call_transcript,url',
             'session_id' => 'nullable|string|max:64',
         ]);
 
@@ -27,13 +28,19 @@ class AnalyzeController extends Controller
         );
 
         if (! empty($validated['session_id'])) {
-            $this->analysisService->saveHistory(
-                $validated['session_id'],
-                $validated['text'],
-                $result
-            );
+            try {
+                $this->analysisService->saveHistory(
+                    $validated['session_id'],
+                    $validated['text'],
+                    $result
+                );
+            } catch (\Throwable $e) {
+                Log::warning('Failed to save scan history', [
+                    'error' => $e->getMessage(),
+                ]);
+            }
         }
 
-        return response()->json($result);
+        return response()->json($result, 200);
     }
 }

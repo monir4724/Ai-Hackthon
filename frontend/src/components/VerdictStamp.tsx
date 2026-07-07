@@ -1,4 +1,5 @@
 import { DISCLAIMER } from '../config/modules'
+import { riskLabelBn } from '../lib/labels'
 
 interface Props {
   riskLevel: string
@@ -39,7 +40,7 @@ export default function VerdictStamp({
         {verdictBn}
       </div>
       <p className="font-mono text-xs tracking-widest text-outline uppercase">
-        প্রাথমিক ফরেনসিক রিপোর্ট
+        প্রাথমিক ফরেনসিক রিপোর্ট — {riskLabelBn(riskLevel)}
       </p>
       {showDisclaimer && (
         <p className="max-w-md text-center font-mono text-xs text-on-surface-variant/70 italic">

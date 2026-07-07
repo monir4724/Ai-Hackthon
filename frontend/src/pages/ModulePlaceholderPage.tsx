@@ -1,10 +1,14 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { MODULES } from '../config/modules'
 
 export default function ModulePlaceholderPage() {
   const { moduleId } = useParams()
   const mod = MODULES.find((m) => m.id === moduleId)
+
+  if (mod && (mod.status === 'active' || mod.status === 'partial') && mod.path !== `/modules/${mod.id}`) {
+    return <Navigate to={mod.path} replace />
+  }
 
   return (
     <div className="mx-auto max-w-xl text-center">
@@ -27,7 +31,7 @@ export default function ModulePlaceholderPage() {
       </div>
       <Link
         to="/modules"
-        className="mt-8 inline-flex items-center gap-2 rounded bg-primary px-6 py-3 font-bold text-white"
+        className="mt-8 inline-flex items-center gap-2 rounded bg-primary px-6 py-3 font-bold text-white transition hover:opacity-90"
       >
         <Icon name="arrow_back" />
         কমান্ড সেন্টারে ফিরুন

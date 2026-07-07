@@ -1,44 +1,30 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Icon from '../components/Icon'
+import { DISCLAIMER } from '../config/modules'
 import { fetchHistory, type ScanHistoryItem } from '../lib/api'
-
-function verdictChip(risk: string) {
-  if (risk === 'high') {
-    return {
-      label: 'উচ্চ ঝুঁকি',
-      className: 'border-danger text-danger bg-danger/5',
-    }
-  }
-  if (risk === 'safe') {
-    return { label: 'নিরাপদ', className: 'border-secondary text-secondary bg-secondary/5' }
-  }
-  return {
-    label: 'সতর্ক',
-    className:
-      'border-secondary-container text-on-secondary-container bg-secondary-container/5',
-  }
-}
-
-function groupLabel(date: Date): string {
-  const today = new Date()
-  const yesterday = new Date()
-  yesterday.setDate(today.getDate() - 1)
-
-  if (date.toDateString() === today.toDateString()) return 'আজ'
-  if (date.toDateString() === yesterday.toDateString()) return 'গতকাল'
-  return date.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' })
-}
+import { moduleLabelBn, riskBadgeClass, riskLabelBn } from '../lib/labels'
 
 export default function HistoryPage() {
   const [items, setItems] = useState<ScanHistoryItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
 
-  useEffect(() => {
+  function loadHistory() {
+    setLoading(true)
+    setError('')
     fetchHistory()
       .then(setItems)
-      .catch(() => setItems([]))
+      .catch((err: Error) => {
+        setItems([])
+        setError(err.message || 'ইতিহাস লোড করতে ব্যর্থ হয়েছে।')
+      })
       .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    loadHistory()
   }, [])
 
   const grouped = useMemo(() => {
@@ -51,12 +37,36 @@ export default function HistoryPage() {
     return Array.from(map.entries())
   }, [items])
 
+  function openHistoryItem(item: ScanHistoryItem) {
+    navigate('/result', {
+      state: {
+        text: item.input_text,
+        result: {
+          risk_level: item.risk_level as 'high' | 'medium' | 'low' | 'safe',
+          verdict_bn: riskLabelBn(item.risk_level),
+          explanation: item.explanation || 'বিস্তারিত ব্যাখ্যা সংরক্ষিত নেই।',
+          matched_pattern: item.matched_pattern || '—',
+          disclaimer: DISCLAIMER,
+          module: item.module,
+        },
+      },
+    })
+  }
+
   return (
     <div className="mx-auto max-w-4xl">
+      <Link
+        to="/"
+        className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+      >
+        <Icon name="arrow_back" className="text-base" />
+        হোমে ফিরুন
+      </Link>
+
       <div className="mb-8 border-b border-outline-variant pb-4">
         <h1 className="font-tiro text-3xl text-primary">সাম্প্রতিক স্ক্যানসমূহ</h1>
         <p className="mt-1 font-mono text-xs uppercase tracking-widest text-on-surface-variant">
-          Scanned Evidence Log
+          আপনার যাচাই করা বার্তার তালিকা
         </p>
       </div>
 
@@ -67,7 +77,23 @@ export default function HistoryPage() {
         </p>
       )}
 
-      {!loading && items.length === 0 && (
+      {error && (
+        <div className="border border-danger/30 bg-danger/5 p-6 text-center">
+          <p className="flex items-center justify-center gap-2 text-danger">
+            <Icon name="error" />
+            {error}
+          </p>
+          <button
+            type="button"
+            onClick={loadHistory}
+            className="mt-4 rounded bg-primary px-6 py-2 font-mono text-sm text-on-primary"
+          >
+            আবার চেষ্টা করুন
+          </button>
+        </div>
+      )}
+
+      {!loading && !error && items.length === 0 && (
         <div className="flex flex-col items-center py-24 text-center">
           <div className="relative mb-8 flex h-40 w-40 items-center justify-center rounded-full border-4 border-dashed border-outline-variant opacity-30">
             <Icon name="history_toggle_off" className="text-[80px] text-outline-variant" />
@@ -100,19 +126,26 @@ export default function HistoryPage() {
             </div>
             <div className="space-y-2">
               {groupItems.map((item) => {
-                const chip = verdictChip(item.risk_level)
+                const chipClass = riskBadgeClass(item.risk_level)
                 return (
-                  <div
+                  <button
                     key={item.id}
-                    className="group flex items-center justify-between gap-4 border border-outline-variant bg-surface-container-lowest p-3 transition hover:bg-surface-container active:opacity-70"
+                    type="button"
+                    onClick={() => openHistoryItem(item)}
+                    className="group flex w-full items-center justify-between gap-4 border border-outline-variant bg-surface-container-lowest p-3 text-left transition hover:bg-surface-container active:opacity-70"
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-4">
                       <div
-                        className={`flex h-8 w-16 shrink-0 items-center justify-center border text-[10px] font-bold tracking-tighter ${chip.className}`}
+                        className={`flex h-8 w-20 shrink-0 items-center justify-center border text-[10px] font-bold tracking-tighter ${chipClass}`}
                       >
-                        {chip.label}
+                        {riskLabelBn(item.risk_level)}
                       </div>
-                      <p className="truncate text-base text-on-surface">{item.input_text}</p>
+                      <div className="min-w-0">
+                        <p className="truncate text-base text-on-surface">{item.input_text}</p>
+                        <p className="mt-0.5 font-mono text-[10px] text-outline">
+                          {moduleLabelBn(item.module)}
+                        </p>
+                      </div>
                     </div>
                     <span className="shrink-0 font-mono text-xs text-outline">
                       {new Date(item.created_at).toLocaleTimeString('bn-BD', {
@@ -121,7 +154,7 @@ export default function HistoryPage() {
                         second: '2-digit',
                       })}
                     </span>
-                  </div>
+                  </button>
                 )
               })}
             </div>
@@ -130,4 +163,14 @@ export default function HistoryPage() {
       </div>
     </div>
   )
+}
+
+function groupLabel(date: Date): string {
+  const today = new Date()
+  const yesterday = new Date()
+  yesterday.setDate(today.getDate() - 1)
+
+  if (date.toDateString() === today.toDateString()) return 'আজ'
+  if (date.toDateString() === yesterday.toDateString()) return 'গতকাল'
+  return date.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' })
 }

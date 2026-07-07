@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Icon from '../components/Icon'
 import VerdictStamp from '../components/VerdictStamp'
 import { checkUrl } from '../lib/api'
+import { flagLabelBn } from '../lib/labels'
 
 export default function UrlCheckPage() {
   const [url, setUrl] = useState('')
@@ -17,8 +19,8 @@ export default function UrlCheckPage() {
     try {
       const res = await checkUrl(url.trim())
       setResult(res)
-    } catch {
-      setError('URL যাচাই ব্যর্থ হয়েছে।')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'URL যাচাই ব্যর্থ হয়েছে।')
     } finally {
       setLoading(false)
     }
@@ -26,6 +28,14 @@ export default function UrlCheckPage() {
 
   return (
     <div className="mx-auto max-w-2xl">
+      <Link
+        to="/modules"
+        className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+      >
+        <Icon name="arrow_back" className="text-base" />
+        মডিউলে ফিরুন
+      </Link>
+
       <p className="font-mono text-xs uppercase tracking-widest text-outline">
         মডিউল ০৩ — URL/ফিশিং লিংক গার্ড
       </p>
@@ -62,7 +72,7 @@ export default function UrlCheckPage() {
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full items-center justify-center gap-2 rounded border border-secondary bg-secondary-container py-4 font-bold text-on-secondary-container disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded border border-secondary bg-secondary-container py-4 font-bold text-on-secondary-container transition hover:opacity-90 disabled:opacity-50"
         >
           <Icon name="link" />
           {loading ? 'যাচাই হচ্ছে...' : 'লিংক স্ক্যান করুন'}
@@ -73,6 +83,11 @@ export default function UrlCheckPage() {
         <div className="mt-10">
           <VerdictStamp riskLevel={result.risk_level} verdictBn={result.verdict_bn} />
           <div className="mt-6 paper-card p-5">
+            {typeof result.risk_score === 'number' && (
+              <p className="mb-4 font-mono text-xs text-on-surface-variant">
+                ঝুঁকি স্কোর: {result.risk_score}/100
+              </p>
+            )}
             <p className="font-mono text-xs uppercase tracking-widest text-outline">ব্যাখ্যা</p>
             <p className="mt-2 leading-relaxed">{result.explanation}</p>
             {result.flags?.length > 0 && (
@@ -80,7 +95,7 @@ export default function UrlCheckPage() {
                 {result.flags.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm text-on-surface-variant">
                     <Icon name="report_problem" className="mt-0.5 text-error" />
-                    {f}
+                    {flagLabelBn(f)}
                   </li>
                 ))}
               </ul>

@@ -21,7 +21,7 @@ class GeminiScamAnalyzer
             throw new \RuntimeException('Gemini API key not configured');
         }
 
-        $model = config('services.gemini.model', 'gemini-1.5-flash');
+        $model = config('services.gemini.model', 'gemini-2.5-flash');
         $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent";
 
         $systemPrompt = $this->buildSystemPrompt($module);
@@ -101,7 +101,11 @@ PROMPT;
 
     private function normalizeResult(array $parsed): array
     {
+        $allowed = ['high', 'medium', 'low', 'safe'];
         $riskLevel = strtolower($parsed['risk_level'] ?? 'medium');
+        if (! in_array($riskLevel, $allowed, true)) {
+            $riskLevel = 'medium';
+        }
         $verdictMap = [
             'high' => 'উচ্চ ঝুঁকি',
             'medium' => 'সতর্ক',

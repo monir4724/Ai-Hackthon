@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { analyzeText } from '../lib/api'
 
@@ -26,8 +26,8 @@ export default function ScanPage() {
     try {
       const result = await analyzeText(text.trim(), module)
       navigate('/result', { state: { result, text: text.trim() } })
-    } catch {
-      setError('বিশ্লেষণ ব্যর্থ হয়েছে। ব্যাকএন্ড চালু আছে কিনা দেখুন।')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'বিশ্লেষণ ব্যর্থ হয়েছে। ব্যাকএন্ড চালু আছে কিনা দেখুন।')
     } finally {
       setLoading(false)
     }
@@ -35,6 +35,14 @@ export default function ScanPage() {
 
   return (
     <div className="mx-auto max-w-2xl">
+      <Link
+        to="/"
+        className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+      >
+        <Icon name="arrow_back" className="text-base" />
+        হোমে ফিরুন
+      </Link>
+
       <div className="mb-8 border-b border-outline-variant pb-4">
         <p className="font-mono text-xs uppercase tracking-widest text-outline">
           {isCall ? 'মডিউল ০২ — কল ট্রান্সক্রিপ্ট বিশ্লেষণ' : 'মডিউল ০১ — এমএফএস মেসেজ সেন্টিনেল'}
@@ -42,8 +50,8 @@ export default function ScanPage() {
         <h1 className="mt-2 font-tiro text-3xl text-primary md:text-4xl">
           {isCall ? 'কল ট্রান্সক্রিপ্ট যাচাই' : 'সন্দেহজন্য মেসেজ স্ক্যান'}
         </h1>
-        <p className="mt-1 font-mono text-xs uppercase tracking-widest text-on-surface-variant">
-          Forensic Message Scanner
+        <p className="mt-1 text-sm text-on-surface-variant">
+          {isCall ? 'কলের লিখিত বিবরণ AI দিয়ে যাচাই করুন' : 'SMS বা মেসেজের ঝুঁকি তাৎক্ষণিক বিশ্লেষণ'}
         </p>
       </div>
 

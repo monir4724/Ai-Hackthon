@@ -1,5 +1,10 @@
 const SESSION_KEY = 'rokkhakoboch_session_id'
 
+const PRODUCTION_API = 'https://ai-hackthon-production.up.railway.app/api'
+const API_BASE =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? PRODUCTION_API : '/api')
+
 export function getSessionId(): string {
   let id = localStorage.getItem(SESSION_KEY)
   if (!id) {
@@ -58,7 +63,19 @@ export interface UrlCheckResult {
   disclaimer: string
 }
 
-const API_BASE = import.meta.env.VITE_API_URL || '/api'
+function parseApiError(payload: unknown, status: number): string {
+  if (payload && typeof payload === 'object') {
+    const err = payload as { message?: string; errors?: Record<string, string[]> }
+    if (err.errors) {
+      const first = Object.values(err.errors).flat()[0]
+      if (first) return first
+    }
+    if (err.message) return err.message
+  }
+  if (status === 422) return 'অনুগ্রহ করে সঠিক তথ্য দিন।'
+  if (status >= 500) return 'সার্ভারে সমস্যা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।'
+  return `API ত্রুটি (${status})`
+}
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -67,7 +84,7 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   })
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
-    throw new Error(err.message || `API error ${res.status}`)
+    throw new Error(parseApiError(err, res.status))
   }
   return res.json()
 }
@@ -85,7 +102,7 @@ export async function analyzeText(
 export async function checkUrl(url: string): Promise<UrlCheckResult> {
   return apiFetch<UrlCheckResult>('/url-check', {
     method: 'POST',
-    body: JSON.stringify({ url }),
+    body: JSON.stringify({ url, session_id: getSessionId() }),
   })
 }
 
@@ -113,18 +130,4 @@ export async function fetchHistory(): Promise<ScanHistoryItem[]> {
     `/history/${getSessionId()}`
   )
   return res.data
-}
-
-export async function saveScanToHistory(
-  text: string,
-  module: string
-): Promise<AnalysisResult> {
-  return apiFetch<AnalysisResult>('/history', {
-    method: 'POST',
-    body: JSON.stringify({
-      session_id: getSessionId(),
-      text,
-      module,
-    }),
-  })
 }

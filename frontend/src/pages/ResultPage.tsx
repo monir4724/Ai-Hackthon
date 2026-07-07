@@ -2,6 +2,7 @@ import { Link, useLocation, Navigate } from 'react-router-dom'
 import Icon from '../components/Icon'
 import VerdictStamp from '../components/VerdictStamp'
 import { DISCLAIMER } from '../config/modules'
+import { flagLabelBn } from '../lib/labels'
 import type { AnalysisResult } from '../lib/api'
 
 export default function ResultPage() {
@@ -15,9 +16,20 @@ export default function ResultPage() {
   const { result, text } = state
   const flags = result.prefilter?.flags ?? []
   const isHighRisk = result.risk_level === 'high'
+  const module = result.module ?? 'sms'
+  const rescanPath =
+    module === 'call_transcript' ? '/scan?module=call_transcript' : module === 'url' ? '/url-check' : '/scan'
 
   return (
     <div className="mx-auto max-w-md">
+      <Link
+        to="/"
+        className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+      >
+        <Icon name="arrow_back" className="text-base" />
+        হোমে ফিরুন
+      </Link>
+
       <div className="flex justify-center">
         <VerdictStamp
           riskLevel={result.risk_level}
@@ -61,7 +73,7 @@ export default function ResultPage() {
                 className="flex items-start gap-3 rounded border border-error-container bg-error-container/20 p-3"
               >
                 <Icon name="report_problem" className="mt-0.5 shrink-0 text-danger" />
-                <span className="text-sm text-on-surface-variant">{flag}</span>
+                <span className="text-sm text-on-surface-variant">{flagLabelBn(flag)}</span>
               </li>
             ))}
           </ul>
@@ -78,22 +90,25 @@ export default function ResultPage() {
       <div className="flex flex-col gap-3 border-t border-outline-variant pt-6">
         <Link
           to="/report"
+          state={{ text }}
           className="flex items-center justify-between rounded px-4 py-4 font-semibold text-primary transition hover:bg-surface-container-high"
         >
           <span>এই ফলাফল রিপোর্ট করুন</span>
           <Icon name="flag" />
         </Link>
         <Link
-          to="/scan"
+          to={rescanPath}
           className="flex items-center justify-between rounded px-4 py-4 font-semibold text-primary transition hover:bg-surface-container-high"
         >
-          <span>আরেকটা মেসেজ যাচাই করুন</span>
+          <span>আরেকটি যাচাই করুন</span>
           <Icon name="refresh" />
         </Link>
       </div>
 
       <footer className="mt-10 border-t border-outline-variant bg-surface-container-low py-6 text-center">
-        <p className="font-mono text-xs text-on-surface-variant/70 italic">"{DISCLAIMER}"</p>
+        <p className="font-mono text-xs text-on-surface-variant/70 italic">
+          "{result.disclaimer || DISCLAIMER}"
+        </p>
       </footer>
     </div>
   )

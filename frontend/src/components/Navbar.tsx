@@ -2,11 +2,11 @@ import { Link, useLocation } from 'react-router-dom'
 import Icon from './Icon'
 
 const navItems = [
-  { to: '/', label: 'হোম' },
-  { to: '/modules', label: 'মডিউল' },
-  { to: '/scan', label: 'স্ক্যান' },
-  { to: '/feed', label: 'ফিড' },
-  { to: '/history', label: 'ইতিহাস' },
+  { to: '/', label: 'হোম', match: (path: string) => path === '/' },
+  { to: '/modules', label: 'মডিউল', match: (path: string) => path.startsWith('/modules') },
+  { to: '/scan', label: 'স্ক্যান', match: (path: string) => path === '/scan' || path.startsWith('/result') },
+  { to: '/feed', label: 'ফিড', match: (path: string) => path === '/feed' || path === '/report' },
+  { to: '/history', label: 'ইতিহাস', match: (path: string) => path === '/history' },
 ]
 
 export default function Navbar() {
@@ -24,7 +24,7 @@ export default function Navbar() {
             key={item.to}
             to={item.to}
             className={`font-mono text-sm uppercase tracking-wider ${
-              location.pathname === item.to
+              item.match(location.pathname)
                 ? 'font-bold text-primary'
                 : 'text-on-surface-variant hover:text-primary'
             }`}

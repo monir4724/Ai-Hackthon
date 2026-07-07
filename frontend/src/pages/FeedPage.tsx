@@ -2,18 +2,28 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '../components/Icon'
 import { fetchReports, type ScamPattern } from '../lib/api'
+import { riskLabelBn } from '../lib/labels'
 
 export default function FeedPage() {
   const [patterns, setPatterns] = useState<ScamPattern[]>([])
   const [filter, setFilter] = useState<'all' | 'community'>('all')
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  function loadReports(nextFilter: 'all' | 'community') {
+    setLoading(true)
+    setError('')
+    fetchReports(nextFilter === 'community')
+      .then(setPatterns)
+      .catch((err: Error) => {
+        setPatterns([])
+        setError(err.message || 'ফিড লোড করতে ব্যর্থ হয়েছে।')
+      })
+      .finally(() => setLoading(false))
+  }
 
   useEffect(() => {
-    setLoading(true)
-    fetchReports(filter === 'community')
-      .then(setPatterns)
-      .catch(() => setPatterns([]))
-      .finally(() => setLoading(false))
+    loadReports(filter)
   }, [filter])
 
   const midpoint = Math.ceil(patterns.length / 2)
@@ -23,6 +33,13 @@ export default function FeedPage() {
   return (
     <div className="-mx-5 md:-mx-10">
       <div className="px-5 md:px-10">
+        <Link
+          to="/modules"
+          className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+        >
+          <Icon name="arrow_back" className="text-base" />
+          মডিউলে ফিরুন
+        </Link>
         <p className="font-mono text-xs uppercase tracking-widest text-outline">
           মডিউল ১০ — জাতীয় হুমকি বুদ্ধিমত্তা
         </p>
@@ -74,7 +91,23 @@ export default function FeedPage() {
           </p>
         )}
 
-        {!loading && patterns.length === 0 && (
+        {error && (
+          <div className="border border-danger/30 bg-danger/5 p-6 text-center">
+            <p className="flex items-center justify-center gap-2 text-danger">
+              <Icon name="error" />
+              {error}
+            </p>
+            <button
+              type="button"
+              onClick={() => loadReports(filter)}
+              className="mt-4 rounded bg-primary px-6 py-2 font-mono text-sm text-on-primary"
+            >
+              আবার চেষ্টা করুন
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && patterns.length === 0 && (
           <div className="border border-outline-variant bg-surface-container-lowest p-8 text-center text-on-surface-variant">
             কোনো প্যাটার্ন পাওয়া যায়নি।
           </div>
@@ -84,7 +117,7 @@ export default function FeedPage() {
           <PatternCard key={p.id} pattern={p} />
         ))}
 
-        {!loading && patterns.length > 0 && (
+        {!loading && !error && patterns.length > 0 && (
           <div className="border-2 border-dashed border-outline-variant bg-surface-container p-6 text-center">
             <Icon name="upload_file" className="text-5xl text-primary" />
             <h3 className="mt-4 font-tiro text-2xl text-primary">আপনার কোনো সন্দেহ আছে?</h3>
@@ -120,7 +153,7 @@ export default function FeedPage() {
 function PatternCard({ pattern }: { pattern: ScamPattern }) {
   const isHigh = pattern.risk_level === 'high'
   const isSafe = pattern.risk_level === 'safe' || pattern.risk_level === 'none'
-  const isMedium = !isHigh && !isSafe
+  const isMedium = !isHigh && !isSafe && pattern.risk_level === 'medium'
 
   const borderClass = isHigh
     ? 'border-danger'
@@ -134,7 +167,7 @@ function PatternCard({ pattern }: { pattern: ScamPattern }) {
       ? 'text-secondary'
       : 'text-outline'
 
-  const labelText = isHigh ? 'উচ্চ ঝুঁকি' : isMedium ? 'সতর্কবার্তা' : 'পর্যবেক্ষণ'
+  const labelText = riskLabelBn(pattern.risk_level)
   const labelIcon = isHigh ? 'warning' : isMedium ? 'info' : 'visibility'
 
   const preview =
@@ -154,6 +187,12 @@ function PatternCard({ pattern }: { pattern: ScamPattern }) {
 
       <h2 className="mt-2 text-lg font-semibold text-primary">{preview}</h2>
 
+      {pattern.location_label && (
+        <p className="mt-1 font-mono text-xs text-on-surface-variant">
+          অঞ্চল: {pattern.location_label}
+        </p>
+      )}
+
       {pattern.red_flags_bn && (
         <p className="mt-2 font-mono text-xs text-on-surface-variant">
           লাল পতাকা: {pattern.red_flags_bn}
@@ -169,7 +208,7 @@ function PatternCard({ pattern }: { pattern: ScamPattern }) {
         ) : (
           <span className="font-mono text-xs text-outline">ডাটাসেট প্যাটার্ন</span>
         )}
-        <span className="font-mono text-xs uppercase text-primary">{pattern.risk_level}</span>
+        <span className="font-mono text-xs uppercase text-primary">{labelText}</span>
       </div>
 
       {isHigh && (
