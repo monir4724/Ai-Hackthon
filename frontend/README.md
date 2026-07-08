@@ -1,32 +1,62 @@
-# React + TypeScript + Vite
+# Rokkhakoboch — Frontend (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Bangla scam detection web app. Static SPA deployed separately from the Laravel backend.
 
-Currently, two official plugins are available:
+## Live
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+https://innovative-flow-production-c724.up.railway.app
 
-## React Compiler
+## Setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Open http://localhost:5173
+
+## Environment
+
+Copy `.env.example` to `.env`:
+
+```
+VITE_API_URL=http://localhost:8000/api
+```
+
+Production build uses `frontend/.env.production` (Railway API URL) as fallback.
+
+## Build
+
+```bash
+npm run build
+# Output: dist/
+```
+
+Node 18 is required (pinned via `.nvmrc`).
+
+## Active pages
+
+| Route | Module | Description |
+|-------|--------|-------------|
+| `/scan` | 1, 2 | SMS scan + call transcript (multiline) |
+| `/url-check` | 3 | URL phishing guard with risk score bar |
+| `/qr-check` | 4 | Manual QR/payment text input (no camera on web) |
+| `/device-protection` | 7 | Bangladesh device security checklist |
+| `/feed` | 10 | Threat feed with report count + division labels |
+| `/result` | — | Verdict with category badge, flags, disclaimer |
+| `/history` | — | Session-based scan history |
+| `/report` | 10 | Submit community scam report |
+
+Module list and status: `src/config/modules.ts`
+
+## Tech stack
+
+- React 19 + TypeScript
+- Vite 6
+- Tailwind CSS v3
+- React Router
+
+## Deployment (Railway)
+
+Root directory: `frontend`. See root `DEPLOYMENT.md` for env vars and build command.

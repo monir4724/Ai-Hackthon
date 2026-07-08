@@ -2,12 +2,12 @@
 
 ## Judge Quickstart
 
-**One-line pitch:** Rokkhakoboch (রক্ষাকবচ) is an AI-powered Bangla scam detector that helps users triage suspicious MFS messages, links, and QR codes before money is lost — honest risk indicators, not guaranteed verdicts.
+**One-line pitch:** Rokkhakoboch (রক্ষাকবচ) is an AI-powered Bangla scam detector that helps users triage suspicious MFS messages, links, QR codes, and call transcripts before money is lost — honest risk indicators, not guaranteed verdicts.
 
 **Live demo**
-- Web: _TBD — add Railway URL after deploy_
-- API health: _TBD_/up
-- Mobile APK: `mobile/build/app/outputs/flutter-apk/app-release.apk`
+- Web: https://innovative-flow-production-c724.up.railway.app
+- API health: https://ai-hackthon-production.up.railway.app/up
+- Mobile APK: `mobile/build/app/outputs/flutter-apk/app-release.apk` (or `app-debug.apk` after debug build)
 
 **Run locally (3 steps)**
 1. **Backend** — `cd backend` → copy `.env.example` to `.env`, set `GEMINI_API_KEY`, run `composer install`, `php artisan migrate --seed`, then `php artisan serve` (port 8000)
@@ -16,7 +16,7 @@
 
 ---
 
-**AI-powered Bangla scam detector** for Bangladesh — scan MFS/SMS content, suspicious links, QR payment scams, and community reports through a 10‑module “National Cyber Defense” architecture.
+**AI-powered Bangla scam detector** for Bangladesh — scan MFS/SMS content, call transcripts, suspicious links, QR payment scams, and community reports through a 10‑module “National Cyber Defense” architecture.
 
 **Tagline:** _“টাকা হারানোর আগেই ধরা পড়বে”_ — a fast, honest **risk-indicator** tool for everyday users.
 
@@ -28,15 +28,16 @@ Bangladesh faces frequent MFS/OTP phishing, fake payment/QR scams, and social en
 
 Rokkhakoboch focuses on:
 - **Bangla-first UX** (verdict + red flags + guidance)
-- **Fast triage** (rule-based prefilter + Gemini reasoning)
-- **Community intelligence** (reports + threat feed + threat map)
+- **Fast triage** (rule-based prefilter + Gemini reasoning + fallback when API unavailable)
+- **Dataset-informed detection** (BangalaBarta smishing, URL phishing, payment fraud patterns)
+- **Community intelligence** (reports + threat feed + division-level threat map)
 
 ---
 
 ## Tech stack
 
 - **Backend**: Laravel (PHP) + MySQL (`backend/`)
-- **Frontend (web)**: React + Vite (`frontend/`)
+- **Frontend (web)**: React + Vite + Tailwind CSS v3 (`frontend/`)
 - **Mobile**: Flutter (Android/iOS project; some features Android-only) (`mobile/`)
 - **AI**: Google **Gemini** (configurable model; default `gemini-2.5-flash`)
 - **Maps**: `flutter_map` + OpenStreetMap tiles (no API key)
@@ -48,14 +49,16 @@ Rokkhakoboch focuses on:
 ## Features (10 modules)
 
 ### Fully working (active)
-- **Module 1 — এমএফএস মেসেজ সেন্টিনেল**: Paste/scan SMS text → `/api/analyze` verdict
+- **Module 1 — এমএফএস মেসেজ সেন্টিনেল**: Paste/scan SMS text → `/api/analyze` verdict with scam category badge
+  - Dataset-driven keyword prefilter from BangalaBarta (924 smishing rows)
   - Android enhancement: **optional SMS auto-scan** (toggle in Settings; finance/MFS-only filter)
-- **Module 2 — কল ট্রান্সক্রিপ্ট বিশ্লেষণ**: Paste transcript → analyze
-- **Module 3 — URL/ফিশিং লিংক গার্ড**: `/api/url-check` verdict
-- **Module 4 — আর্থিক প্রতারণা শিল্ড**: QR scan → auto URL/text analysis
+- **Module 2 — কল ট্রান্সক্রিপ্ট বিশ্লেষণ**: Paste call transcript → separate Gemini prompt (English scam scripts + BD-localized patterns)
+- **Module 3 — URL/ফিশিং লিংক গার্ড**: `/api/url-check` with risk score 0–100, Bangla flags, suspicious TLD/MFS/telecom heuristics
+- **Module 4 — আর্থিক প্রতারণা শিল্ড**: `/api/qr-check` — combined URL + text analysis; payment fraud rules from transaction dataset
+  - Web: manual QR/payment text input | Mobile: camera QR scanner
 - **Module 6 — ডিপফেক/মিডিয়া ভেরিফিকেশন (experimental)**: client-side ELA “manipulation signal check” (not a real deepfake model)
-- **Module 7 — ডিভাইস সুরক্ষা**: Play-Store-safe self-permission checklist (educational awareness; does not scan other apps)
-- **Module 10 — জাতীয় হুমকি বুদ্ধিমত্তা**: Threat feed + threat map (division-level heat overview)
+- **Module 7 — ডিভাইস সুরক্ষা**: Bangladesh-specific checklist + live permission status (SMS, overlay, install, accessibility)
+- **Module 10 — জাতীয় হুমকি বুদ্ধিমত্তা**: Threat feed (130+ seeded patterns) + division-level threat map
 
 ### Roadmap (coming soon placeholders)
 - **Module 5 — সোশ্যাল মিডিয়া স্ক্যাম ওয়াচ**
@@ -64,16 +67,35 @@ Rokkhakoboch focuses on:
 
 ---
 
+## Datasets
+
+Training/evaluation corpora live in `datasets/` (large CSVs gitignored; insights baked into code). See `datasets/README.md` and `MODEL_DATA_CARD.md`.
+
+| Dataset | Size | Used for |
+|---------|------|----------|
+| BangalaBarta smishing CSV | 2,772 SMS | Prefilter keywords, Gemini few-shot, 50 DB patterns, 30 threat feed entries |
+| rokkhakoboch synthetic CSV | 50 rows | Original few-shot + ScamPatternSeeder |
+| URL phishing CSV | ~651k URLs | Heuristic TLD/pattern rules (`extracted_dataset_insights.json`) |
+| Payment fraud CSV | 6M+ transactions | QR/payment fraud rules (TRANSFER/CASH_OUT patterns) |
+| English_Scam.txt | Call transcripts | Transcript-specific Gemini prompt patterns |
+
+After clone, place large CSVs locally in `datasets/` if re-extracting insights. Production seeding uses files in `backend/database/data/`.
+
+---
+
 ## API (backend)
 
 | Method | Path | Description |
 |--------|------|-------------|
-| `POST` | `/api/analyze` | Analyze Bangla text (SMS/transcript/auto-sms) |
-| `POST` | `/api/url-check` | URL safety check |
-| `GET` | `/api/reports` | Community feed (scam patterns/reports) |
+| `POST` | `/api/analyze` | Analyze Bangla text (SMS / call transcript) |
+| `POST` | `/api/url-check` | URL safety check with risk score + Bangla flags |
+| `POST` | `/api/qr-check` | Combined QR/payment payload check (URL + text) |
+| `GET` | `/api/reports` | Threat feed (scam patterns/reports) |
 | `POST` | `/api/reports` | Submit a community report (optional `location_label`) |
 | `GET` | `/api/history/{sessionId}` | Scan history by session id |
 | `GET` | `/up` | Health check |
+
+All analyze endpoints return: `risk_level`, `verdict_bn`, `explanation`, `flags`, `disclaimer`. URL/QR endpoints add `risk_score` (0–100) and `flags_bn`.
 
 ---
 
@@ -100,11 +122,11 @@ Create DB (example):
 CREATE DATABASE rokkhakoboch CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-Run migrations + seed:
+Run migrations + seed (50 synthetic + 50 BangalaBarta + 30 threat feed):
 
 ```bash
 php artisan migrate
-php artisan db:seed
+php artisan db:seed --force
 ```
 
 Set Gemini keys in `backend/.env`:
@@ -141,6 +163,12 @@ flutter build apk --release
 Release APK output:
 - `mobile/build/app/outputs/flutter-apk/app-release.apk`
 
+Debug build:
+```bash
+flutter build apk --debug
+# → mobile/build/app/outputs/flutter-apk/app-debug.apk
+```
+
 Firebase (Android):
 - Place your `google-services.json` at `mobile/android/app/google-services.json` (gitignored; do not commit)
 
@@ -151,7 +179,7 @@ Firebase (Android):
 - **Backend**: Railway (Laravel service + MySQL plugin)
 - **Frontend**: Railway (separate service, static build)
 
-See `DEPLOYMENT.md` for additional notes.
+See `DEPLOYMENT.md` for live URLs, env vars, and post-deploy checklist (including `php artisan db:seed --force`).
 
 ---
 
@@ -161,19 +189,19 @@ Rokkhakoboch provides **risk indicators**, not guarantees.
 - No 100% accuracy claims
 - “High risk” means “take caution and verify,” not “proven scam”
 - Experimental Module 6 (ELA) is **not** a real deepfake detector
+- Rule-based fallback runs when Gemini API is unavailable
 
 ---
 
-## Screenshots
+## Documentation
 
-> TODO: Add screenshots here (web + mobile flows).
-
-- Home / Scan / Result
-- URL check
-- QR scan
-- Threat feed + threat map
-- Settings (SMS auto-scan toggle)
-- Experimental media check
+| File | Purpose |
+|------|---------|
+| `README.md` | This file — quickstart & overview |
+| `PROJECT_REPORT.md` | Full hackathon report (problem, methodology, results) |
+| `DEPLOYMENT.md` | Railway deploy guide + live URLs |
+| `MODEL_DATA_CARD.md` | AI model & dataset transparency card |
+| `datasets/README.md` | Dataset inventory & usage in this project |
 
 ---
 
@@ -189,6 +217,7 @@ Rokkhakoboch provides **risk indicators**, not guarantees.
 | Kazi Mukddmur Rahman Sami | Frontend UI/UX Developer | Ananda Mohan College |
 
 **Credits**
+- BangalaBarta / BangalaBart smishing dataset (Mendeley Data) — pattern reference & seeding
 - OpenStreetMap contributors (map tiles)
 - Flutter ecosystem packages: `mobile_scanner`, `flutter_map`, `permission_handler`, etc.
 - Google Gemini API (AI analysis)
