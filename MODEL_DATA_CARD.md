@@ -1,127 +1,139 @@
 # Model & Data Card — Rokkhakoboch (রক্ষাকবচ)
 
-**Project:** Rokkhakoboch — AI-assisted Bangla scam risk indicator  
-**Team:** Team Beta  
-**Last updated:** July 2026  
+**SciBlitz AI Challenge 2026 · Team Beta · Track E (National Defence)**  
+**Team Lead:** Moniruzzaman Monir · **Institution:** University of Frontier Technology, Bangladesh  
+**Live demo:** https://innovative-flow-production-c724.up.railway.app · **GitHub:** https://github.com/monir4724/Ai-Hackthon  
+**Last updated:** July 8, 2026
 
 ---
 
-## Pre-trained model used
+## Pre-trained model deployed (current MVP)
 
 | Field | Detail |
 |-------|--------|
 | **Model** | Gemini 2.5 Flash |
-| **Provider** | Google (Generative Language API) |
-| **Usage** | API inference only — zero-shot + few-shot prompting |
-| **Fine-tuning** | None performed in this project |
-| **Fallback** | Rule-based heuristic engine when API unavailable |
-| **Prompts** | Separate templates for SMS vs call transcript; all include Bangladesh MFS context (bKash, Nagad, Rocket) |
+| **Provider** | Google Generative Language API |
+| **License / Terms** | Google AI Studio / Gemini API Terms of Service |
+| **Usage** | Zero-shot + few-shot prompting (SMS + call transcript); no weight fine-tuning |
+| **Integration** | Laravel backend → structured JSON verdict; rule-based fallback when API unavailable |
+| **Temperature** | 0.2 (low-variance triage) |
 
-We do **not** host or ship a custom-trained ML model. All "AI" behavior is prompt-engineered inference plus deterministic, dataset-informed rules.
-
----
-
-## Dataset 1 — Synthetic corpus (primary seed)
-
-| Field | Detail |
-|-------|--------|
-| **File** | `rokkhakoboch_synthetic_dataset_bn.csv` |
-| **Size** | 50 rows |
-| **Origin** | Manually created by Team Beta for this hackathon |
-| **Label** | `is_synthetic=TRUE` on all rows |
-| **Language** | Bangla (বাংলা) |
-| **Categories** | OTP phishing, lottery scam, send-money reversal, fake agent, SIM-swap cues, fake cashback, urgency lures, call transcript examples |
-| **Used for** | Few-shot examples in Gemini prompt; `ScamPatternSeeder` (50 DB rows) |
-| **Limitation** | Small, synthetic, not representative of all real-world scam diversity |
+**Honest scope:** We do **not** ship custom-trained `.pkl`/`.onnx` classifiers in this submission. Datasets informed **rule-based prefilters**, **few-shot examples**, and **DB seeders**. Custom ML classifiers are documented below as **recommended future work**.
 
 ---
 
-## Dataset 2 — BangalaBarta smishing corpus
+## Datasets used (source & attribution)
 
-| Field | Detail |
-|-------|--------|
-| **File** | `BangalaBarta bangla_spam_sms smishing.csv` |
-| **Source** | Mendeley Data — [BangalaBart dataset](https://data.mendeley.com/datasets/jfkfbw3gzh/2) |
-| **Size** | 2,772 messages (924 smishing, remainder promo/normal) |
-| **Classes** | smish, promo, normal |
-| **Coverage** | Bangladeshi telecom contexts (Grameenphone, Banglalink, Robi) |
-| **Used for** | (1) Rule-based prefilter keyword extraction (OTP, account lock, MFS, lottery, job, investment, urgency); (2) 15 real few-shot examples in Gemini prompt; (3) `BangalaBartaSeeder` (+50 DB patterns); (4) `ThreatFeedSeeder` (+30 entries with division labels) |
-| **Not used for** | Model fine-tuning or weight training |
-| **Attribution** | Cite Mendeley Data / BangalaBart per original dataset terms |
+| # | Dataset | Source | Size | Classes | Used in MVP |
+|---|---------|--------|------|---------|-------------|
+| 1 | `rokkhakoboch_synthetic_dataset_bn.csv` | Team Beta (original) | 50 | scam / legit | Few-shot prompt, `ScamPatternSeeder` |
+| 2 | `BangalaBarta bangla_spam_sms smishing.csv` | [Mendeley — BangalaBart](https://data.mendeley.com/datasets/jfkfbw3gzh/2) | 2,772 | smish / promo / normal | Keyword prefilter, few-shot, seeders (Modules 1, 10) |
+| 3 | `dataset_with_all_features v2 module 3.csv` | Phishing URL research corpus (Frontiers 2024, DOI 10.3389/fcomp.2024.1308634) | ~651k | phishing / benign / defacement / malware | Heuristic rules → `UrlSafetyService` (Module 3) |
+| 4 | `PS_20174392719_1491204439457_log module 4.csv` | IEEE-CIS-style payment fraud log | 6.3M+ | isFraud 0/1 | QR/payment rules → `QrSafetyService` (Module 4) |
+| 5 | `English_Scam.txt` / `English_NonScam.txt` | Reference call scripts | ~800 each | scam / non-scam | Transcript Gemini prompt (Module 2) |
 
----
-
-## Dataset 3 — URL phishing corpus
-
-| Field | Detail |
-|-------|--------|
-| **File** | `dataset_with_all_features v2 module 3.csv` (local only; gitignored) |
-| **Size** | ~651,000 URLs |
-| **Classes** | phishing, benign, malware, defacement |
-| **Used for** | Heuristic rules in `UrlSafetyService`: suspicious TLDs (.tk, .ml, .ga, .cf, .gq), brand-in-subdomain, hyphen density, IP URLs, encoded characters, MFS/telecom impersonation patterns |
-| **Stored insights** | `backend/database/data/extracted_dataset_insights.json` |
-| **Not used for** | Model training |
+Large CSVs (3–4) are gitignored locally; insights stored in `backend/database/data/extracted_dataset_insights.json`.
 
 ---
 
-## Dataset 4 — Payment fraud transactions
+## Dataset অনুযায়ী কোন ML Model — Module by Module
 
-| Field | Detail |
-|-------|--------|
-| **File** | `PS_20174392719_1491204439457_log module 4.csv` (local only; gitignored) |
-| **Size** | 6M+ transactions |
-| **Columns** | step, type, amount, nameOrig, balances, nameDest, isFraud, isFlaggedFraud |
-| **Used for** | QR/payment fraud rules in `QrSafetyService`: TRANSFER/CASH_OUT dominance among fraud, sender balance → 0 pattern, receiver 0 → large credit pattern, bKash/Nagad/Rocket QR indicators |
-| **Stored insights** | `backend/database/data/extracted_dataset_insights.json` |
-| **Not used for** | Model training |
+Task type অনুযায়ী model choice করতে হয়। প্রতিটা dataset আলাদা ধরনের সমস্যা (text classification vs tabular classification vs imbalanced fraud), তাই আলাদা model লাগবে।
 
----
+### Module 1 & 10 — BangalaBarta SMS (Text Classification, 3-class: smish/promo/normal)
 
-## Dataset 5 — English scam call transcripts
+| Priority | Model | কেন |
+|----------|-------|-----|
+| Best fit | **Logistic Regression (TF-IDF)** | Fast, interpretable baseline; probability scores help with promo vs smish overlap |
+| Better accuracy | **SVM (Linear kernel)** | Strong on high-dimensional sparse TF-IDF text vectors |
+| Ensemble | **Random Forest / XGBoost / LightGBM** | Subtle promo vs smish patterns |
+| Baseline | **Multinomial Naive Bayes** | Classic text baseline, quick to train |
 
-| Field | Detail |
-|-------|--------|
-| **File** | `English_Scam.txt` |
-| **Size** | Multiple call script transcripts |
-| **Used for** | Transcript-specific Gemini prompt patterns: government grant scams, fake tech support, prize scams, charity fraud, police impersonation; plus BD-localized variants (BTRC, bKash agent, fake bank officer) |
-| **Also copied to** | `backend/database/data/English_Scam.txt` for Railway seeding context |
+Avoid: KNN (slow on sparse text), Linear Regression (classification task), K-means/DBSCAN (labels already available).
+
+**MVP status:** Gemini few-shot + rule-based keywords — **not** trained LR/SVM yet.
 
 ---
 
-## Seeders (database)
+### Module 3 — URL Phishing (Tabular, 4-class, 58–64 engineered features)
 
-| Seeder | Rows | Source |
-|--------|------|--------|
-| `ScamPatternSeeder` | 50 | Synthetic CSV |
-| `BangalaBartaSeeder` | 50 | BangalaBarta smish rows |
-| `ThreatFeedSeeder` | 30 | BangalaBarta snippets + random division labels |
+| Priority | Model | কেন |
+|----------|-------|-----|
+| Best fit | **XGBoost / LightGBM** | Industry standard for tabular phishing detection (TLD, IP, brand-in-subdomain flags) |
+| Close second | **Random Forest** | Feature importance for explainability |
+| Simple baseline | **Decision Tree** | Demo-friendly "why high risk" explanations |
 
-Run: `php artisan db:seed --force`
+Avoid: SVM (651k rows = slow), KNN (slow inference), Naive Bayes (feature independence breaks here).
+
+**MVP status:** Rule-based heuristics extracted from dataset — **not** trained XGBoost yet.
+
+---
+
+### Module 4 — Payment Fraud (Tabular, highly imbalanced binary, 6.3M rows)
+
+| Priority | Model | কেন |
+|----------|-------|-----|
+| Best fit | **LightGBM** | Fastest on 6M+ rows; `scale_pos_weight` for imbalance |
+| Also strong | **XGBoost** | Proven in Kaggle fraud competitions |
+| Alternative | **Random Forest** | Less tuning, robust |
+
+Avoid: Logistic Regression alone (low recall on severe imbalance), ANN (boosting usually wins on large tabular).
+
+**MVP status:** TRANSFER/CASH_OUT heuristics from dataset analysis — **not** trained LightGBM yet.
+
+---
+
+### Module 2 — English Scam/Non-Scam Transcripts (Text Classification, binary)
+
+| Priority | Model | কেন |
+|----------|-------|-----|
+| Best fit | **Logistic Regression (TF-IDF)** | Balanced ~800 vs 800, simple and effective |
+| Better | **SVM (Linear)** | Consistent on text |
+| If time permits | **Fine-tuned DistilBERT** | Higher accuracy, more compute |
+
+**MVP status:** Gemini transcript prompt + English_Scam patterns — **not** trained TF-IDF classifier yet.
+
+---
+
+### Overall summary
+
+| Module | Data type | Recommended model | Backup | MVP today |
+|--------|-----------|-------------------|--------|-----------|
+| 1, 10 | Text (3-class) | Logistic Regression | SVM / LightGBM | Gemini + rules |
+| 3 | Tabular (4-class) | XGBoost / LightGBM | Random Forest | Heuristic rules |
+| 4 | Tabular (imbalanced) | LightGBM | XGBoost | Heuristic rules |
+| 2 | Text (binary) | Logistic Regression | SVM | Gemini prompt |
 
 ---
 
 ## Known limitations
 
-- **Small synthetic corpus (50 rows)** — baseline few-shot; real diversity comes from BangalaBarta extraction.
-- **Large CSVs not in git** — insights pre-extracted; re-extraction requires local CSV copies.
-- **API rate limits** — Gemini quotas may throttle live analysis during demos.
-- **Not 100% accurate** — outputs are risk indicators, not legal proof of fraud.
-- **Bangla-first** — mixed-language messages may receive weaker SMS analysis (transcript mode handles English better).
-- **No live call interception** — analysis is text/transcript paste only.
-- **No fine-tuning** — model behavior depends on prompting and prefilter rules, not custom weights.
+- No custom ML model trained or evaluated in this submission (no accuracy % claimed).
+- Gemini API dependency — rate limits, latency; rule-based fallback is less nuanced.
+- BangalaBarta promo vs smish overlap → false positives possible on legitimate carrier offers.
+- Payment fraud dataset is generic (not bKash/Nagad-specific); QR rules are heuristic.
+- SMS auto-scan: Android only; finance-keyword filter; no bulk SMS storage.
+- Outputs are **risk indicators**, not legal proof — disclaimer on every verdict.
 
 ---
 
 ## Ethical considerations
 
-- **False positives** may cause unnecessary fear; **false negatives** may create false confidence. Every verdict includes an advisory disclaimer (এটি ১০০% নিশ্চিত নয়).
-- **Advisory framing** — the tool educates and warns; it does not block payments or accuse individuals.
-- **Privacy (SMS auto-scan, Android)** — only finance/MFS-keyword-matching SMS are analyzed; non-matching messages are discarded in memory without storage or logging.
-- **Community reports** — anonymous; no name required; optional division tag only.
-- **Experimental media module** — ELA is labeled as non-definitive; must not be presented as deepfake proof.
+- **False positives** may cause unnecessary alarm; **false negatives** may create false confidence.
+- **Advisory only** — does not block payments or accuse individuals.
+- **Privacy:** SMS auto-scan analyzes finance-keyword matches only; discarded in memory.
+- **Community reports:** anonymous; optional division tag only.
+- **Third-party attribution:** BangalaBart (Mendeley), Google Gemini API, OpenStreetMap tiles, Flutter/React/Laravel OSS — all listed in README.
 
 ---
 
-## Summary
+## Third-party resources (attribution required by rulebook)
 
-Rokkhakoboch combines **multiple reference corpora** (synthetic, BangalaBarta, URL phishing, payment fraud, English call scripts) with **Gemini 2.5 Flash API inference** and **dataset-informed rule-based prefilters**. No fine-tuning was performed. Extracted insights are baked into PHP services and JSON; honest scope and user safety are prioritized over accuracy claims.
+| Resource | License / Terms |
+|----------|-----------------|
+| Google Gemini 2.5 Flash | Google AI API Terms |
+| BangalaBart dataset | Mendeley Data terms — cite in publications |
+| Laravel, React, Flutter | MIT / BSD open-source |
+| OpenStreetMap | ODbL (map tiles, mobile threat map) |
+
+**Export note:** Convert this file to **single-page PDF** for SciBlitz submission form upload.
